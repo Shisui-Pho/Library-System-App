@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <!--  Bootstrap -->
+    <link rel="stylesheet" asp-href-include="/lib/bootstrap/css/bootstrap.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" asp-href-include="/lib/font-awesome/css/all.min.css" />
+
+    <title>Library - @ViewData["Title"]</title>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="navbar navbar-expand-md bg-dark navbar-dark">
+        <div class="container">
+            <!-- Brand -->
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Library</a>
+
+            <!-- Toggler/collapsible Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#MyNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="MyNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">About</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a></li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="pb-3">
+            @RenderBody()
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="border-top footer text-muted text-center small">
+            <p>
+                Created by: Phiwokwakhe Khathwane<br />
+                <span class="fas fa-copyright"></span>@DateTime.Now.Year
+            </p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script asp-src-include="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
