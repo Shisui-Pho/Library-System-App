@@ -9,6 +9,9 @@ builder.Services.AddDbContext<AppDBContext>(options =>
         options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//Inject repositoy wrapper
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
 var app = builder.Build();
 
 app.UseStaticFiles();
