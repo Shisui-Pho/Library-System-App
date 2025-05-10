@@ -38,7 +38,6 @@ public class SeedData
 
         var book1 = new Book
         {
-            Id = 1,
             ISBN = "9780261103573",
             BookTitle = "The Fellowship of the Ring",
             Description = "First volume of The Lord of the Rings.",
@@ -54,7 +53,6 @@ public class SeedData
 
         var book2 = new Book
         {
-            Id = 2,
             ISBN = "9780553294385",
             BookTitle = "Foundation",
             Description = "Classic science fiction novel by Isaac Asimov.",
@@ -70,7 +68,6 @@ public class SeedData
 
         var book3 = new Book
         {
-            Id = 3,
             ISBN = "9780451524935",
             BookTitle = "1984",
             Description = "Dystopian novel about surveillance and totalitarianism.",
@@ -86,7 +83,6 @@ public class SeedData
 
         var book4 = new Book
         {
-            Id = 4,
             ISBN = "9780160915720",
             BookTitle = "NASA Systems Engineering Handbook",
             Description = "Official NASA guide for systems engineering.",
@@ -102,7 +98,6 @@ public class SeedData
 
         var book5 = new Book
         {
-            Id = 5,
             ISBN = "9780141439471",
             BookTitle = "Frankenstein",
             Description = "Gothic novel about a scientist who creates a monster.",
@@ -122,7 +117,6 @@ public class SeedData
         var authors = new List<Author>
         {
             new() {
-                Id = 1,
                 FirstName = "J.R.R.",
                 LastName = "Tolkien",
                 IsCorporateAuthor = false,
@@ -134,7 +128,6 @@ public class SeedData
                 Books = []
             },
             new() {
-                Id = 2,
                 FirstName = "Isaac",
                 LastName = "Asimov",
                 IsCorporateAuthor = false,
@@ -146,7 +139,6 @@ public class SeedData
                 Books = []
             },
             new() {
-                Id = 3,
                 FirstName = "George",
                 LastName = "Orwell",
                 IsCorporateAuthor = false,
@@ -158,7 +150,6 @@ public class SeedData
                 Books = []
             },
             new() {
-                Id = 4,
                 FirstName = "NASA",
                 LastName = "Publications",
                 IsCorporateAuthor = true,
@@ -170,7 +161,6 @@ public class SeedData
                 Books = []
             },
             new() {
-                Id = 5,
                 FirstName = "Mary",
                 LastName = "Shelley",
                 IsCorporateAuthor = false,
