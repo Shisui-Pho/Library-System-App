@@ -20,4 +20,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}"
     );
 
+//Add test data
+SeedData.EnsurePopulated(app);
+
 app.Run();
