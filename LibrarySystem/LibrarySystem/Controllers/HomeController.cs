@@ -45,4 +45,8 @@ public class HomeController : Controller
         //Return the same view
         return View();
     }
+    public IActionResult PageNotFound(string message)
+    {
+        return View(message);
+    }//PageNotFound
 }
