@@ -4,5 +4,6 @@ public interface IRepositoryWrapper
 {
     IBookRepository Books { get; }
     IAuthorRepository Authors { get; }
+    IMessageReuqestsRepository MessageReuqests { get; }
     void SaveChanges();
 }

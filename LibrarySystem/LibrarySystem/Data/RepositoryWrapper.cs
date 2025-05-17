@@ -5,7 +5,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     private readonly AppDBContext _dbContext;
     private IBookRepository bookRepository;
     private IAuthorRepository authorRepository;
-
+    private IMessageReuqestsRepository messageReuqestsRepository;
 
     public IBookRepository Books
     {
@@ -25,6 +25,14 @@ public class RepositoryWrapper : IRepositoryWrapper
         }
     }
 
+    public IMessageReuqestsRepository MessageReuqests
+    {
+        get
+        {
+            messageReuqestsRepository ??= new MessageRequestRepository(_dbContext);
+            return messageReuqestsRepository;
+        }
+    }
 
     public RepositoryWrapper(AppDBContext dBContext)
     {
