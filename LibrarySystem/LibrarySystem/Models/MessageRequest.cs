@@ -10,8 +10,10 @@ public class MessageRequest
     [Required]
     public string FullNames { get; set; }
     [Required]
-    [RegularExpression("/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/;")]
+    [RegularExpression("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", 
+        ErrorMessage ="Invalid email. Example of valid email address: library@example.com")]
     public string Email {  get; set; }
+    [Length(10, 10, ErrorMessage ="South African phone numbers has 10-digits.")]
     public string PhoneNumber { get; set; }
     [Required]
     public string Message {  get; set; }
