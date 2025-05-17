@@ -1,0 +1,76 @@
+﻿#main-header {
+    background-image: url('../images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    position: relative;
+    color: #ffffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1.2s ease-out;
+}
+
+#main-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom right, rgba(44, 62, 80, 0.5), rgba(52, 73, 94, 0.6));
+    z-index: 0;
+}
+
+/* Header Content Styling */
+.header-content {
+    position: relative;
+    z-index: 1;
+}
+
+.header-content h1 {
+    font-size: 3em;
+    margin: 0;
+    font-weight: 600;
+    color: #ecf0f1;
+}
+
+.header-content p {
+    font-size: 1.4em;
+    margin-top: 10px;
+    font-weight: 300;
+    color: #bdc3c7;
+    }
+
+/* Button Styling */
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.button-container a {
+    /*font-size: 1em;  Adjust button text size */
+    /*padding: 15px 30px;  Make the buttons larger */
+    border-radius: 8px;
+    /*transition: transform 0.2s ease, box-shadow 0.2s ease;*/
+    width: 150px;
+}
+
+/* Main content styling */
+#main-content {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: auto;
+}
+
+#main-content h2 {
+    font-size: 2.2em;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+

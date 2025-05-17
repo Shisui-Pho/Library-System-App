@@ -6,7 +6,7 @@
     <link rel="stylesheet" asp-href-include="/lib/bootstrap/css/bootstrap.min.css" />
     <!-- Font Awesome -->
     <link rel="stylesheet" asp-href-include="/lib/font-awesome/css/all.min.css" />
-
+    <link rel="stylesheet" asp-href-include="/styles/main.css"/>
     <title>Library - @ViewData["Title"]</title>
 </head>
 <body>
@@ -34,11 +34,8 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="pb-3">
-            @RenderBody()
-        </div>
-    </div>
+    <!--A stand-alone -->
+    @RenderBody()
 
     <div class="container">
         <div class="border-top footer text-muted text-center small">
