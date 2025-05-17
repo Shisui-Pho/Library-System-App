@@ -11,6 +11,13 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 
 //Inject repositoy wrapper
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+builder.Services.AddRouting(options =>
+{
+    options.AppendTrailingSlash = true;
+    options.LowercaseQueryStrings = true;//this makes sure my url is always lower case for readability
+});
+
+
 
 var app = builder.Build();
 
