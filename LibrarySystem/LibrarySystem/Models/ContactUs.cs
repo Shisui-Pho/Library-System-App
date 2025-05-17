@@ -15,4 +15,5 @@ public class ContactUs
     public string PhoneNumber { get; set; }
     [Required]
     public string Message {  get; set; }
+    public bool Viewed { get; set; } = false;
 }
