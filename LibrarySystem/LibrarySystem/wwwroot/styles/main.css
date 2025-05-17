@@ -74,3 +74,30 @@
     margin-bottom: 1rem;
 }
 
+/*Buttons in the site*/
+.site-btn {
+    all: unset; /* optional: resets default styles */
+    display: inline-block;
+    text-transform: uppercase;
+    background: #f6783a;
+    color: #fff;
+    padding: 18px 30px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 14px;
+    border-radius: 50px;
+    min-width: 170px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    text-decoration: none; /* Important for <a> */
+}
+
+.site-btn:hover {
+    opacity: 0.8;
+    color: #fff;
+}
+
+.text-message {
+    height:120px;
+}
