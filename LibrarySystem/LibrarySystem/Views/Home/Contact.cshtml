@@ -1,4 +1,14 @@
-﻿@model ContactUs
+﻿@model MessageRequest
+@if(TempData["Message"] != null)
+{
+    //Display a message about the email being sent
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="btn-close"
+                data-bs-dismiss="alert" aria-label="Close">
+        </button>
+        @TempData["Message"]
+    </div>
+}
 <div class="pt-1 text-md-center">
     <p class="h3">Get in touch</p>
     <p>Contact us for best deals</p>
@@ -7,18 +17,21 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <div class="m-3 row">
         <div class="col-md-4">
-            <input type="text" class="form-control form-text" placeholder="Enter your name" asp-for="FullNames"/>
+            <input type="text" class="form-control form-text" 
+            placeholder="Enter your name" asp-for="FullNames" value="@Model.FullNames"/>
         </div>
         <div class="col-md-4">
-            <input type="email" class="form-control form-text" placeholder="Enter your email" asp-for="Email" />
+            <input type="email" class="form-control form-text" 
+            placeholder="Enter your email" asp-for="Email" value="@Model.Email" />
         </div>
         <div class="col-md-4">
-            <input type="text" class="form-control form-text" placeholder="Enter yout phone number" />
+            <input type="text" class="form-control form-text" placeholder="Enter yout phone number" asp-for="PhoneNumber" value="@Model.PhoneNumber"/>
         </div>
     </div>
-    
     <div class="m-4">
-        <textarea class="text-message form-control" placeholder="Your message" asp-for="Message"></textarea>
+        <textarea class="text-message form-control" placeholder="Your message" asp-for="Message">
+            @Model.Message
+        </textarea>
     </div>
     <div class="text-md-center">
         <div class="text-center mb-1">

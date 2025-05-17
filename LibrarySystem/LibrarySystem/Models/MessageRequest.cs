@@ -4,7 +4,7 @@ namespace LibrarySystem.Models;
 
 //This is a model that will record all the information that is passed
 // by the user when they want to contact the library.
-public class ContactUs
+public class MessageRequest
 {
     public int Id { get; set; }
     [Required]
@@ -15,4 +15,5 @@ public class ContactUs
     public string PhoneNumber { get; set; }
     [Required]
     public string Message {  get; set; }
+    public bool Viewed { get; set; } = false;
 }
