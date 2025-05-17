@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\images\" />
-    <Folder Include="wwwroot\styles\" />
   </ItemGroup>
 
   <ItemGroup>
