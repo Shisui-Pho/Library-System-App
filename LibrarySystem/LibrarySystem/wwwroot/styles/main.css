@@ -306,3 +306,14 @@ a {
 .books-widget .books-title h3 {
     font-size: 18px
 }
+.books-title {
+    padding: 15px 0;
+    height: 90px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+.books-frame {
+    border: 1px solid #ddd;
+    padding: 15px;
+    min-height:350px;
+}
