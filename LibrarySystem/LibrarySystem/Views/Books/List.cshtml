@@ -39,7 +39,7 @@
                     <td>
                         <div class="text-md-center">
                             <a class="btn btn-dark" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id">View Details</a>
-                            <a class="btn btn-success" href="#" asp-route-id="@book.Id">Check-out</a>
+                            <a class="btn btn-success" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id">Check-out</a>
                         </div>
                     </td>
                 </tr>
