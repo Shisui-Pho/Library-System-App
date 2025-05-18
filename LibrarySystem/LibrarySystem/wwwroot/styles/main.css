@@ -2,7 +2,7 @@
 body {
     /*font-family: "lucida grande", tahoma, verdana, arial, sans-serif;*/
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #444;
+    color: #333333;
     background: #f0e7e3;
     line-height: 1.8em;
     font-size: 14px;
@@ -161,7 +161,7 @@ a {
     z-index: 0;
 }
 
-/* Header Content Styling */
+/*Home Page - Header Content Styling */
 .header-content {
     position: relative;
     z-index: 1;
@@ -181,7 +181,7 @@ a {
     color: #bdc3c7;
     }
 
-/* Button Styling */
+/*Home-Page: Button */
 .button-container {
     margin-top: 20px;
     display: flex;
@@ -197,7 +197,7 @@ a {
     width: 150px;
 }
 
-/* Main content styling */
+/*Home Page - main content*/
 #main-content {
     padding: 2rem;
     max-width: 1000px;
@@ -210,7 +210,7 @@ a {
     margin-bottom: 1rem;
 }
 
-/*Buttons in the site*/
+/*Contact Page - Buttons in the site*/
 .site-btn {
     all: unset; /* optional: resets default styles */
     display: inline-block;
@@ -236,4 +236,73 @@ a {
 
 .text-message {
     height:120px;
+}
+
+/*Books List Page - Container*/
+.section-body {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 1em;
+    border-radius: 5px;
+}
+
+.books-header {
+    text-align: center;
+    font-size: 48px;
+    color: #888;
+    margin-bottom: 0;
+    font-family: Arial, sans-serif;
+    font-weight: 500;
+    margin: .68em 0;
+}
+.lead {
+    color: #888;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+.search-div {
+    margin-top:15px;
+}
+
+.search {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+
+/*Books List Page : Book-Collections*/
+.books h1 {
+    text-align: center;
+    font-size: 48px;
+    color: #888;
+    margin-bottom: 0
+}
+
+.books h1 em {
+    color: #1f8dd6
+}
+
+.books .lead {
+    color: #888;
+    font-size: 24px;
+    text-align: center
+}
+
+.books-widget .books-item {
+    padding: 15px
+}
+
+.books-widget .books-title {
+    padding: 15px 0;
+    height: 90px;
+    overflow: hidden;
+    margin-bottom: 30px
+}
+
+.books-widget .books-title h3 {
+    font-size: 18px
 }
