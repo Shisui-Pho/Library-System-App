@@ -7,15 +7,32 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" asp-href-include="/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" asp-href-include="/styles/main.css"/>
-    <title>Library - @ViewData["Title"]</title>
+    <title>Explore - @ViewData["Title"]</title>
 </head>
 <body>
     <!-- Navigation -->
-    <div class="navbar navbar-expand-md bg-dark navbar-dark">
+    <div class="head-layout container-fluid">
         <div class="container">
-            <!-- Brand -->
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Library</a>
+            <div class="row">
+                <div class="col-md-7 col-sm-6 col-xs-12">
+                    <h1 class="page-title">
+                        <a asp-action="Index" asp-controller="Home">Explorer Library</a>
+                    </h1>
+                </div>
+                <div class="col-md-5 col-sm-6 col-xs-12">
+                    <div class="sign-in-opt">
+                        <div class="buttons" id="menu-1">
+                            <a class="button-green button-medium" href="#">Sign-up</a>
+                            <a class="button-medium button-blue" href="#">Log in</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="navigation navbar nav-pills navbar-expand-md">
+        <div class="container">
             <!-- Toggler/collapsible Button -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#MyNavbar">
@@ -35,7 +52,7 @@
     </div>
 
     <!--A stand-alone -->
-    <div style="background-color: #f4f6f9;">
+    <div class="templete">
         @RenderBody()
     </div>
 
