@@ -43,6 +43,18 @@
             <div class="collapse navbar-collapse" id="MyNavbar">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" 
+                        id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Books
+                        </a>
+
+                        <div class="dropdown-books dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-books-item dropdown-item" asp-action="List" asp-controller="Books">Books</a>
+                            <a class="dropdown-books-item dropdown-item" href="#">Top books</a>
+                            <a class="dropdown-books-item dropdown-item" href="#">Advance Search</a>
+                        </div>
+                    </li>
                     <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">About</a></li>
                     <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a></li>
 
