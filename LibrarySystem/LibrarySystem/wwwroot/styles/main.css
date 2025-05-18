@@ -96,21 +96,28 @@ a {
 }
 
 /*Naviagation - Navigation menu main*/
-.navigation {
+.navigation, .dropdown-books {
     background: #1f8dd6;
     border-bottom: 0 groove #e8e8e8;
     padding-top: 15px;
     padding-bottom: 15px;
     /*border-bottom: 1px solid #ccc;*/
 }
+.dropdown-books {
+    border:none;
+    width:150px;
+}
+.dropdown-books-item {
+    width:150px;
+}
 .navigation li {
     float: left;
     display: block;
 }
-.navigation li a {
-    font-size:16px;
+.navigation li a, .button-dropdown-menu{
+    font-size: 16px;
 }
-.navigation li, .navigation li a {
+.navigation li, .navigation li a, .button-dropdown-menu{
     background: transparent;
     color: #fff;
     font-weight: normal;
@@ -118,13 +125,14 @@ a {
     -webkit-border-radius: 5px;
     float: left;
     display: block;
+    margin: 0 5px 2px;
 }
 .navigation li a:hover {
     background: #327496;
     color: white
 }
-/*Home page*/
 
+/*Home page*/
 #main-header {
     background: url('../images/background.jpg') no-repeat center center fixed;
     /* background-image: url('../images/background.jpg');*/

@@ -3,9 +3,14 @@
 @{
     ViewData["Title"] = "Books";
 }
-
 <!--Displaying book details-->
 <div class="m-3 container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Books</li>
+        </ol>
+    </nav>
     <div class="text-center">
         <p class="h2">Books</p>
     </div>
@@ -39,7 +44,7 @@
                     <td>
                         <div class="text-md-center">
                             <a class="btn btn-dark" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id">View Details</a>
-                            <a class="btn btn-success" href="#" asp-route-id="@book.Id">Check-out</a>
+                            <a class="btn btn-success" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id">Check-out</a>
                         </div>
                     </td>
                 </tr>
