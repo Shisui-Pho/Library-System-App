@@ -4,54 +4,69 @@
     ViewData["Title"] = "Books";
 }
 <!--Displaying book details-->
-<div class="m-3 container">
-    <nav aria-label="breadcrumb">
+<div class="container">
+    <nav aria-label="breadcrumb" class="mt-2">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Books</li>
         </ol>
     </nav>
-    <div class="text-center">
-        <p class="h2">Books</p>
+
+    <div class="section-body">
+
+        <h1 class="books-header">
+            Discover amazing books here
+        </h1>
+        <p class="lead">Explore and read books you like</p>
+
+        <div class="container-fluid">
+            <!--WIll implement all this later on one everything is finished-->
+            <div class="row">
+                <div class="text-center">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <a href="#" class="btn btn-primary active">Popular</a>
+                        <a href="#" class="btn btn-success ">Most Liked</a>
+                        <a href="#" class="btn btn-info ">Most Read</a>
+                        <a href="#" class="btn btn-warning ">Most Viewed</a>
+                        <a href="#" class="btn btn-danger ">Latest</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-div row justify-content-center" style="margin-bottom: 50px;">
+
+                <div class="col-md-4 col-sm-6">
+                    <p>
+                        <input type="text" class="form-control search" value=""
+                        placeholder="Search by name or ISBN number">
+                    </p>
+                </div>
+            </div>
+
+            <div class="books-widget row">
+                @foreach(Book book in Model)
+                {
+                    //Display all the books
+                    <div class="books-item col-md-3 col-sm-6">
+                        <div class="text-center justify-content-center">
+                            <div class="books-frame justify-content-center">
+                                <div class="aspect-ratio-content">
+                                    <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
+                                        <img class="img-fluid" src="@book.GetCoverPath()" alt="@book.BookTitle" />
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="books-title">
+                                <h3>
+                                    <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" title="Harry Potter and the Prisoner of Azkaban">
+                                        @book.BookTitle
+                                    </a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
-
-    <table class="table-responsive-md table-striped">
-        <thead>
-            <tr>
-                <td>
-                    Book image or something
-                </td>
-                <td>
-                    Short Summary
-                </td>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(Book book in Model)
-            {
-                //Display the books
-                <tr>
-                    <td>
-                        <p>Image will go here</p>
-                    </td>
-                    <td>
-                        <div>
-                            <p class="h3">@book.BookTitle</p>
-                            <p>@book.Description</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="text-md-center">
-                            <a class="btn btn-dark" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id">View Details</a>
-                            <a class="btn btn-success" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id">Check-out</a>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-
-
 </div>
