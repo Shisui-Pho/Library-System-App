@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Book>
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<!--Displaying book details-->
+<div class="m-3 container">
+    <div class="text-center">
+        <p class="h2">Books</p>
+    </div>
+
+    <table class="table-responsive-md table-striped">
+        <thead>
+            <tr>
+                <td>
+                    Book image or something
+                </td>
+                <td>
+                    Short Summary
+                </td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Book book in Model)
+            {
+                //Display the books
+                <tr>
+                    <td>
+                        <p>Image will go here</p>
+                    </td>
+                    <td>
+                        <div>
+                            <p class="h3">@book.BookTitle</p>
+                            <p>@book.Description</p>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-md-center">
+                            <a class="btn btn-dark" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id">View Details</a>
+                            <a class="btn btn-success" href="#" asp-route-id="@book.Id">Check-out</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+
+</div>

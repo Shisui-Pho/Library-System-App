@@ -41,8 +41,12 @@ public class HomeController : Controller
         _repository.SaveChanges();
 
         //-Pass in a temporary messsage to alert the user that the message has bee sent
-        TempData["Message"] = "Your message was sent successfully. A stuff member will reach out to you shortly throug the provided details.";
+        TempData["Message"] = "Your message was sent successfully. A stuff member will reach out to you shortly through the provided details.";
         //Return the same view
-        return View();
+        return RedirectToAction("Contact");
     }
+    public IActionResult PageNotFound(string message)
+    {
+        return View(message);
+    }//PageNotFound
 }
