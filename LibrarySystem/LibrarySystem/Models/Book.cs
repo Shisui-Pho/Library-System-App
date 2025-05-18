@@ -31,4 +31,5 @@ public class Book
 
     // Computed property for URL-friendly slug
     public string Slug => BookTitle.Replace(" ", "").ToLowerInvariant();
+    public string GetCoverPath() => $"/images/covers/{this.Id}.png"; 
 }
