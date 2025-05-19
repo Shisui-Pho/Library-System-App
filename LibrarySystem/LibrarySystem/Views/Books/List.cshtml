@@ -52,7 +52,7 @@
                             <div class="books-frame justify-content-center">
                                 <div class="aspect-ratio-content">
                                     <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
-                                        <img class="img-fluid" src="@book.GetCoverPath()" alt="@book.BookTitle" />
+                                        <img class="book-cover img-fluid" src="@book.GetCoverPath()" alt="@book.BookTitle" />
                                     </a>
                                 </div>
                             </div>

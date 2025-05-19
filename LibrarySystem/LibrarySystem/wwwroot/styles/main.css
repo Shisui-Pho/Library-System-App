@@ -316,4 +316,8 @@ a {
     border: 1px solid #ddd;
     padding: 15px;
     min-height:350px;
+    box-shadow: rgb(208, 200, 200) 2px 2px 2px 2px;
+}
+.aspect-ratio-content:hover {
+    transform: scale(1.09)
 }
