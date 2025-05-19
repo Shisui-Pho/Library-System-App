@@ -1,7 +1,7 @@
 ﻿using LibrarySystem.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibrarySystem.Data;
+namespace LibrarySystem.Data.Repositories;
 
 public class BookRepository(AppDBContext dbContex)
              : BaseRepository<Book>(dbContex), IBookRepository

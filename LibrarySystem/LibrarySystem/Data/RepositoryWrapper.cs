@@ -1,4 +1,6 @@
-﻿namespace LibrarySystem.Data;
+﻿using LibrarySystem.Data.Repositories;
+
+namespace LibrarySystem.Data;
 
 public class RepositoryWrapper : IRepositoryWrapper
 {

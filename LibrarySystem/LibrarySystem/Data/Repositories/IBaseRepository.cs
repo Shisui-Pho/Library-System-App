@@ -1,7 +1,7 @@
 ﻿using LibrarySystem.Data.DataAccess;
 using System.Linq.Expressions;
 
-namespace LibrarySystem.Data;
+namespace LibrarySystem.Data.Repositories;
 public interface IBaseRepository<T> where T : class
 {
     T GetById(int id);
