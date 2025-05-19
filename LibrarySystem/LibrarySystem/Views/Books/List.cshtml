@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Book>
+﻿@model BooksDisplayViewModel;
 
 @{
     ViewData["Title"] = "Books";
@@ -44,7 +44,7 @@
             </div>
 
             <div class="books-widget row">
-                @foreach(Book book in Model)
+                @foreach(Book book in Model.Books)
                 {
                     //Display all the books
                     <div class="books-item col-md-3 col-sm-6">
@@ -67,6 +67,15 @@
                     </div>
                 }
             </div>
+            <!--Paging information here-->
+            <div page-model="Model.PagingInfomation"
+                 action="List"
+                 is-css-enabled="true"
+                 selected-page-class="btn-primary"
+                 un-selected-page-class="btn-outline-primary"
+                 common-page-class="btn"
+                 class="justify-content-center text-center"
+            ></div>
         </div>
     </div>
 </div>

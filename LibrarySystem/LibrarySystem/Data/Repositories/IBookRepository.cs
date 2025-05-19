@@ -1,5 +1,5 @@
 ﻿using LibrarySystem.Models;
-namespace LibrarySystem.Data;
+namespace LibrarySystem.Data.Repositories;
 public interface IBookRepository : IBaseRepository<Book>
 {
     IEnumerable<Book> GetAllBooksWithAuthors();

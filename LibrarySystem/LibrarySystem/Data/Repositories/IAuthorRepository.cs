@@ -1,6 +1,6 @@
 ﻿using LibrarySystem.Models;
 
-namespace LibrarySystem.Data;
+namespace LibrarySystem.Data.Repositories;
 
 public interface IAuthorRepository : IBaseRepository<Author>
 {

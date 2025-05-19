@@ -1,9 +1,9 @@
 ﻿using LibrarySystem.Data.DataAccess;
 using System.Linq.Expressions;
 
-namespace LibrarySystem.Data;
+namespace LibrarySystem.Data.Repositories;
 
-public class BaseRepository<T>: IBaseRepository<T> where T : class
+public class BaseRepository<T> : IBaseRepository<T> where T : class
 {
     protected readonly AppDBContext _dbContext;
     public BaseRepository(AppDBContext dbContext)
@@ -64,6 +64,19 @@ public class BaseRepository<T>: IBaseRepository<T> where T : class
                 q = q.OrderByDescending(options.OrderBy);
         }
 
+        //Check for paging
+        if (options.HasPaging)
+        {
+            //Select the top n items
+            q = q.Skip((options.PagingInfomation.CurrentPageNumber - 1) * options.PagingInfomation.NumberOfItemsPerPage)
+                 .Take(options.PagingInfomation.NumberOfItemsPerPage);
+        }
+
         return q;
     }//GetWithOptions
+
+    public int Count()
+    { 
+        return _dbContext.Set<T>().Count();
+    }
 }//class
