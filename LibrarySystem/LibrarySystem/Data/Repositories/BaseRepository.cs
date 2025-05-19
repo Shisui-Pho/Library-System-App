@@ -64,6 +64,14 @@ public class BaseRepository<T>: IBaseRepository<T> where T : class
                 q = q.OrderByDescending(options.OrderBy);
         }
 
+        //Check for paging
+        if (options.HasPaging)
+        {
+            //Select the top n items
+            q = q.Skip((options.PagingInfomation.CurrentPageNumber - 1) * options.PagingInfomation.NumberOfItemsPerPage)
+                 .Take(options.PagingInfomation.NumberOfItemsPerPage);
+        }
+
         return q;
     }//GetWithOptions
 }//class
