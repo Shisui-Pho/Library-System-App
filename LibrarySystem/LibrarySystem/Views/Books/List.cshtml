@@ -49,14 +49,14 @@
                     //Display all the books
                     <div class="books-item col-md-3 col-sm-6">
                         <div class="text-center justify-content-center">
-                            <div class="books-frame justify-content-center">
+                            <div class="book-frame-small justify-content-center">
                                 <div class="aspect-ratio-content">
                                     <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
                                         <img class="book-cover img-fluid" src="@book.GetCoverPath()" alt="@book.BookTitle" />
                                     </a>
                                 </div>
                             </div>
-                            <div class="books-title">
+                            <div class="book-title-medium">
                                 <h3>
                                     <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" title="Harry Potter and the Prisoner of Azkaban">
                                         @book.BookTitle
