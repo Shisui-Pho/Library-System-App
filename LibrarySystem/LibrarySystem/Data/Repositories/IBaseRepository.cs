@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 namespace LibrarySystem.Data.Repositories;
 public interface IBaseRepository<T> where T : class
 {
+    int Count();
     T GetById(int id);
     IEnumerable<T> FindAll();
     IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression);

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace LibrarySystem.Data.Repositories;
 
-public class BaseRepository<T>: IBaseRepository<T> where T : class
+public class BaseRepository<T> : IBaseRepository<T> where T : class
 {
     protected readonly AppDBContext _dbContext;
     public BaseRepository(AppDBContext dbContext)
@@ -74,4 +74,9 @@ public class BaseRepository<T>: IBaseRepository<T> where T : class
 
         return q;
     }//GetWithOptions
+
+    public int Count()
+    { 
+        return _dbContext.Set<T>().Count();
+    }
 }//class
