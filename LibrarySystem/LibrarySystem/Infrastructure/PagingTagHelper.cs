@@ -28,7 +28,7 @@ public class PagingTagHelper : TagHelper
     /// <summary>
     /// Contains all the information about the Paging.
     /// </summary>
-    public PagingInfomation PagingInfo { get; set; }
+    public PagingInfomation PageModel { get; set; }
     /// <summary>
     /// Indicates whether css attributes will be applied to the pages or not.
     /// </summary>
@@ -53,7 +53,7 @@ public class PagingTagHelper : TagHelper
         TagBuilder div = new("div");
         var urlBuilder = _urlHelperFactory.GetUrlHelper(ViewContext);
 
-        for (int i = 1; i <= PagingInfo.TotalNumberOfPages; i++)
+        for (int i = 1; i <= PageModel.TotalNumberOfPages; i++)
         {
             //Create a link element
             TagBuilder a = new ("a");
@@ -63,7 +63,7 @@ public class PagingTagHelper : TagHelper
             {
                 //Apply common css
                 a.AddCssClass(CommonPageClass);
-                a.AddCssClass(i == PagingInfo.CurrentPageNumber ? SelectedPageClass : UnSelectedPageClass);
+                a.AddCssClass(i == PageModel.CurrentPageNumber ? SelectedPageClass : UnSelectedPageClass);
             }
             
             a.Attributes["href"] = urlBuilder.Action(Action, new { pageNo = i });
