@@ -66,7 +66,7 @@ public class PagingTagHelper : TagHelper
                 a.AddCssClass(i == PageModel.CurrentPageNumber ? SelectedPageClass : UnSelectedPageClass);
             }
             
-            a.Attributes["href"] = urlBuilder.Action(Action, new { pageNo = i });
+            a.Attributes["href"] = urlBuilder.Action(Action, new { page = i });
             a.InnerHtml.Append(i.ToString());//Add the page name
             div.InnerHtml.AppendHtml(a);//Add the link to the div
         }//end for
