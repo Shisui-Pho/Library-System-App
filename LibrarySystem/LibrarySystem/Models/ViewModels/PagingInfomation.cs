@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.Models;
+﻿namespace LibrarySystem.Models.ViewModels;
 public class PagingInfomation
 {
     public int CurrentPageNumber { get; set; }

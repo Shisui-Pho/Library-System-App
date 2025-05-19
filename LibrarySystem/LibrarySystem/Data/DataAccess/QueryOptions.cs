@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Models;
+﻿using LibrarySystem.Models.ViewModels;
 using System.Linq.Expressions;
 
 namespace LibrarySystem.Data.DataAccess;
