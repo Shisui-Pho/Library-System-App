@@ -24,7 +24,19 @@ var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
 
-//Route mapping
+//-Route mapping
+app.MapControllerRoute(
+    name: "ListPage",
+    pattern: "{controller}/{action}/page-{page}");
+
+app.MapControllerRoute(
+    name: "ListPageTag",
+    pattern: "{controller}/{action}/{tag}/page-{page}");
+
+app.MapControllerRoute(
+    name: "Details",
+    pattern: "{controller}/{action}/{id}/{slug}");
+
 app.MapControllerRoute(
     name: "Default",
     pattern: "{controller=Home}/{action=Index}/{id?}"
