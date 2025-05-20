@@ -40,7 +40,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-01-1",
             BookTitle = "Frankenstein; Or, The Modern Prometheus",
-            Description = "\"Frankenstein; Or, The Modern Prometheus\" by Mary Wollstonecraft Shelley is a novel written in the early 19th century. The story explores themes of ambition, the quest for knowledge, and the consequences of man's hubris...",
+            Description = "Victor Frankenstein, a young scientist, becomes obsessed with creating life. He assembles a creature from body parts and brings it to life, only to be horrified by its grotesque appearance. The creature, abandoned and shunned, seeks companionship but is met with fear and violence. It ultimately turns against its creator, leading to a tragic pursuit across the world. The novel explores themes of ambition, responsibility, and the consequences of playing god.",
             Publisher = "Browsing: Culture/Civilization/Society",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 280,
@@ -53,7 +53,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-02-8",
             BookTitle = "Moby Dick; Or, The Whale",
-            Description = "\"Moby Dick; Or, The Whale\" by Herman Melville is a novel written in the mid-19th century. The story follows Ishmael, a sailor on a whaling voyage, who seeks adventure...",
+            Description = "Ishmael, a sailor, joins the whaling ship Pequod, captained by the obsessed Ahab. Ahab seeks revenge against Moby Dick, the white whale that maimed him. The journey is fraught with danger, philosophical musings, and encounters with other ships. As the hunt intensifies, Ahab's obsession leads to disaster, culminating in a final confrontation where the ship is destroyed and only Ishmael survives to tell the tale.",
             Publisher = "Best Books Ever Listings",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 635,
@@ -66,7 +66,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-03-5",
             BookTitle = "Pride and Prejudice",
-            Description = "\"Pride and Prejudice\" by Jane Austen is a classic novel written in the early 19th century. The story delves into themes of love, social class, and individual agency...",
+            Description = "Elizabeth Bennet navigates societal expectations and family pressures in 19th-century England. She initially dislikes the wealthy and aloof Mr. Darcy but gradually realizes his true character. Meanwhile, her sisters face their own romantic challenges. The novel critiques class distinctions and gender roles while celebrating love and personal growth.",
             Publisher = "Best Books Ever Listings",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 432,
@@ -79,7 +79,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-04-2",
             BookTitle = "Romeo and Juliet",
-            Description = "\"Romeo and Juliet\" by William Shakespeare is a tragedy likely written during the late 16th century. The play centers on the intense love affair between two young lovers...",
+            Description = "Two young lovers from feuding families, Romeo and Juliet, fall in love at first sight. Their secret marriage leads to tragic consequences when misunderstandings and impulsive decisions result in their untimely deaths. The play explores themes of fate, love, and the destructive nature of family conflict.\r\n",
             Publisher = "Browsing: Fiction",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 125,
@@ -92,7 +92,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-05-9",
             BookTitle = "Alice's Adventures in Wonderland",
-            Description = "\"Alice's Adventures in Wonderland\" by Lewis Carroll is a classic children's novel...",
+            Description = "Alice falls down a rabbit hole into a whimsical world where logic is turned upside down. She encounters peculiar characters like the Cheshire Cat, the Mad Hatter, and the Queen of Hearts. Through bizarre adventures, Alice navigates the strange rules of Wonderland, ultimately waking up to realize it was all a dream.",
             Publisher = "Browsing: Children & Young Adult Reading",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 201,
@@ -105,7 +105,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-06-6",
             BookTitle = "The Great Gatsby",
-            Description = "\"The Great Gatsby\" by F. Scott Fitzgerald is a novel written in the early 20th century...",
+            Description = "Jay Gatsby, a wealthy and mysterious man, throws lavish parties in hopes of rekindling his romance with Daisy Buchanan. Narrated by Nick Carraway, the novel explores themes of wealth, love, and the American Dream. Gatsby's idealism leads to his downfall, revealing the emptiness of material success.",
             Publisher = "Browsing: Culture/Civilization/Society",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 180,
@@ -118,7 +118,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-07-3",
             BookTitle = "A Doll's House : a play",
-            Description = "\"A Doll's House\" by Henrik Ibsen is a three-act play written during the late 19th century...",
+            Description = "Nora Helmer, a seemingly happy wife, realizes she has been living in a metaphorical dollhouse, controlled by societal expectations and her husband. When her secret financial dealings come to light, she chooses to leave her family to find independence, challenging traditional gender roles.",
             Publisher = "Best Books Ever Listings",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 96,
@@ -131,7 +131,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-08-0",
             BookTitle = "The Importance of Being Earnest: A Trivial Comedy for Serious People",
-            Description = "\"The Importance of Being Earnest\" by Oscar Wilde is a play written in the late 19th century...",
+            Description = "A comedic play about mistaken identities and societal hypocrisy. Jack and Algernon create fictitious identities to escape social obligations, leading to humorous misunderstandings. Wilde satirizes Victorian norms, emphasizing the absurdity of rigid social expectations.",
             Publisher = "Browsing: Fiction",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 76,
@@ -144,7 +144,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-09-7",
             BookTitle = "The Complete Works of William Shakespeare",
-            Description = "\"The Complete Works of William Shakespeare\" includes sonnets, comedies, tragedies, and more...",
+            Description = "This compilation includes all of Shakespeare's plays, sonnets, and poems, showcasing his mastery in various genres—from tragedies like Hamlet and Macbeth to comedies like A Midsummer Night's Dream and Twelfth Night. His works delve into themes of love, power, betrayal, and the complexities of human nature.",
             Publisher = "Browsing: Fiction",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 1250,
@@ -157,7 +157,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-10-3",
             BookTitle = "Middlemarch",
-            Description = "\"Middlemarch\" by George Eliot is a novel written in the mid-19th century...",
+            Description = "A complex novel exploring the lives of various characters in a provincial town. Dorothea Brooke seeks intellectual fulfillment, while Dr. Lydgate struggles with ambition and marriage. The novel examines themes of idealism, societal constraints, and personal growth.\r\n",
             Publisher = "Best Books Ever Listings",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 890,
@@ -170,7 +170,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-11-0",
             BookTitle = "Little Women; Or, Meg, Jo, Beth, and Amy",
-            Description = "\"Little Women\" by Louisa May Alcott is a classic novel written in the mid-19th century...",
+            Description = " The story follows the lives of the four March sisters—Meg, Jo, Beth, and Amy—as they navigate love, ambition, and family struggles during the American Civil War. Jo, the independent and aspiring writer, faces challenges in balancing her dreams with societal expectations.",
             Publisher = "Browsing: Culture/Civilization/Society",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 759,
@@ -183,7 +183,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-12-7",
             BookTitle = "A Room with a View",
-            Description = "\"A Room with a View\" by E. M. Forster is a novel exploring social conventions and personal freedom...",
+            Description = "Lucy Honeychurch, a young woman from England, visits Italy and experiences a transformative journey. She struggles between societal expectations and her true desires, ultimately choosing love and personal freedom over convention.",
             Publisher = "Browsing: Culture/Civilization/Society",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 324,
@@ -196,7 +196,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-13-4",
             BookTitle = "Simple Sabotage Field Manual",
-            Description = "\"Simple Sabotage Field Manual\" by United States. Office of Strategic Services is a historical guide...",
+            Description = "During World War II, the OSS distributed this manual to ordinary citizens in Axis-occupied territories, instructing them on subtle acts of sabotage to disrupt enemy operations. The guide encouraged minor, everyday actions—like misplacing tools or giving incorrect directions—to create confusion and hinder the enemy's efficiency.",
             Publisher = "Browsing: History - Warfare",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 64,
@@ -209,7 +209,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-14-1",
             BookTitle = "The Picture of Dorian Gray",
-            Description = "\"The Picture of Dorian Gray\" by Oscar Wilde is a novel exploring themes of art, beauty, and morality...",
+            Description = "Dorian Gray, a handsome young man, wishes that his portrait would age instead of him, allowing him to live a life of indulgence without consequence. As he descends into a hedonistic lifestyle, his portrait reflects the corruption of his soul, while he remains outwardly youthful, leading to a tragic downfall.",
             Publisher = "Browsing: Fiction",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 272,
@@ -222,7 +222,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-15-8",
             BookTitle = "The Enchanted April",
-            Description = "\"The Enchanted April\" by Elizabeth Von Arnim is a novel about personal transformation and joy...",
+            Description = "Four women from different backgrounds escape their dreary lives in England to spend a transformative month in an Italian villa. As they embrace the beauty of their surroundings, they undergo personal growth, finding joy, friendship, and self-discovery. The novel explores themes of renewal and the healing power of nature.",
             Publisher = "Bestsellers, American, 1895-1923",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 336,
@@ -235,7 +235,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-16-5",
             BookTitle = "The Blue Castle: a novel",
-            Description = "\"The Blue Castle\" by L. M. Montgomery is a novel centered around Valancy Stirling...",
+            Description = "Valancy Stirling, a timid and repressed woman, receives a fatal diagnosis and decides to break free from her controlling family. She embarks on a journey of self-discovery, finding love and independence in the wilderness. The novel is a heartwarming tale of courage, transformation, and the pursuit of happiness.",
             Publisher = "Browsing: Culture/Civilization/Society",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 280,
@@ -247,7 +247,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-17-2",
             BookTitle = "Dracula",
-            Description = "\"Dracula\" by Bram Stoker is a Gothic horror novel written in the late 19th century...",
+            Description = "Jonathan Harker visits Count Dracula's castle, only to discover the vampire's sinister plans. Dracula moves to England, spreading terror, while a group led by Van Helsing attempts to stop him. The novel explores themes of fear, sexuality, and the clash between modernity and superstition.",
             Publisher = "Browsing: Fiction",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 418,
@@ -260,7 +260,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-18-9",
             BookTitle = "Crime and Punishment",
-            Description = "\"Crime and Punishment\" by Fyodor Dostoyevsky is a novel written in the mid-19th century...",
+            Description = "Raskolnikov, a poor student, commits murder, believing he is justified in doing so. His psychological torment and interactions with others lead to his eventual confession and redemption. The novel delves into morality, guilt, and the consequences of one's actions.\r\n",
             Publisher = "Best Books Ever Listings",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 576,
@@ -273,7 +273,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-19-6",
             BookTitle = "The Strange Case of Dr. Jekyll and Mr. Hyde",
-            Description = "\"The Strange Case of Dr. Jekyll and Mr. Hyde\" by Robert Louis Stevenson is a novella...",
+            Description = "Dr. Jekyll creates a potion that transforms him into the evil Mr. Hyde. As Hyde's actions grow more violent, Jekyll struggles to control his darker side. The novel examines duality, repression, and the nature of good and evil.",
             Publisher = "Browsing: Fiction",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 144,
@@ -286,7 +286,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-20-2",
             BookTitle = "Cranford",
-            Description = "\"Cranford\" by Elizabeth Cleghorn Gaskell is a novel written in the mid-19th century...",
+            Description = "A charming depiction of life in a small English town, focusing on the lives of its female residents. The novel explores themes of social change, friendship, and resilience.",
             Publisher = "Browsing: Culture/Civilization/Society",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 336,
@@ -299,7 +299,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-21-9",
             BookTitle = "The Expedition of Humphry Clinker",
-            Description = "\"The Expedition of Humphry Clinker\" by Tobias Smollett is a humorous epistolary novel...",
+            Description = "This epistolary novel follows the journey of Matthew Bramble, a cantankerous but kind-hearted Welsh squire, as he travels through England and Scotland with his family. Through their letters, the characters provide humorous and satirical observations on 18th-century society, medicine, and politics. The novel is known for its witty character interactions and its critique of contemporary British life.",
             Publisher = "Best Books Ever Listings",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 496,
@@ -312,7 +312,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-22-6",
             BookTitle = "The Adventures of Ferdinand Count Fathom — Complete",
-            Description = "\"The Adventures of Ferdinand Count Fathom\" by Tobias Smollett is a satirical novel...",
+            Description = "This satirical novel follows the exploits of Ferdinand Count Fathom, a cunning and morally ambiguous character who manipulates and deceives those around him. Born into a life of hardship, Fathom uses his charm and intelligence to navigate a world ripe for exploitation. The novel explores themes of vice, virtue, and the nature of morality.\r\n",
             Publisher = "Best Books Ever Listings",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 480,
@@ -325,7 +325,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-23-3",
             BookTitle = "History of Tom Jones, a Foundling",
-            Description = "\"The History of Tom Jones, A Foundling\" by Henry Fielding is a novel written in the early 18th century...",
+            Description = "Tom Jones, a foundling raised by the wealthy Squire Allworthy, embarks on a journey of self-discovery after being cast out due to false accusations. His adventures take him across England, where he encounters love, betrayal, and social satire. The novel is celebrated for its intricate plot, vivid characters, and humorous critique of 18th-century society.\r\n",
             Publisher = "Banned Books from Anne Haight's list",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 968,
@@ -338,7 +338,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-24-0",
             BookTitle = "Metamorphosis",
-            Description = "\"Metamorphosis\" by Franz Kafka is a novella written during the late 19th century...",
+            Description = "Gregor Samsa wakes up to find himself transformed into a giant insect. His family struggles to cope with his condition, leading to his isolation and eventual demise. The novel explores themes of alienation, identity, and societal expectations.",
             Publisher = "Browsing: Fiction",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 76,
@@ -351,7 +351,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-25-7",
             BookTitle = "Twenty Years After",
-            Description = "\"Twenty Years After\" by Alexandre Dumas and Auguste Maquet is a historical novel...",
+            Description = "A sequel to *The Three Musketeers*, this novel follows the aging musketeers—D'Artagnan, Athos, Porthos, and Aramis—as they reunite amidst political turmoil in France and England. The story is filled with intrigue, adventure, and historical events, including the execution of King Charles I. The musketeers navigate shifting allegiances while facing old enemies and new challenges.",
             Publisher = "Adventure",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 720,
@@ -364,7 +364,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-26-4",
             BookTitle = "A Tale of Two Cities",
-            Description = "\"A Tale of Two Cities\" by Charles Dickens is a historical novel written in the mid-19th century...",
+            Description = "Set during the French Revolution, the novel follows Charles Darnay, a nobleman who renounces his aristocratic heritage, and Sydney Carton, a disillusioned lawyer. Their lives intertwine with Lucie Manette, whose father was imprisoned for years. As the revolution intensifies, Carton makes the ultimate sacrifice, taking Darnay’s place at the guillotine. The novel contrasts themes of resurrection, sacrifice, and the brutality of revolution.",
             Publisher = "Browsing: Fiction",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 489,
@@ -377,7 +377,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-27-1",
             BookTitle = "The Adventures of Roderick Random",
-            Description = "\"The Adventures of Roderick Random\" by Tobias Smollett is a novel written in the early 18th century...",
+            Description = "This picaresque novel follows Roderick Random, a young Scotsman who faces numerous hardships due to his illegitimate birth. His journey takes him across England, France, and the Caribbean, where he encounters deception, adventure, and romance. The novel offers a satirical look at 18th-century society, particularly the British Navy.",
             Publisher = "Best Books Ever Listings",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 512,
@@ -390,7 +390,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-28-8",
             BookTitle = "My Life — Volume 1",
-            Description = "\"My Life — Volume 1\" by Richard Wagner is an autobiographical work written in the mid-19th century...",
+            Description = "Wagner’s autobiography details his early years, influences, and struggles as he pursued a career in music. He reflects on his family, education, and the cultural environment that shaped his artistic vision. The book provides insight into his personal and professional development, offering a glimpse into the mind of one of history’s most influential composers.",
             Publisher = "Browsing: Biographies",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 432,
@@ -403,7 +403,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-29-5",
             BookTitle = "A Modest Proposal",
-            Description = "\"A Modest Proposal\" by Jonathan Swift is a satirical essay written in the early 18th century...",
+            Description = "A satirical essay proposing that impoverished Irish families sell their children as food to the wealthy. Swift uses irony to critique British exploitation of Ireland, highlighting the absurdity of economic rationalization at the expense of human dignity. The essay remains a powerful example of political satire.",
             Publisher = "Browsing: Humour",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 48,
@@ -416,7 +416,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-30-1",
             BookTitle = "Jane Eyre: An Autobiography",
-            Description = "\"Jane Eyre: An Autobiography\" by Charlotte Brontë is a novel written in the early 19th century...",
+            Description = "Jane, an orphan, grows into an independent woman and falls in love with Mr. Rochester. Her journey explores themes of love, morality, and self-respect.",
             Publisher = "Browsing: Culture/Civilization/Society",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 532,
@@ -429,7 +429,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-31-8",
             BookTitle = "Thus Spake Zarathustra: A Book for All and None",
-            Description = "\"Thus Spake Zarathustra: A Book for All and None\" by Friedrich Wilhelm Nietzsche is a philosophical treatise...",
+            Description = " A philosophical work presenting Nietzsche's ideas on the Übermensch, morality, and the meaning of life. Zarathustra, the protagonist, delivers profound teachings on human existence.",
             Publisher = "Browsing: Philosophy & Ethics",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 320,
@@ -442,7 +442,7 @@ public class SeedData
         {
             ISBN = "978-0-123456-32-5",
             BookTitle = "Adventures of Huckleberry Finn",
-            Description = "\"Adventures of Huckleberry Finn\" by Mark Twain is a novel likely written in the late 19th century...",
+            Description = "Huck Finn, a rebellious boy, escapes his abusive father and sets off on a journey down the Mississippi River with Jim, a runaway slave. Along the way, they encounter conmen, feuding families, and moral dilemmas. Huck struggles with societal expectations and his own conscience, ultimately deciding to help Jim gain freedom. The novel critiques racism, hypocrisy, and the flaws of civilization.",
             Publisher = "Banned Books List from the American Library Association",
             PublicationDate = new DateTime(2025, 5, 18),
             PageCount = 366,
