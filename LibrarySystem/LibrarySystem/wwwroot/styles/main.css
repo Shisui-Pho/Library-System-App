@@ -3,7 +3,7 @@ body {
     /*font-family: "lucida grande", tahoma, verdana, arial, sans-serif;*/
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #333333;
-    background: #f0e7e3;
+    background: #F2F2F2;
     line-height: 1.8em;
     font-size: 14px;
 }
@@ -295,29 +295,131 @@ a {
 .books-widget .books-item {
     padding: 15px
 }
+/*Book-frames*/
+.book-frame {
+    border: 1px solid #ddd;
+    padding: 10px;
+    box-shadow: rgb(208, 200, 200) 2px 2px 2px 2px;
+}
+.book-frame-small {
+    min-height: 350px;
+}
+.book-frame-large {
+    position:relative;
+    width:100%;
+    height:100%;
+}
+.book-frame-large img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
 
-.books-widget .books-title {
+
+.aspect-ratio-content:hover {
+    transform: scale(1.09)
+}
+
+/*Titles for books and authors*/
+.book-title-medium {
+    padding: 15px 0;
+    height: 90px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+.book-title-large {
+    text-align: center;
+    font-size: 48px;
+    color: #888;
+    margin-bottom: 0;
+}
+.books-widget .book-title-medium {
     padding: 15px 0;
     height: 90px;
     overflow: hidden;
     margin-bottom: 30px
 }
 
-.books-widget .books-title h3 {
+.books-widget .book-title-medium h3, .description h4 {
     font-size: 18px
 }
-.books-title {
-    padding: 15px 0;
-    height: 90px;
-    overflow: hidden;
-    margin-bottom: 30px;
+
+/*Book details*/
+.book-details-body {
+    color: #888;
 }
-.books-frame {
-    border: 1px solid #ddd;
-    padding: 15px;
-    min-height:350px;
-    box-shadow: rgb(208, 200, 200) 2px 2px 2px 2px;
+/*Social controls*/
+/* Referenced this :  https://librarika.com */
+@media (min-width: 992px) {
+    .col-md-offset-1 {
+        margin-left: 8.33333333%;
+    }
 }
-.aspect-ratio-content:hover {
-    transform: scale(1.09)
+@media (min-width: 992px) {
+    .col-md-7 {
+        width: 58.33333333%;
+    }
+}
+.btn-group-justified {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    margin-top: 10px;
+}
+.btn-group-justified .btn-group {
+    display: table-cell;
+    float: none;
+    width: 1%;
+}
+
+.btn-group-justified .btn-group .btn {
+    width: 100%;
+}
+
+.btn-group .btn:first-child {
+    margin-left: 0;
+}
+.btn-group .btn {
+    position: relative;
+    float: left;
+}
+.btn {
+    text-decoration: none;
+}
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.btn-default:hover {
+    color: #333;
+    background-color: #dfdfdf;
+    border-color: #ccc;
+}
+
+/*Book Details - Right-hand side*/
+.description p {
+    font-size: 18px;
+    text-align: left;
+    word-wrap: break-word;
+    overflow: visible;
+}
+.border-r5 {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+.bgg-success {
+    background-color: #dff0d8;
+}
+
+.mbtn-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+.btn-block {
+    display: block;
+    width: 100%;
 }

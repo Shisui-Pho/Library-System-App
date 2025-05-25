@@ -47,7 +47,7 @@ public class BooksController : Controller
     public IActionResult BookDetails(int id)
     {
         //this is the id passed
-        Book book =_repository.Books.GetById(id);
+        var book = _repository.Books.GetBookWithAuthors(id);
 
         if(book == null)
         {
