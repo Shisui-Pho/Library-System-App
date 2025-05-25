@@ -1,4 +1,6 @@
 using LibrarySystem.Data;
+using LibrarySystem.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,17 +9,43 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDBContext>(options =>
         options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Configuration.GetConnectionString("LibraryDatabase")));
+builder.Services.AddDbContext<AppIdentityDBContext>(options => 
+        options.UseSqlServer(
+        builder.Configuration.GetConnectionString("LibraryUsersDatabase")));
 
-//Inject repositoy wrapper
+//Inject 
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+       .AddEntityFrameworkStores<AppIdentityDBContext>();
+
+//-Configure route url
 builder.Services.AddRouting(options =>
 {
     options.AppendTrailingSlash = true;
     options.LowercaseQueryStrings = true;//this makes sure my url is always lower case for readability
 });
 
+//-Configure authorisation paths
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.LoginPath = "/Account/Login";
+});
 
+//-Configure password and security options for the user credentials
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireDigit = true;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 5;
+    options.User.RequireUniqueEmail = true;//This ensures that all users have unique username since we will
+                                            // their emails
+});
 
 var app = builder.Build();
 
@@ -43,6 +71,6 @@ app.MapControllerRoute(
     );
 
 //Add test data
-SeedData.EnsurePopulated(app);
-
+SeedData.PopulateLibrarySystemDB(app);
+SeedIdentity.PopulateLibraryUsersDB(app);
 app.Run();

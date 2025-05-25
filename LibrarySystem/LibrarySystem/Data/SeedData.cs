@@ -5,7 +5,7 @@ namespace LibrarySystem.Data;
 
 public class SeedData
 {
-    public static void EnsurePopulated(IApplicationBuilder app)
+    public static void PopulateLibrarySystemDB(IApplicationBuilder app)
     {
         AppDBContext context = app.ApplicationServices
             .CreateScope().ServiceProvider.GetRequiredService<AppDBContext>();
