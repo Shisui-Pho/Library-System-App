@@ -12,11 +12,11 @@ public class AccountController : Controller
     private const string DEFAULT_ROLE = "Customer";
 
     //Dependecy injections
-    private readonly UserManager<User> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<IdentityUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     
-    public AccountController(SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+    public AccountController(SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
     {
         _signInManager = signInManager;
         _roleManager = roleManager;
@@ -44,7 +44,7 @@ public class AccountController : Controller
             }
 
             //Register the user here
-            User user = new User()
+            ApplicationUser user = new ApplicationUser()
             {
                 Email = model.Email,
                 PhoneNumber = model.ContactNumber,
