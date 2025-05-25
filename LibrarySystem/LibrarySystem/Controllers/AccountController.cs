@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Controllers;
-[Authorize]
+//[Authorize]
 public class AccountController : Controller
 {
     //Contants
@@ -13,10 +13,10 @@ public class AccountController : Controller
 
     //Dependecy injections
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     
-    public AccountController(SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+    public AccountController(SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
     {
         _signInManager = signInManager;
         _roleManager = roleManager;
@@ -24,7 +24,7 @@ public class AccountController : Controller
     }
     [HttpGet]
     [AllowAnonymous]
-    public IActionResult Register(string returnUrl)
+    public IActionResult Register(string returnUrl = null)
     {
         ViewBag.ReturnUrl = returnUrl;
         return View();
@@ -92,13 +92,14 @@ public class AccountController : Controller
     }//Register
     [HttpGet]
     [AllowAnonymous]
-    [ValidateAntiForgeryToken]
     public IActionResult Login(string returnUrl = null)
     {
         ViewBag.ReturnUrl = returnUrl;
         return View();
     }//Login
+    [HttpPost]
     [AllowAnonymous]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LogInViewModel model, string returnUrl = null)
     {
         if (ModelState.IsValid)
