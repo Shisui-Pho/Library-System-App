@@ -131,4 +131,8 @@ public class AccountController : Controller
         await _signInManager.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }//SignOut
+    public IActionResult AccessDenied()
+    {
+        return View();
+    }//AccessDenied
 }//class
