@@ -1,4 +1,5 @@
 using LibrarySystem.Data;
+using LibrarySystem.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,8 +14,10 @@ builder.Services.AddDbContext<AppIdentityDBContext>(options =>
         options.UseSqlServer(
         builder.Configuration.GetConnectionString("LibraryUsersDatabase")));
 
-//Inject repositoy wrapper
+//Inject 
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+       .AddEntityFrameworkStores<AppIdentityDBContext>();
 
 //-Configure route url
 builder.Services.AddRouting(options =>
