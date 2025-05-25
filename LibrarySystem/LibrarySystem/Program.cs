@@ -44,8 +44,6 @@ builder.Services.Configure<IdentityOptions>(options =>
                                             // their emails
 });
 
-
-
 var app = builder.Build();
 
 app.UseStaticFiles();
@@ -70,6 +68,6 @@ app.MapControllerRoute(
     );
 
 //Add test data
-SeedData.EnsurePopulated(app);
-
+SeedData.PopulateLibrarySystemDB(app);
+SeedIdentity.PopulateLibraryUsersDB(app);
 app.Run();
