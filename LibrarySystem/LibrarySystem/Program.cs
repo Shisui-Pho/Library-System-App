@@ -8,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDBContext>(options =>
         options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Configuration.GetConnectionString("LibraryDatabase")));
+builder.Services.AddDbContext<AppIdentityDBContext>(options => 
+        options.UseSqlServer(
+        builder.Configuration.GetConnectionString("LibraryUsersDatabase")));
 
 //Inject repositoy wrapper
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
