@@ -1,3 +1,101 @@
-﻿<p>
-    Register here
-</p>
+﻿@model RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container">
+    <div class="row shadow p-2">
+        <div class="col-md-7 ">
+            <div id="registration" class="box-shadow">
+                <h1>Register for exploration</h1>
+                <p>
+                    Getting started with <span class="platform">The Explorer</span> is completely free for up to <strong>2000</strong>
+                    books or titles. Setup takes less than 5 minutes. Start with the <strong>basic plan</strong>, and upgrade to our
+                    affordable <strong>premium plan</strong> if you need access to more titles or advanced features.
+                </p>
+                <div class="seperator-white"></div>
+                <div class="form-container">
+                    <form method="post" asp-action="Register" asp-controller="Account">
+                        <div style="display:none;">
+                            <!--This will serve for all hidden controls that need to be passed here.-->
+                        </div>
+
+                        <fieldset>
+                            <div class="input text">
+                                <label for="FirstName">@Html.DisplayNameFor(b => b.FirstName)</label>
+                                <input autocomplete="off" type="text" placeholder="Enter your first name" asp-for="FirstName"
+                                       id="FirstName" />
+                            </div>
+                            <div class="input text">
+                                <label for="LastName">@Html.DisplayNameFor(b => b.LastName)</label>
+                                <input autocomplete="off" type="text" placeholder="Enter your last name" asp-for="LastName"
+                                       id="LastName" />
+                            </div>
+                            <div class="input text">
+                                <label for="Email">@Html.DisplayNameFor(b => b.Email)</label>
+                                <input autocomplete="off" type="email" placeholder="Enter your emial address" asp-for="Email"
+                                       id="Email" />
+                                <div class="form-hints">
+                                    this email will also be used to log-in.
+                                </div>
+                            </div>
+                            <div class="input text">
+                                <label for="Contact">@Html.DisplayNameFor(b => b.ContactNumber)</label>
+                                <input autocomplete="off" type="text" maxlength="10" min="10" placeholder="Enter your phone number" asp-for="ContactNumber"
+                                       id="Contact" />
+                                <div class="form-hints">
+                                    your phone number should start with a 0 and must be 10 digits, e.g:0700000000
+                                </div>
+                            </div>
+
+                            <section class="password-section">
+                                <div class="input password required">
+                                    <label for="Password">Password</label>
+                                    <input autocomplete="off" type="password" placeholder="Enter password" asp-for="Password"
+                                           id="Password" />
+                                </div>
+                                <div class="input password required">
+                                    <label for="CPassword">Confirm Password</label>
+                                    <input autocomplete="off" type="password" placeholder="Re-enter password" asp-for="ConfirmPassword"
+                                           id="CPassword" />
+                                </div>
+                            </section>
+                        </fieldset>
+
+                        <div class="terms-conditions">
+                            For now I leave nothing, but terms and conditions go here.
+                        </div>
+                        <div class="submit">
+                            <input type="submit" value="I agree, please register me" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--col-md-4 visible-md-block visible-lg-block-->
+        <div class="col-md-5 visible-lg-block">
+            <div style="margin-top:15px;">
+                <div id="info">
+                    <h1>Why chose <span class="platform"> Explorer?</span></h1>
+                </div>
+                <ul class="tick-list">
+                    <li><strong>Start using The Explorer in under 5 minutes</strong></li>
+                    <li><strong>Free for up to 2000 books or titles</strong></li>
+                    <li>No hardware, infrastructure, or software costs</li>
+                    <li>No installation or ongoing maintenance required</li>
+                    <li>Simple setup—no technical skills needed</li>
+                    <li>Access your library system from any internet-enabled device</li>
+                    <li>Easily scale to support multiple branches</li>
+                    <li>Safe, secure, and reliable platform</li>
+                    <li>Upgrade anytime to the affordable <strong>premium plan</strong> for more features</li>
+                </ul>
+
+                <div class="buttons" style="margin-bottom:20px;margin-top:20px;">
+                    <a class="btn button-blue button-medium" href="#">View all features</a>
+                    <a class="btn button-green button-medium" href="#">See Available plans</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
