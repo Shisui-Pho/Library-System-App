@@ -48,9 +48,10 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 var app = builder.Build();
-
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 //-Route mapping
 app.MapControllerRoute(

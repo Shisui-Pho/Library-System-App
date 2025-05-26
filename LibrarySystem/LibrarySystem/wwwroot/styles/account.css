@@ -1,0 +1,131 @@
+﻿/*Register Page*/
+/*Remove the side block at a certain scree width*/
+@media(max-width:750px){
+    .visible-lg-block, .visible-md-block {
+        display: none !important;
+    }
+}
+
+#registration h1, #info h1, .platform {
+    color: #156295;
+}
+
+.platform {
+    font-weight: bold;
+}
+
+#registration h1, #info h1 {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 1.5em;
+}
+
+/*Right side dissapearing column*/
+.tick-list {
+    padding-left: 0;
+}
+.tick-list li {
+    list-style-image: url(/images/tick.png);
+    list-style-position: outside;
+    margin-left: 30px;
+    padding-left: 5px;
+    padding-bottom: .3em;
+}
+
+
+/*Left side responsice column*/
+/*Register form*/
+.form-container {
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+
+.input.text, .input.password {
+    background: rgba(31, 141, 214, 0.03);
+    border: none;
+    border-top: 1px solid rgba(31, 141, 214, 0.4);
+    border-radius: 0;
+    margin-bottom: 0;
+    padding: 15px 10px;
+}
+
+@media (max-width: 750px) {
+    .form-container .input label {
+        display: block;
+    }
+}
+
+.form-container .input label {
+    color: #666;
+    font-weight: normal;
+    text-shadow: 0px 0px 1px #ccc
+}
+
+form label {
+    display: inline-block;
+    font-weight: normal;
+    font-size: 1em;
+    color: #444;
+    vertical-align: top;
+    width: 120px;
+    margin-right: 10px;
+    padding-top: 3px;
+}
+
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+form .text input, .form-container .password input {
+    width: 80%;
+}
+
+.form-container .input input, .form-container .input textarea, .form-container .input select {
+    color: #555;
+    padding: 5px;
+    font-size: 16px;
+    line-height: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 1px #ddd;
+    border-radius: 3px;
+    background: #ffffff;
+}
+
+@media (max-width: 750px) {
+    .form-container .text input, .form-container .number input, .form-container .password input, .form-container .select select {
+        min-width: 90%;
+    }
+}
+
+@media (max-width: 750px) {
+    .form-horizontal .input .error-message, .input .form-hints {
+        margin-left: 0;
+    }
+}
+.hints, .form-hints {
+    font-size: .85em;
+    color: #666;
+    margin-left: 135px;
+}
+
+.form-container .submit {
+    padding-left: 0px;
+    margin-top: 15px;
+}
+
+.form-container .submit input {
+    background: #156295;
+    border-color: #156295;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    border: 1px solid #fff;
+    font-size: 14px;
+    padding: 6px 20px;
+    border-radius: 3px;
+}
