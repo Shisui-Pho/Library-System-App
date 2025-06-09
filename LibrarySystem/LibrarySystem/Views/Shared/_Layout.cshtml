@@ -24,12 +24,12 @@
                     <div class="sign-in-opt">
                         <div class="buttons" id="menu-1">
                             <a class="button-green button-medium" asp-controller="Account" asp-action="Register">Sign-up</a>
-                            <a id="LogIn" class="button-medium button-blue" href="#">Log in</a>
+                            <a id="LogIn" class="button-medium button-blue" asp-action="Login" asp-controller="Account">Log in</a>
 
                             <!--This partial view will be loaded when the user click on the login button-->
-                            <div class="popup">
+@*                             <div class="popup">
                                 <partial name="../Account/_Login.cshtml"></partial>
-                            </div>
+                            </div> *@
 
                         </div>
                     </div>
@@ -86,7 +86,7 @@
 
     <!-- JavaScript -->
     <script asp-src-include="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="~/styles/js/login.js"></script>
+    @* <script src="~/styles/js/login.js"></script> *@
 </body>
 </html>
 
