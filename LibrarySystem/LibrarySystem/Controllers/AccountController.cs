@@ -1,5 +1,6 @@
 ﻿using LibrarySystem.Models;
 using LibrarySystem.Models.ViewModels;
+using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -35,19 +36,31 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
+            //Validate phone number if it was provided.
+            if(model.ContactNumber != null)
+            {
+                bool isValidNumber = CustomValidations.IsValidSANumber(model.ContactNumber, out string message, out string normlised);
+                if (!isValidNumber)
+                {
+                    ModelState.AddModelError(nameof(model.ContactNumber), message);
+                    return View(model);
+                }
+                //Replace phone number with the new normilised number
+                model.ContactNumber = normlised;
+            }
             //Verify passwords
             if(model.Password != model.ConfirmPassword)
             {
-                ModelState.AddModelError("", "Passwords are not matching");
-                model.ConfirmPassword = model.Password = "";//Reset the passwords
+                ModelState.AddModelError(nameof(model.ConfirmPassword), "Passwords are not matching");
+                model.ConfirmPassword = "";//Reset the passwords
                 return View(model);
             }
 
             //Register the user here
-            ApplicationUser user = new ApplicationUser()
+            ApplicationUser user = new()
             {
                 Email = model.Email,
-                PhoneNumber = model.ContactNumber,
+                PhoneNumber = model.ContactNumber ?? "",
                 UserName = model.Email, //The username is the same as their email
                 FirstName = model.FirstName,
                 LastName = model.LastName

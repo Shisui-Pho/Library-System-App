@@ -104,14 +104,16 @@ form .text input, .form-container .password input {
 }
 
 @media (max-width: 750px) {
-    .form-horizontal .input .error-message, .input .form-hints {
+    .form-horizontal .input .error-message, .input .form-hints, .form-error {
         margin-left: 0;
     }
+}
+.form-error, .hints, .form-hints {
+    margin-left: 135px;
 }
 .hints, .form-hints {
     font-size: .85em;
     color: #666;
-    margin-left: 135px;
 }
 
 .form-container .submit {

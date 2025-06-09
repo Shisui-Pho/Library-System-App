@@ -19,22 +19,25 @@
                         <div style="display:none;">
                             <!--This will serve for all hidden controls that need to be passed here.-->
                         </div>
-
+                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
                         <fieldset>
                             <div class="input text">
                                 <label for="FirstName">@Html.DisplayNameFor(b => b.FirstName)</label>
                                 <input autocomplete="off" type="text" placeholder="Enter your first name" asp-for="FirstName"
                                        id="FirstName" />
+                                <div class="form-error"><span asp-validation-for="FirstName" class="text-danger"></span></div>
                             </div>
                             <div class="input text">
                                 <label for="LastName">@Html.DisplayNameFor(b => b.LastName)</label>
                                 <input autocomplete="off" type="text" placeholder="Enter your last name" asp-for="LastName"
                                        id="LastName" />
+                                <div class="form-error"><span asp-validation-for="LastName" class="text-danger"></span></div>
                             </div>
                             <div class="input text">
                                 <label for="Email">@Html.DisplayNameFor(b => b.Email)</label>
                                 <input autocomplete="off" type="email" placeholder="Enter your emial address" asp-for="Email"
                                        id="Email" />
+                                <div class="form-error"><span asp-validation-for="Email" class="text-danger"></span></div>
                                 <div class="form-hints">
                                     this email will also be used to log-in.
                                 </div>
@@ -43,6 +46,8 @@
                                 <label for="Contact">@Html.DisplayNameFor(b => b.ContactNumber)</label>
                                 <input autocomplete="off" type="text" maxlength="10" min="10" placeholder="Enter your phone number" asp-for="ContactNumber"
                                        id="Contact" />
+                                <div class="form-error"><span asp-validation-for="ContactNumber" class="text-danger"></span></div>
+
                                 <div class="form-hints">
                                     your phone number should start with a 0 and must be 10 digits, e.g:0700000000
                                 </div>
@@ -51,13 +56,15 @@
                             <section class="password-section">
                                 <div class="input password required">
                                     <label for="Password">Password</label>
-                                    <input autocomplete="off" type="password" placeholder="Enter password" asp-for="Password"
+                                    <input autocomplete="off" type="password" required placeholder="Enter password" asp-for="Password"
                                            id="Password" />
+                                    <div class="form-error"><span asp-validation-for="Password" class="text-danger"></span></div>
                                 </div>
                                 <div class="input password required">
                                     <label for="CPassword">Confirm Password</label>
-                                    <input autocomplete="off" type="password" placeholder="Re-enter password" asp-for="ConfirmPassword"
+                                    <input autocomplete="off" type="password" required placeholder="Re-enter password" asp-for="ConfirmPassword"
                                            id="CPassword" />
+                                    <div class="form-error"><span asp-validation-for="ConfirmPassword" class="text-danger"></span></div>
                                 </div>
                             </section>
                         </fieldset>
