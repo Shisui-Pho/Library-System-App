@@ -105,7 +105,7 @@ public class AccountController : Controller
         if (ModelState.IsValid)
         {
             //Find the user by their username/email
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             
             //if the user was found
             if(user != null)
