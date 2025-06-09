@@ -23,14 +23,24 @@
                 <div class="col-md-5 col-sm-6 col-xs-12">
                     <div class="sign-in-opt">
                         <div class="buttons" id="menu-1">
-                            <a class="button-green button-medium" asp-controller="Account" asp-action="Register">Sign-up</a>
-                            <a id="LogIn" class="button-medium button-blue" asp-action="Login" asp-controller="Account">Log in</a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <p class="lead">Hello</p>
+                                if (User.IsInRole("Customer"))
+                                {
+                                    <a id="LogIn" class="button-medium button-blue" asp-action="Logout" asp-controller="Account">Log out</a>
+                                }                            
+                            }
+                            else
+                            {
+                                <a class="button-green button-medium" asp-controller="Account" asp-action="Register">Sign-up</a>
+                                <a id="LogIn" class="button-medium button-blue" asp-action="Login" asp-controller="Account">Log in</a>
 
                             <!--This partial view will be loaded when the user click on the login button-->
 @*                             <div class="popup">
                                 <partial name="../Account/_Login.cshtml"></partial>
                             </div> *@
-
+                            }
                         </div>
                     </div>
                 </div>
@@ -62,6 +72,19 @@
                             <a class="dropdown-books-item dropdown-item" href="#">Advance Search</a>
                         </div>
                     </li>
+                    @if (User.IsInRole("Staff") && User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">Staff Dashboard</a></li>
+
+                    }
+                    @if(User.IsInRole("Admin") && User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">Admin Dashboard</a></li>
+                    }
+                    @if(User.IsInRole("Customer") && User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-action="Profile" asp-controller="UserProfile">My Profile</a></li>
+                    }
                     <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">About</a></li>
                     <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a></li>
 
