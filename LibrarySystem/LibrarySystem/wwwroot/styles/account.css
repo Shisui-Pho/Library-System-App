@@ -160,7 +160,7 @@ form .text input, .form-container .password input {
     transition: top 0ms ease-in-out 0ms, opacity 200ms ease-in-out 0ms, transform 20ms ease-in-
 }
 .login-form {
-    width: 300px;
+    width: 80%;
     padding: 10px;
     text-align:left;
 }
