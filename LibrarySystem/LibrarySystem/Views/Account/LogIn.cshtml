@@ -13,13 +13,17 @@
                     <form method="post" asp-action="Login" asp-controller="Account">
                         <div class="form">
                             <h2>Welcome back</h2>
+                            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+                            <input asp-for="ReturnURL" value="@ViewBag.ReturnURL" type="hidden" />
                             <div class="form-element">
                                 <label asp-for="Email" class="form-label">Email</label>
-                                <input type="text" id="email" placeholder="Enter email" asp-for="Email" />
+                                <input type="text" id="email" placeholder="Enter email" required asp-for="Email" />
+                                <div><span asp-validation-for="Email" class="text-danger"></span></div>
                             </div>
                             <div class="form-element">
                                 <label asp-for="Password" class="form-label">Password</label>
-                                <input type="password" id="password" placeholder="Enter password" asp-for="Password" />
+                                <input type="password" id="password" placeholder="Enter password" required asp-for="Password" />
+                                <div><span asp-validation-for="Password" class="text-danger"></span></div>
                             </div>
 
                             <div class="form-element">
