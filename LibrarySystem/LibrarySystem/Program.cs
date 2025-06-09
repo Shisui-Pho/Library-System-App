@@ -34,7 +34,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 //-Configure password and security options for the user credentials
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequireNonAlphanumeric = true;
