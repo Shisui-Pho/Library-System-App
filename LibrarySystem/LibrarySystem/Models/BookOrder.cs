@@ -5,7 +5,7 @@ public class BookOrder
 {
     public int Id { get; set; }
     public int BookID { get; set; }
-    public int UserID { get; set; }
+    public string UserID { get; set; }
     public string Description { get; set; }
     public decimal TotalPrice => 5m;
     public int Quantity { get; set; }
