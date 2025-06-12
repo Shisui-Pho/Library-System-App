@@ -25,7 +25,7 @@
                         <div class="buttons" id="menu-1">
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <p class="lead">Hello</p>
+                                <p class="d-inline user-name-heading">Hello user</p>
                                 if (User.IsInRole("Customer"))
                                 {
                                     <a id="LogIn" class="button-medium button-blue" asp-action="Logout" asp-controller="Account">Log out</a>

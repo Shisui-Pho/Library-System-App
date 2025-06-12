@@ -94,7 +94,10 @@ a {
     margin-bottom: 10px;
     text-align: right;
 }
-
+.user-name-heading {
+    color: white;
+    font-size: 1.1rem;
+}
 /*Naviagation - Navigation menu main*/
 .navigation, .dropdown-books {
     background: #1f8dd6;
