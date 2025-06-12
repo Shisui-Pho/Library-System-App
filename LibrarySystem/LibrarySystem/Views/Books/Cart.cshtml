@@ -1,0 +1,19 @@
+﻿@model BookOrder
+@{
+    ViewData["Title"] = "Order";
+}
+<div class="container">
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="List" asp-controller="Books">Books</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Book?.BookTitle</li>
+        </ol>
+    </nav>
+
+    <div class="section-body shadow">
+        <div class="">
+
+        </div>
+    </div>
+</div>
