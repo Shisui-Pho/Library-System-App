@@ -1,4 +1,4 @@
-﻿@model BookOrder
+﻿@model CartViewModel
 @{
     ViewData["Title"] = "Order";
 }
@@ -6,14 +6,15 @@
     <nav aria-label="breadcrumb" class="mt-2">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
-            <li class="breadcrumb-item"><a asp-action="List" asp-controller="Books">Books</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Model.Book?.BookTitle</li>
+            <li class="breadcrumb-item active" aria-current="page">Cart</li>
         </ol>
     </nav>
 
     <div class="section-body shadow">
-        <div class="">
-
+        <div class="cart">
+            <h1>Shopping Cart</h1>
+            <hr/>
+            
         </div>
     </div>
 </div>
