@@ -27,3 +27,13 @@
     text-align:center;
     align-content:center;
 }
+
+/*Cart buttons on the list and book details*/
+.button-stretch-width {
+    width:100%;
+}
+.buttons .button-stretch-width {
+    height:40px;
+    align-content:center;
+    margin-bottom:40px;
+}
