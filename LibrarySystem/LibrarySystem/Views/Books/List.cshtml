@@ -52,7 +52,7 @@
                         <div class="text-center justify-content-center">
                             <div class="book-frame book-frame-small justify-content-center">
                                 <div class="aspect-ratio-content">
-                                    <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
+                                    <a asp-asp-fragment="book-@book.Id" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
                                         <img class="book-cover img-fluid" src="@book.GetCoverPath()" alt="@book.BookTitle" />
                                     </a>
                                 </div>
@@ -71,15 +71,6 @@
                                   >
 
                             </div>
-                           @*  @{
-                                var cartModel = new CartItemViewModel()
-                                {
-                                    CartItem = new() { BookID = book.Id, Price = 10m, Quantity = 1 },
-                                    PageWhereItemWasAdded = Context.Request.Scheme + "://" + Context.Request.Host 
-                                    + Context.Request.Path + Context.Request.QueryString
-                                };
-                                    <partial name="_AddToCart" model="cartModel"></partial>
-                            } *@
                         </div>
                     </div>
                 }
