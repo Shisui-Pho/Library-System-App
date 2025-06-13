@@ -1,5 +1,6 @@
 ﻿using LibrarySystem.Data;
 using LibrarySystem.Data.DataAccess;
+using LibrarySystem.Infrastructure;
 using LibrarySystem.Models;
 using LibrarySystem.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -43,7 +44,6 @@ public class BooksController : Controller
         return View(model);
     }
 
-
     public IActionResult BookDetails(int id)
     {
         //this is the id passed
@@ -57,4 +57,29 @@ public class BooksController : Controller
 
         return View("BookDetails", book);
     }//BookDetails
+    [HttpPost]
+    public IActionResult AddToCart(CartItemViewModel model)
+    {
+        //Use session based interactions
+        List<CartItem> cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? [];
+        var item = model.CartItem;
+        var existingItem = cart.FirstOrDefault(c => c.BookID == item.BookID);
+        
+        if (existingItem != null)
+        {
+            existingItem.Quantity += item.Quantity;//increament the quantity of the item
+        }
+        else
+        {
+            //Add the item
+            cart.Add(item);
+        }
+
+        //Add to the current user session objects
+        HttpContext.Session.SetObjectAsJson("Cart", cart);
+
+
+        //Redirect to the calling page
+        return Redirect($"{model.PageWhereItemWasAdded}#book-{item.BookID}");
+    }//AddToCart
 }
