@@ -78,6 +78,8 @@ public class BooksController : Controller
         //Add to the current user session objects
         HttpContext.Session.SetObjectAsJson("Cart", cart);
 
+        //Pass the current number of items
+        TempData["NumberOfItemsInCart"] = cart.Count;
 
         //Redirect to the calling page
         return Redirect($"{model.PageWhereItemWasAdded}#book-{item.BookID}");

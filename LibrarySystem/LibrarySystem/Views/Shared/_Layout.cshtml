@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@{
+    int cartCount = int.Parse(TempData["NumberOfItemsInCart"]?.ToString() ?? "0");
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -30,7 +33,10 @@
                                 <!--Putt shopping cart before display name and login-->
                                 <a asp-action="Cart" asp-controller="Book" class="shopping-cart">
                                     <i class="fa fa-shopping-cart"></i>
-                                    <span class="cart-count">3</span>
+                                    @if(cartCount != 0)
+                                    {
+                                        <span class="cart-count">@cartCount</span>
+                                    }
                                 </a>
                                 if (User.IsInRole("Customer"))
                                 {
@@ -42,15 +48,13 @@
                                 <!--Putt shopping cart before login and logout buttons-->
                                 <a asp-action="Cart" asp-controller="Book" class="shopping-cart">
                                     <i class="fa fa-shopping-cart"></i>
-                                    <span class="cart-count">3</span>
+                                    @if (cartCount != 0)
+                                    {
+                                        <span class="cart-count">@cartCount</span>
+                                    }
                                 </a>
                                 <a class="button-green button-medium" asp-controller="Account" asp-action="Register">Sign-up</a>
                                 <a id="LogIn" class="button-medium button-blue" asp-action="Login" asp-controller="Account">Log in</a>
-
-                            <!--This partial view will be loaded when the user click on the login button-->
-@*                             <div class="popup">
-                                <partial name="../Account/_Login.cshtml"></partial>
-                            </div> *@
                             }
                         </div>
                     </div>
