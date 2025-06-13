@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Books";
+    string currentPage =  ViewContext.HttpContext.Request.Path + ViewContext.HttpContext.Request.QueryString;
 }
 <!--Displaying book details-->
 <div class="container">
@@ -63,9 +64,22 @@
                                     </a>
                                 </h3>
                             </div>
-                            <div class="buttons">
-                                <a class="btn button-blue button-stretch-width" asp-action="AddToCart" asp-controller="Book" asp-route-id="@book.Id">Add to cart</a>
+                            <div cart-item-book-id="@book.Id" 
+                                 cart-item-price="2000"
+                                 cart-item-quantity="1"
+                                 page-where-item-was-added="@currentPage"
+                                  >
+
                             </div>
+                           @*  @{
+                                var cartModel = new CartItemViewModel()
+                                {
+                                    CartItem = new() { BookID = book.Id, Price = 10m, Quantity = 1 },
+                                    PageWhereItemWasAdded = Context.Request.Scheme + "://" + Context.Request.Host 
+                                    + Context.Request.Path + Context.Request.QueryString
+                                };
+                                    <partial name="_AddToCart" model="cartModel"></partial>
+                            } *@
                         </div>
                     </div>
                 }
