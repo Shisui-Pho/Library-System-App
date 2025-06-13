@@ -8,6 +8,7 @@
     <link rel="stylesheet" asp-href-include="/lib/font-awesome/css/all.min.css" />
     <link rel="stylesheet" asp-href-include="/styles/main.css"/>
     <link rel="stylesheet" asp-href-include="/styles/account.css"/>
+    <link rel="stylesheet" asp-href-include="/styles/cart.css"/>
     <title>Explore: @ViewData["Title"]</title>
 </head>
 <body>
@@ -26,6 +27,11 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <p class="d-inline user-name-heading">Hello user</p>
+                                <!--Putt shopping cart before display name and login-->
+                                <a asp-action="Cart" asp-controller="Book" class="shopping-cart">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span class="cart-count">3</span>
+                                </a>
                                 if (User.IsInRole("Customer"))
                                 {
                                     <a id="LogIn" class="button-medium button-blue" asp-action="Logout" asp-controller="Account">Log out</a>
@@ -33,6 +39,11 @@
                             }
                             else
                             {
+                                <!--Putt shopping cart before login and logout buttons-->
+                                <a asp-action="Cart" asp-controller="Book" class="shopping-cart">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span class="cart-count">3</span>
+                                </a>
                                 <a class="button-green button-medium" asp-controller="Account" asp-action="Register">Sign-up</a>
                                 <a id="LogIn" class="button-medium button-blue" asp-action="Login" asp-controller="Account">Log in</a>
 
