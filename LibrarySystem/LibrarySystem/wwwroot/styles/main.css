@@ -338,9 +338,9 @@ a {
 }
 .books-widget .book-title-medium {
     padding: 15px 0;
-    height: 90px;
+    height: 60px;
     overflow: hidden;
-    margin-bottom: 30px
+    margin-bottom: 3px;
 }
 
 .books-widget .book-title-medium h3, .description h4 {

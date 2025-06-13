@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Books";
+    string currentPage =  ViewContext.HttpContext.Request.Path + ViewContext.HttpContext.Request.QueryString;
 }
 <!--Displaying book details-->
 <div class="container">
@@ -51,7 +52,7 @@
                         <div class="text-center justify-content-center">
                             <div class="book-frame book-frame-small justify-content-center">
                                 <div class="aspect-ratio-content">
-                                    <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
+                                    <a asp-asp-fragment="book-@book.Id" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
                                         <img class="book-cover img-fluid" src="@book.GetCoverPath()" alt="@book.BookTitle" />
                                     </a>
                                 </div>
@@ -62,6 +63,13 @@
                                         @book.BookTitle
                                     </a>
                                 </h3>
+                            </div>
+                            <div cart-item-book-id="@book.Id" 
+                                 cart-item-price="2000"
+                                 cart-item-quantity="1"
+                                 page-where-item-was-added="@currentPage"
+                                  >
+
                             </div>
                         </div>
                     </div>

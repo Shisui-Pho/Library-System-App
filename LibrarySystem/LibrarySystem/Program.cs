@@ -19,6 +19,9 @@ builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
        .AddEntityFrameworkStores<AppIdentityDBContext>();
 
+//-Session
+builder.Services.AddSession();
+
 //-Configure route url
 builder.Services.AddRouting(options =>
 {
@@ -51,6 +54,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 
 //-Route mapping
 app.MapControllerRoute(
