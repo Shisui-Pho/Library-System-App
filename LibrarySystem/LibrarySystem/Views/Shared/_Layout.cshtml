@@ -1,5 +1,5 @@
 ﻿@{
-    int cartCount = int.Parse(TempData["NumberOfItemsInCart"]?.ToString() ?? "0");
+    int cartCount = (Context.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? []).Count;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -9,9 +9,9 @@
     <link rel="stylesheet" asp-href-include="/lib/bootstrap/css/bootstrap.min.css" />
     <!-- Font Awesome -->
     <link rel="stylesheet" asp-href-include="/lib/font-awesome/css/all.min.css" />
-    <link rel="stylesheet" asp-href-include="/styles/main.css"/>
-    <link rel="stylesheet" asp-href-include="/styles/account.css"/>
-    <link rel="stylesheet" asp-href-include="/styles/cart.css"/>
+    <link rel="stylesheet" asp-href-include="/styles/main.css" />
+    <link rel="stylesheet" asp-href-include="/styles/account.css" />
+    <link rel="stylesheet" asp-href-include="/styles/cart.css" />
     <title>Explore: @ViewData["Title"]</title>
 </head>
 <body>
@@ -33,7 +33,7 @@
                                 <!--Putt shopping cart before display name and login-->
                                 <a asp-action="Cart" asp-controller="Book" class="shopping-cart">
                                     <i class="fa fa-shopping-cart"></i>
-                                    @if(cartCount != 0)
+                                    @if (cartCount != 0)
                                     {
                                         <span class="cart-count">@cartCount</span>
                                     }
@@ -41,7 +41,7 @@
                                 if (User.IsInRole("Customer"))
                                 {
                                     <a id="LogIn" class="button-medium button-blue" asp-action="Logout" asp-controller="Account">Log out</a>
-                                }                            
+                                }
                             }
                             else
                             {
@@ -76,8 +76,8 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" 
-                        id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                           id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Books
                         </a>
 
@@ -92,11 +92,11 @@
                         <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">Staff Dashboard</a></li>
 
                     }
-                    @if(User.IsInRole("Admin") && User.Identity.IsAuthenticated)
+                    @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">Admin Dashboard</a></li>
                     }
-                    @if(User.IsInRole("Customer") && User.Identity.IsAuthenticated)
+                    @if (User.IsInRole("Customer") && User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item"><a class="nav-link" asp-action="Profile" asp-controller="UserProfile">My Profile</a></li>
                     }
@@ -127,4 +127,3 @@
     @* <script src="~/styles/js/login.js"></script> *@
 </body>
 </html>
-

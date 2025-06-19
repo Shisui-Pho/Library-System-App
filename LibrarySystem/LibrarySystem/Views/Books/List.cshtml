@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Books";
-    string currentPage =  ViewContext.HttpContext.Request.Path + ViewContext.HttpContext.Request.QueryString;
+    string currentPage = ViewContext.HttpContext.Request.Path + ViewContext.HttpContext.Request.QueryString;
 }
 <!--Displaying book details-->
 <div class="container">
@@ -39,20 +39,20 @@
                 <div class="col-md-4 col-sm-6">
                     <p>
                         <input type="text" class="form-control search" value=""
-                        placeholder="Search by name or ISBN number">
+                               placeholder="Search by name or ISBN number">
                     </p>
                 </div>
             </div>
 
             <div class="books-widget row">
-                @foreach(Book book in Model.Books)
+                @foreach (Book book in Model.Books)
                 {
                     //Display all the books
                     <div class="books-item col-md-3 col-sm-6">
                         <div class="text-center justify-content-center">
                             <div class="book-frame book-frame-small justify-content-center">
                                 <div class="aspect-ratio-content">
-                                    <a asp-asp-fragment="book-@book.Id" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
+                                    <a id="book-@book.Id" asp-fragment="book-@book.Id" asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
                                         <img class="book-cover img-fluid" src="@book.GetCoverPath()" alt="@book.BookTitle" />
                                     </a>
                                 </div>
@@ -64,12 +64,10 @@
                                     </a>
                                 </h3>
                             </div>
-                            <div cart-item-book-id="@book.Id" 
+                            <div cart-item-book-id="@book.Id"
                                  cart-item-price="2000"
                                  cart-item-quantity="1"
-                                 page-where-item-was-added="@currentPage"
-                                  >
-
+                                 page-where-item-was-added="@currentPage">
                             </div>
                         </div>
                     </div>
@@ -82,8 +80,7 @@
                  selected-page-class="btn-primary"
                  un-selected-page-class="btn-outline-primary"
                  common-page-class="btn"
-                 class="justify-content-center text-center"
-            ></div>
+                 class="justify-content-center text-center"></div>
         </div>
     </div>
 </div>
