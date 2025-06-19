@@ -9,7 +9,7 @@ namespace LibrarySystem.Controllers;
 public class CartController : Controller
 {
     private readonly IRepositoryWrapper _repository;
-    public CartController(RepositoryWrapper repo)
+    public CartController(IRepositoryWrapper repo)
     {
         this._repository = repo;
     }
