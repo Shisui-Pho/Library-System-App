@@ -14,14 +14,40 @@ public class AddToCartTagHelper : TagHelper
     public string PageWhereItemWasAdded { get; set; }
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        //Div container
+        //Form Container
         TagBuilder div = new("div");
 
-        //Build form
-        TagBuilder form  = new("form");
+        //Form
+        var form = BuildForm();
+
+        //Button Container
+        var buttonDiv = new TagBuilder("div");
+        buttonDiv.AddCssClass("buttons");
+
+        //button for adding to cart
+        var button = BuildClickButton();
+
+        //Combine elements
+        buttonDiv.InnerHtml.AppendHtml(button);
+        form.InnerHtml.AppendHtml(buttonDiv);
         div.InnerHtml.AppendHtml(form);
+
+        output.Content.SetHtmlContent(form);
+    }//Process
+    private static TagBuilder BuildClickButton()
+    {
+        var button = new TagBuilder("button");
+        button.Attributes.Add("type", "button");
+        button.AddCssClass("ajax-cart-btn btn button-blue button-stretch-width");
+        button.InnerHtml.Append("Add to cart");
+        return button;
+    }//BuildClickButton
+    private TagBuilder BuildForm()
+    {
+        //Build form
+        TagBuilder form = new("form");
         form.Attributes.Add("method", "post");
-        form.Attributes.Add("action", "/Books/AddToCart");
+        form.Attributes.Add("action", "/Cart/AddToCart");
 
         //Build all fields
         //-Hiddent inputs 
@@ -30,22 +56,9 @@ public class AddToCartTagHelper : TagHelper
         form.InnerHtml.AppendHtml(CreateHiddenInput("CartItem.Quantity", CartItemQuantity.ToString()));
         form.InnerHtml.AppendHtml(CreateHiddenInput("PageWhereItemWasAdded", PageWhereItemWasAdded));
 
-        //Button
-        var buttonDiv = new TagBuilder("div");
-        buttonDiv.AddCssClass("buttons");
-
-        var button = new TagBuilder("button");
-        button.Attributes.Add("type", "submit");
-        button.AddCssClass("btn button-blue button-stretch-width");
-        button.InnerHtml.Append("Add to cart");
-
-        //Attach button
-        buttonDiv.InnerHtml.AppendHtml(button);
-        form.InnerHtml.AppendHtml(buttonDiv);
-
-        output.Content.SetHtmlContent(form);
-    }//Process
-    private TagBuilder CreateHiddenInput(string name, string value)
+        return form;
+    }//BuildForm
+    private static TagBuilder CreateHiddenInput(string name, string value)
     {
         var input = new TagBuilder("input");
         input.Attributes["type"] = "hidden";

@@ -1,4 +1,5 @@
 ﻿@{
+    //may need to modify this to also update cart withing a database
     int cartCount = (Context.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? []).Count;
 }
 <!DOCTYPE html>
@@ -124,6 +125,8 @@
 
     <!-- JavaScript -->
     <script asp-src-include="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/scripts/cart.js"></script>
     @* <script src="~/styles/js/login.js"></script> *@
 </body>
 </html>
