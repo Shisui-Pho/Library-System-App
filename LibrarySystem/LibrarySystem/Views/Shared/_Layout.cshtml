@@ -1,4 +1,5 @@
 ﻿@{
+    //may need to modify this to also update cart withing a database
     int cartCount = (Context.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? []).Count;
 }
 <!DOCTYPE html>
