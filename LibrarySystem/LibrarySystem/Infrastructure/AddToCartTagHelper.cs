@@ -47,7 +47,7 @@ public class AddToCartTagHelper : TagHelper
         //Build form
         TagBuilder form = new("form");
         form.Attributes.Add("method", "post");
-        form.Attributes.Add("action", "/Books/AddToCart");
+        form.Attributes.Add("action", "/Cart/AddToCart");
 
         //Build all fields
         //-Hiddent inputs 
