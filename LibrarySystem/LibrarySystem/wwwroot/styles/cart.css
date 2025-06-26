@@ -99,3 +99,12 @@
 .remove-btn:hover {
     background-color: #c82333;
 }
+
+/*Side chart*/
+.side-cart-hidden {
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+#bookSideCart {
+    transition: transform 0.3s ease-in-out;
+}
