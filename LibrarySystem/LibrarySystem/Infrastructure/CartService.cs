@@ -41,6 +41,29 @@ public class CartService : ICartService
         }
         return cart;
     }
+    public (bool success, int total) RemoveFromCart(HttpContext context, int bookID)
+    {
+        int totalItems = 0;
+        bool success = false;
+        if (_userService.IsLoggedIn(context.User))
+        {
+            //Use dba
+            throw new NotImplementedException();
+        }
+        else
+        {
+            var items = context.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? [];
+            int index = items.FindIndex(i => i.BookID == bookID);
+            if(index >= 0)
+            {
+                success = true;
+                items.RemoveAt(index);
+                totalItems = items.Count;
+                context.Session.SetObjectAsJson("Cart", items);
+            }
+        }
+        return (success, totalItems);
+    }
     #region Helpers
     private int AddToCartViaSession(CartItemViewModel cartInfo, HttpContext context)
     {
