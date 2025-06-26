@@ -11,7 +11,7 @@ $(function () {
 
             //Update side cart content
             $.get('/Cart/GetSideCartHtml', function (html) {
-                $('#sideCartItems').html(html);
+                $('#bookSideCart').html(html);
             });
 
             openSideCart();
@@ -30,7 +30,7 @@ $(function () {
 
             //Refresh the side cart from the server
             $.get('/Cart/GetSideCartHtml', function (html) {
-                $('#sideCartItems').html(html);
+                $('#bookSideCart').html(html);
             });
             openSideCart();
         }).fail(function () {

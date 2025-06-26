@@ -126,7 +126,10 @@
     </div>
 
     <!--Render sidebar cart-->
-    @await Component.InvokeAsync("SideCart")
+    <div id="bookSideCart" class="side-cart-hidden">
+        @await Component.InvokeAsync("SideCart")
+    </div>
+    
 
     <!-- JavaScript -->
     <script asp-src-include="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
