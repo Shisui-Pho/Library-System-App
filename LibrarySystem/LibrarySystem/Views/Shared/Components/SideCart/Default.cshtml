@@ -17,7 +17,7 @@
                         <small>Qty: @item.Quantity</small><br />
                         <span class="fw-bold price">@item.GetTotalPrice().ToString("C2")</span>
                     </div>
-                    <button asp-route-id="@item.BookID" class="btn btn-sm text-danger position-absolute top-0 end-0 remove-book" title="Remove">✕</button>
+                    <button data-id="@item.BookID" class="btn btn-sm text-danger position-absolute top-0 end-0 remove-from-cart" title="Remove">✕</button>
                 </li>
             }
         </ul>

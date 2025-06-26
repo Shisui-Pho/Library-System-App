@@ -23,15 +23,16 @@ $(function () {
 
     //Handle remove item from side cart
     $(document).on('click', '.remove-from-cart', function () {
-        const bookId = $(this).closest('li').data('id');
+        const bookId = $(this).data('id');
 
-        $.post('/Cart/RemoveFromSideCart', { id: bookId }, function (response) {
+        $.post('/Cart/RemoveFromSideCart', { bookId: bookId }, function (response) {
             $('.cart-count').text(response.cartCount);
 
             //Refresh the side cart from the server
             $.get('/Cart/GetSideCartHtml', function (html) {
                 $('#sideCartItems').html(html);
             });
+            openSideCart();
         }).fail(function () {
             alert("Something went wrong while removing the item.");
         });

@@ -49,7 +49,7 @@ public class CartController : Controller
     [HttpPost]
     public IActionResult RemoveFromSideCart(int bookId)
     {
-        var (sucess, totalItems) = _cartService.RemoveFromCart(HttpContext, bookid);
+        var (sucess, totalItems) = _cartService.RemoveFromCart(HttpContext, bookId);
         return Json(new
         {
             success = sucess,
