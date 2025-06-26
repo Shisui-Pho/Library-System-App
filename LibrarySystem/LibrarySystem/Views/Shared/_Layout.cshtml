@@ -32,12 +32,13 @@
                             {
                                 <p class="d-inline user-name-heading">Hello user</p>
                                 <!--Putt shopping cart before display name and login-->
-                                <a asp-action="Cart" asp-controller="Book" class="shopping-cart">
+                                <a asp-action="index" asp-controller="Cart" class="shopping-cart">
                                     <i class="fa fa-shopping-cart"></i>
-                                    @if (cartCount != 0)
+                                    <span class="cart-count">@cartCount</span>
+                                      @*@if (cartCount != 0)
                                     {
                                         <span class="cart-count">@cartCount</span>
-                                    }
+                                    } *@
                                 </a>
                                 if (User.IsInRole("Customer"))
                                 {
@@ -47,12 +48,13 @@
                             else
                             {
                                 <!--Putt shopping cart before login and logout buttons-->
-                                <a asp-action="Cart" asp-controller="Book" class="shopping-cart">
+                                    <a asp-action="Index" asp-controller="Cart" class="shopping-cart">
                                     <i class="fa fa-shopping-cart"></i>
-                                    @if (cartCount != 0)
+                                    <span class="cart-count">@cartCount</span>
+                                      @*@if (cartCount != 0)
                                     {
                                         <span class="cart-count">@cartCount</span>
-                                    }
+                                    } *@
                                 </a>
                                 <a class="button-green button-medium" asp-controller="Account" asp-action="Register">Sign-up</a>
                                 <a id="LogIn" class="button-medium button-blue" asp-action="Login" asp-controller="Account">Log in</a>
@@ -122,6 +124,12 @@
             </p>
         </div>
     </div>
+
+    <!--Render sidebar cart-->
+    <div id="bookSideCart" class="side-cart-hidden">
+        @await Component.InvokeAsync("SideCart")
+    </div>
+    
 
     <!-- JavaScript -->
     <script asp-src-include="lib/bootstrap/js/bootstrap.bundle.min.js"></script>

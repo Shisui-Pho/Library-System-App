@@ -1,3 +1,55 @@
-﻿<h1>
-    This is your shopping cart here
-</h1>
+﻿@model CartViewModel
+@{
+    ViewData["Title"] = "Order";
+}
+<div class="container">
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Cart</li>
+        </ol>
+    </nav>
+
+    <div class="section-body shadow">
+        <div class="book-cart">
+            <h2>Your Book Cart</h2>
+            <table class="book-cart-table">
+                <thead>
+                    <tr>
+                        <th>Book</th>
+                        <th>Qty</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody id="book-cart-items">
+                    @foreach(var item in Model.CartItems)
+                    {
+                        <tr>
+                            <td>
+                                <div class="book-info">
+                                    <img src="@item.BookInCart.GetCoverPath()" alt="Book Cover" />
+                                    <div>
+                                        <strong>@item.BookInCart.BookTitle</strong><br />
+                                        <small>by @item.BookInCart.GetAuthorsString()</small><br />
+                                        <small>ISBN: @item.BookInCart.ISBN</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price.ToString("C2")</td>
+                            <td class="item-total">@item.GetTotalPrice().ToString("C2")</td>
+                            <td><button class="remove-btn">Remove</button></td>
+                        </tr>
+                    }
+                    </tbody>
+            </table>
+
+            <div class="cart-summary">
+                <strong>Subtotal: <span id="book-cart-subtotal">@Model.CalculateTotalPrice().ToString("C2")</span></strong><br />
+                <button class="checkout-button">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+</div>
