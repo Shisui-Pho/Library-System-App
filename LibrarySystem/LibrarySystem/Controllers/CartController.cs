@@ -28,6 +28,7 @@ public class CartController : Controller
             cartCount = totalCartItems 
         });
     }
+    [Authorize]
     private int AddToCartViaDatabase(CartItemViewModel cartInfo)
     {
         //For now
@@ -60,6 +61,24 @@ public class CartController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        return View();
+        //Retrieve all cart items
+        var cart = new CartViewModel();
+        if (User.Identity.IsAuthenticated)
+        {
+            //Get it from database
+            cart.CartItems = GetCartFromDB();
+        }
+        else
+        {
+            var lst = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? [];
+            cart.CartItems = lst;
+        }
+        
+        return View(cart);
+    }//Index
+    [Authorize]
+    private List<CartItem> GetCartFromDB()
+    {
+        throw new NotImplementedException();
     }
-}
+}//class
