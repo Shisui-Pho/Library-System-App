@@ -2,6 +2,7 @@
 using LibrarySystem.Infrastructure;
 using LibrarySystem.Models;
 using LibrarySystem.Models.ViewModels;
+using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -71,11 +72,17 @@ public class CartController : Controller
         else
         {
             var lst = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? [];
-            cart.CartItems = lst;
+            //Populate the navigational property
+            cart.CartItems = AddBookAndDetails(lst);
         }
         
         return View(cart);
     }//Index
+    private IEnumerable<CartItem> AddBookAndDetails(IEnumerable<CartItem> cartItems)
+    {
+        return cartItems.ApplyBookDetails(b => _repository.Books.GetBookWithAuthors(b.BookID));
+    }//AddBookAndDetails
+    
     [Authorize]
     private List<CartItem> GetCartFromDB()
     {
