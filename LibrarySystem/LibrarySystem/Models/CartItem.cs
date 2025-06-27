@@ -8,6 +8,7 @@ public class CartItem
     public int BookID {  get; set; }
     public int Quantity { get; set; }
     public decimal Price { get; set; }
+    public DateOnly CreatedDate { get; set; }
 
     //Navigational property
     public Book BookInCart { get; set; }
