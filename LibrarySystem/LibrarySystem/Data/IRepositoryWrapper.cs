@@ -8,5 +8,6 @@ public interface IRepositoryWrapper
     IAuthorRepository Authors { get; }
     IMessageReuqestsRepository MessageReuqests { get; }
     IOrderRepository Orders { get; }
+    ICartRepository Carts { get; }
     void SaveChanges();
 }

@@ -3,12 +3,31 @@ using LibrarySystem.Models;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Specialized;
+using System.Data.Common;
 
 namespace LibrarySystem.Infrastructure;
 public class CartService : ICartService
 {
     private readonly IUserService _userService;
     private readonly IRepositoryWrapper _repo;
+
+    public int CountCartItems(HttpContext context)
+    {
+        int count = 0;
+        if (_userService.IsLoggedIn(context.User))
+        {
+            var userid = _userService.GetUserId(context.User);
+            count = _repo.Carts.FindByCondition(x => x.UserID == userid).Count();
+        }
+        else
+        {
+            count = context.Session.GetObjectFromJson<List<CartItem>>("Cart")?.Count ?? 0;
+        }
+        return count;
+    }//CountCartItems
+
     public CartService(IUserService userService, IRepositoryWrapper repository)
     {
         this._userService = userService;
@@ -20,9 +39,16 @@ public class CartService : ICartService
         //  otherwise we use session session based interaction
 
         int totalCartItems = _userService.IsLoggedIn(context.User) ?
-            AddToCartViaDatabase(item) : AddToCartViaSession(item, context);
+            AddToCartViaDatabase(item, context) : AddToCartViaSession(item, context);
+        
+        //Update the session variable for the total
+        if(totalCartItems >= 0 )
+        {
+            context.Session.SetInt32("cartCount", totalCartItems);
+        }
 
-        return (true, totalCartItems);
+        //-Negative value means something went wrong
+        return (totalCartItems >= 0, totalCartItems);
     }//class
     public CartViewModel GetCart(HttpContext context)
     {
@@ -31,7 +57,8 @@ public class CartService : ICartService
         if (_userService.IsLoggedIn(context.User))
         {
             //Get it from database
-            cart.CartItems = GetCartFromDB();
+            var cartList = _repo.Carts.GetCartOfUser(_userService.GetUserId(context.User));
+            cart.CartItems = cartList ?? [];
         }
         else
         {
@@ -43,29 +70,52 @@ public class CartService : ICartService
     }
     public (bool success, int total) RemoveFromCart(HttpContext context, int bookID)
     {
-        int totalItems = 0;
-        bool success = false;
+        int totalItems = -1;
         if (_userService.IsLoggedIn(context.User))
         {
-            //Use dba
-            throw new NotImplementedException();
-        }
+            var userid = _userService.GetUserId(context.User);
+            try
+            {
+                var items = _repo.Carts.FindByCondition(cart => cart.UserID == userid && cart.BookID == bookID);
+                if (items.Any())
+                {
+                    //-Here it should not be more than one item
+                    //-We expect there to be only 1, just that the quantity may be more than one
+                    if (items.Count() > 1)
+                        throw new ArgumentException("Cart cannot contain more than one instance of a book");
+                    var cart = items.FirstOrDefault();
+                    _repo.Carts.Delete(cart);
+                }
+            }
+            catch (DbException)
+            {
+                //Log somewhere
+                return (false, -1);
+            }
+        }//end if
         else
         {
             var items = context.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? [];
             int index = items.FindIndex(i => i.BookID == bookID);
             if(index >= 0)
             {
-                success = true;
                 items.RemoveAt(index);
                 totalItems = items.Count;
                 context.Session.SetObjectAsJson("Cart", items);
             }
         }
-        return (success, totalItems);
+
+        //Update the session variable for the total
+        if (totalItems >= 0)
+        {
+            context.Session.SetInt32("cartCount", totalItems);
+        }
+
+        //-Negative value means something went wrong
+        return (totalItems >= 0, totalItems);
     }
     #region Helpers
-    private int AddToCartViaSession(CartItemViewModel cartInfo, HttpContext context)
+    private static int AddToCartViaSession(CartItemViewModel cartInfo, HttpContext context)
     {
         //-Here if the user is authenticated, we will save the cart info to the database,
         //  otherwise we use session session based interaction
@@ -93,15 +143,39 @@ public class CartService : ICartService
         return cartItems.ApplyBookDetails(b => _repo.Books.GetBookWithAuthors(b.BookID));
     }//AddBookAndDetails
     [Authorize]
-    private int AddToCartViaDatabase(CartItemViewModel cartInfo)
+    private int AddToCartViaDatabase(CartItemViewModel cartInfo, HttpContext context)
     {
-        //For now
-        throw new NotImplementedException();
-    }
-    [Authorize]
-    private List<CartItem> GetCartFromDB()
-    {
-        throw new NotImplementedException();
+        int count = -1;
+        var userid = _userService.GetUserId(context.User);
+        if (userid == null)
+        {
+            return -1;// sign that it was not added or cannot be addded
+        }
+        try
+        {
+            var item = _repo.Carts.FindByCondition(cart => cart.UserID == userid && cart.BookID == cartInfo.CartItem.BookID)
+                                  .FirstOrDefault();
+            if (item != null)
+            {
+                //Update the quantity
+                item.Quantity++;
+                _repo.Carts.Update(item);
+            }
+            else
+            {
+                //Create a new instance
+                _repo.Carts.Create(cartInfo.CartItem);
+            }
+            _repo.SaveChanges();
+            count = _repo.Carts.FindByCondition(cart => cart.UserID == userid && cart.BookID == cartInfo.CartItem.BookID)
+                               .Count();
+        }
+        catch(DbUpdateException)
+        {
+            //Log somewhere in the application or something
+            return count;
+        }
+        return count;
     }
     #endregion Helpers
 }//class
