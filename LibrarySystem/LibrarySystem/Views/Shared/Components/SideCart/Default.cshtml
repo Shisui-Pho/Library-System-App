@@ -13,7 +13,7 @@
                 <li class="d-flex gap-2 align-items-start mb-3 position-relative">
                     <img src="@item.BookInCart.GetCoverPath()" alt="Book Cover" class="img-thumbnail" style="width: 50px; height: 75px;" />
                     <div class="flex-grow-1">
-                        <strong>@item.BookInCart.BookTitle</strong><br />
+                        <a asp-action="BookDetails" asp-action="Books" asp-route-id="@item.BookID"><strong>@item.BookInCart.BookTitle</strong><br /></a>
                         <small>Qty: @item.Quantity</small><br />
                         <span class="fw-bold price">@item.GetTotalPrice().ToString("C2")</span>
                     </div>
