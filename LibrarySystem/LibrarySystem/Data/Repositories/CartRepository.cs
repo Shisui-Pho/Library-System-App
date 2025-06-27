@@ -8,12 +8,14 @@ public class CartRepository(AppDBContext context) : BaseRepository<CartItem>(con
     public IEnumerable<CartItem> GetCartOfUser(string userID)
     {
         return base._dbContext.CartItems.Where(c => c.UserID == userID)
-                                        .Include(c => c.BookInCart);
+                                        .Include(c => c.BookInCart)
+                                        .ThenInclude(c => c.Authors);
     }//GetCartOfBooks
 
     public IEnumerable<CartItem> GetCartOfBooks(int bookId)
     {
         return base._dbContext.CartItems.Where(c => c.BookID == bookId)
-                                .Include(c => c.BookInCart);
+                                .Include(c => c.BookInCart)
+                                .ThenInclude(c => c.Authors);
     }//GetCartOfBooks
 }//class

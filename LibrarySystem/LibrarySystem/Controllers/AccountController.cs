@@ -18,16 +18,19 @@ public class AccountController : Controller
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ICartService _cartService;
+    private readonly IUserService _userService;
     
     public AccountController(SignInManager<ApplicationUser> signInManager, 
                             RoleManager<IdentityRole> roleManager, 
                             UserManager<ApplicationUser> userManager,
-                            ICartService cartService)
+                            ICartService cartService, 
+                            IUserService userService)
     {
         _signInManager = signInManager;
         _roleManager = roleManager;
         _userManager = userManager;
         _cartService = cartService;
+        _userService = userService;
     }
     [HttpGet]
     [AllowAnonymous]
@@ -162,6 +165,8 @@ public class AccountController : Controller
             foreach (var item in items)
             {
                 //Now that the user has been logged in, the items will be added to the database
+                var userid = _userService.GetUserId(User);
+                item.UserID = userid;
                 _cartService.AddToCart(HttpContext, new CartItemViewModel() { CartItem = item });
             }
         }
