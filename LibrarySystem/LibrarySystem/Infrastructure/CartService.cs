@@ -34,7 +34,7 @@ public class CartService : ICartService
         if (_userService.IsLoggedIn(context.User))
         {
             //Get it from database
-            var cartList = _repo.Carts.GetCartItemsOfUser(_userService.GetUserId(context.User));
+            var cartList = _repo.Carts.GetCartOfUser(_userService.GetUserId(context.User));
             cart.CartItems = cartList ?? [];
         }
         else
