@@ -159,7 +159,11 @@ public class AccountController : Controller
     }//Login
     private void MergeSessionCartToDatabaseCart(IEnumerable<CartItem> items)
     {
-        if(User.Identity.IsAuthenticated)
+        //Update the number of items in the cart from db
+        var totalCartItems = _cartService.CountCartItems(HttpContext);
+
+        HttpContext.Session.SetInt32("cartCount", totalCartItems);
+        if (User.Identity.IsAuthenticated)
         {
             //Add all the items to the dbcart
             foreach (var item in items)

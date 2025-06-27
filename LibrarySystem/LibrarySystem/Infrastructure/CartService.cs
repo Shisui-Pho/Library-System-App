@@ -4,6 +4,7 @@ using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Specialized;
 using System.Data.Common;
 
 namespace LibrarySystem.Infrastructure;
@@ -11,6 +12,22 @@ public class CartService : ICartService
 {
     private readonly IUserService _userService;
     private readonly IRepositoryWrapper _repo;
+
+    public int CountCartItems(HttpContext context)
+    {
+        int count = 0;
+        if (_userService.IsLoggedIn(context.User))
+        {
+            var userid = _userService.GetUserId(context.User);
+            count = _repo.Carts.FindByCondition(x => x.UserID == userid).Count();
+        }
+        else
+        {
+            count = context.Session.GetObjectFromJson<List<CartItem>>("Cart")?.Count ?? 0;
+        }
+        return count;
+    }//CountCartItems
+
     public CartService(IUserService userService, IRepositoryWrapper repository)
     {
         this._userService = userService;
@@ -24,6 +41,12 @@ public class CartService : ICartService
         int totalCartItems = _userService.IsLoggedIn(context.User) ?
             AddToCartViaDatabase(item, context) : AddToCartViaSession(item, context);
         
+        //Update the session variable for the total
+        if(totalCartItems >= 0 )
+        {
+            context.Session.SetInt32("cartCount", totalCartItems);
+        }
+
         //-Negative value means something went wrong
         return (totalCartItems >= 0, totalCartItems);
     }//class
@@ -81,6 +104,13 @@ public class CartService : ICartService
                 context.Session.SetObjectAsJson("Cart", items);
             }
         }
+
+        //Update the session variable for the total
+        if (totalItems >= 0)
+        {
+            context.Session.SetInt32("cartCount", totalItems);
+        }
+
         //-Negative value means something went wrong
         return (totalItems >= 0, totalItems);
     }
