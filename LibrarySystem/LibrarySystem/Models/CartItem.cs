@@ -1,16 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LibrarySystem.Models;
 public class CartItem
 {
     public int CartItemID { get; set; }
+    [Required]
     [ForeignKey(nameof(Book))]
     public int BookID {  get; set; }
+    public string UserID { get; set; }
+    [Required]
     public int Quantity { get; set; }
+    [Required]
     public decimal Price { get; set; }
+    [Required]
     public DateOnly CreatedDate { get; set; }
+    [Required]
+    public bool HasBeenCheckedOut { get; set; } = false;
 
-    //Navigational property
+    //Navigational properties
     public Book BookInCart { get; set; }
     public decimal GetTotalPrice()
     {
