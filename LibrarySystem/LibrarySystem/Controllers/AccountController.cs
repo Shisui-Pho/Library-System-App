@@ -1,4 +1,5 @@
-﻿using LibrarySystem.Models;
+﻿using LibrarySystem.Infrastructure;
+using LibrarySystem.Models;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -16,12 +17,17 @@ public class AccountController : Controller
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly RoleManager<IdentityRole> _roleManager;
+    private readonly ICartService _cartService;
     
-    public AccountController(SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+    public AccountController(SignInManager<ApplicationUser> signInManager, 
+                            RoleManager<IdentityRole> roleManager, 
+                            UserManager<ApplicationUser> userManager,
+                            ICartService cartService)
     {
         _signInManager = signInManager;
         _roleManager = roleManager;
         _userManager = userManager;
+        _cartService = cartService;
     }
     [HttpGet]
     [AllowAnonymous]
@@ -93,9 +99,15 @@ public class AccountController : Controller
 
             //Here role exists
             await _userManager.AddToRoleAsync(user, DEFAULT_ROLE);
-            
+
+            //Get the user's cart before login(from session)
+            var cart = _cartService.GetCart(HttpContext);
+
             //sign in the user
             await _signInManager.SignInAsync(user, isPersistent: false);
+
+            //Merge carts
+            MergeSessionCartToDatabaseCart(cart.CartItems);
 
             //redirect the user to their desired place
             return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
@@ -125,10 +137,13 @@ public class AccountController : Controller
             {
                 //log-out existing sign_ins
                 await _signInManager.SignOutAsync();
-
+                //Get the carts ready for a merge
+                var cart = _cartService.GetCart(HttpContext);
                 var results = await _signInManager.PasswordSignInAsync(user,model.Password, false, false);
                 if(results.Succeeded)
                 {
+                    //Merge carts
+                    MergeSessionCartToDatabaseCart(cart.CartItems);
                     //Redirect user to the return url or home page
                     return LocalRedirect(returnUrl ?? Url.Action("Index", "Home"));
                 }
@@ -139,7 +154,18 @@ public class AccountController : Controller
         }
         return View(model);
     }//Login
-
+    private void MergeSessionCartToDatabaseCart(IEnumerable<CartItem> items)
+    {
+        if(User.Identity.IsAuthenticated)
+        {
+            //Add all the items to the dbcart
+            foreach (var item in items)
+            {
+                //Now that the user has been logged in, the items will be added to the database
+                _cartService.AddToCart(HttpContext, new CartItemViewModel() { CartItem = item });
+            }
+        }
+    }//MergeSessionCartToDatabaseCart
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
