@@ -31,7 +31,7 @@
                                 <div class="book-info">
                                     <img src="@item.BookInCart.GetCoverPath()" alt="Book Cover" />
                                     <div>
-                                        <strong>@item.BookInCart.BookTitle</strong><br />
+                                        <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@item.BookID"><strong>@item.BookInCart.BookTitle</strong><br /></a>
                                         <small>by @item.BookInCart.GetAuthorsString()</small><br />
                                         <small>ISBN: @item.BookInCart.ISBN</small>
                                     </div>
