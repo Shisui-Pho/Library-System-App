@@ -9,6 +9,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     private IAuthorRepository authorRepository;
     private IMessageReuqestsRepository messageReuqestsRepository;
     private IOrderRepository orderRepository;
+    private ICartRepository cartRepository;
 
     public IBookRepository Books
     {
@@ -43,6 +44,15 @@ public class RepositoryWrapper : IRepositoryWrapper
         {
             orderRepository ??= new OrderRepository(_dbContext);
             return orderRepository;
+        }
+    }
+
+    public ICartRepository Carts
+    {
+        get
+        {
+            cartRepository ??= new CartRepository(_dbContext);
+            return cartRepository;
         }
     }
 
