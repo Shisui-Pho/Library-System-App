@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace LibrarySystem.Infrastructure;
+namespace LibrarySystem.Infrastructure.Interfaces;
 public interface IUserService
 {
     string GetUserId(ClaimsPrincipal user);

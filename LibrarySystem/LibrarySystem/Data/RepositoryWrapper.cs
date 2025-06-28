@@ -1,4 +1,5 @@
 ﻿using LibrarySystem.Data.Repositories;
+using LibrarySystem.Infrastructure.Interfaces;
 
 namespace LibrarySystem.Data;
 

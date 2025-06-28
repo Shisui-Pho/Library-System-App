@@ -1,4 +1,5 @@
-﻿using LibrarySystem.Models;
+﻿using LibrarySystem.Infrastructure.Interfaces;
+using LibrarySystem.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.Data.Repositories;

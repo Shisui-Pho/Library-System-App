@@ -1,4 +1,4 @@
-﻿namespace LibrarySystem.Enums;
+﻿namespace LibrarySystem.Infrastructure.Enums;
 public enum BookOrderStatus
 {
     Pending,    // Order has been placed but not yet processed

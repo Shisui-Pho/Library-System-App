@@ -1,6 +1,4 @@
-﻿using LibrarySystem.Data.Repositories;
-
-namespace LibrarySystem.Data;
+﻿namespace LibrarySystem.Infrastructure.Interfaces;
 
 public interface IRepositoryWrapper
 {
