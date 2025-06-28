@@ -2,8 +2,7 @@
 public class CartViewModel
 {
     public IEnumerable<CartItem> CartItems { get; set; }
-    public int SubTotalItems => CartItems?.Select(x => x.Quantity).Sum() ?? 0;
-
+    public int SubTotalItems => CartItems?.Select(x => x.Quantity).Sum() ?? 0; 
     public decimal CalculateTotalPrice()
     {
         decimal price = CartItems.Select(x => x.Quantity * x.Price).Sum();
@@ -21,5 +20,5 @@ public class CartViewModel
 
         //return false
         return (false, 0);
-    }//ContainsBook
+    }//IsBookInCart
 }//class

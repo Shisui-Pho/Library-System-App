@@ -59,15 +59,43 @@
                             </div>
                             <div class="book-title-medium">
                                 <h3>
-                                    <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" title="Harry Potter and the Prisoner of Azkaban">
+                                    <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" title="@book.BookTitle">
                                         @book.BookTitle
                                     </a>
                                 </h3>
                             </div>
-                            <div cart-item-book-id="@book.Id"
+
+                            @{
+                                var (isContained, quantity) = Model.IsBookInCart(book.Id);
+                            }
+                            <div class="@(isContained ? "add-cart-hidden" : "")"
+                                 id="@Model.GenerateUniqueIdentifier(book.Id, isForAddToChart: true)"
+                                 cart-item-book-id="@book.Id"
                                  cart-item-price="2000"
                                  cart-item-quantity="1"
-                                 page-where-item-was-added="@currentPage">
+                                 page-where-item-was-added="@currentPage"
+                                 complementary-div="@Model.GenerateUniqueIdentifier(book.Id, isForAddToChart: false)"
+                                 div-id="@Model.GenerateUniqueIdentifier(book.Id, isForAddToChart:true)">
+                            </div>
+                            <div id="@Model.GenerateUniqueIdentifier(book.Id, isForAddToChart:false)" 
+                                 class="button-stretch-width shadow @(isContained ? "" : "qty-hidden")">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button data-id="@book.Id"
+                                                data-origin="@Model.GenerateUniqueIdentifier(book.Id, isForAddToChart: false)" 
+                                                class="remove-from-cart btn btn-danger button-stretch-width"
+                                                data-complementary="@Model.GenerateUniqueIdentifier(book.Id, isForAddToChart: true)">
+                                            Remove
+                                            </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="qty-input">
+                                            <button class="qty-count qty-count--minus" data-action="minus" data-id="@book.Id" type="button">-</button>
+                                            <input class="product-qty" type="number" name="product-qty" data-id="@book.Id" min="0" max="10" value="@(isContained ? quantity : 1)">
+                                            <button class="qty-count qty-count--add" data-action="add" data-id="@book.Id" type="button">+</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
