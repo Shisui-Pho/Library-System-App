@@ -4,7 +4,6 @@ using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Specialized;
 using System.Data.Common;
 
 namespace LibrarySystem.Infrastructure;
@@ -12,7 +11,11 @@ public class CartService : ICartService
 {
     private readonly IUserService _userService;
     private readonly IRepositoryWrapper _repo;
-
+    public CartService(IUserService userService, IRepositoryWrapper repository)
+    {
+        this._userService = userService;
+        this._repo = repository;
+    }
     public int CountCartItems(HttpContext context)
     {
         int count = 0;
@@ -27,12 +30,51 @@ public class CartService : ICartService
         }
         return count;
     }//CountCartItems
-
-    public CartService(IUserService userService, IRepositoryWrapper repository)
+    public (bool success, int total) UpdateQuantity(HttpContext context,int bookId, int quantity)
     {
-        this._userService = userService;
-        this._repo = repository;
-    }
+        if(quantity == 0)
+        {
+            //Remove the item from the 
+            return RemoveFromCart(context, bookId);
+        }
+        bool sucess = false;
+        //Update the quantity
+        if (_userService.IsLoggedIn(context.User))
+        {
+            try
+            {
+                var userid = _userService.GetUserId(context.User);
+
+                var item = _repo.Carts.GetCartOfUser(userid).FirstOrDefault();
+
+                if(item != null)
+                {
+                    item.Quantity = quantity;
+                    _repo.Carts.Update(item);
+                    _repo.SaveChanges();
+                    sucess = true;
+                }
+            }
+            catch (DbException)
+            {
+                //Swallow exception
+                sucess = false;
+            }
+        }
+        else
+        {
+            //Use session
+            var cart = context.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? [];
+            var index = cart.FindIndex(v => v.BookID == bookId);
+            if(index >= 0)
+            {
+                cart[index].Quantity = quantity;
+                context.Session.SetObjectAsJson("Cart", cart);
+                sucess = true;
+            }
+        }
+        return (sucess, CountCartItems(context));
+    }//UpdateQuantity
     public (bool success, int total) AddToCart(HttpContext context, CartItemViewModel item)
     {
         //-Here if the user is authenticated, we will save the cart info to the database,
