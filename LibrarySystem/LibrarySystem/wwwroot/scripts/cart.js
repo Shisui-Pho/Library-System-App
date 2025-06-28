@@ -6,10 +6,19 @@ $(function () {
         const form = button.closest('form');
         const formData = form.serialize();
 
+        //For hiding and unhiding
+        const div_tohide = '#' + button.data("origin");
+        const div_to_show = '#' + button.data("complementary");
+
         $.post(form.attr('action'), formData, function (response) {
             $('.cart-count').text(response.cartCount);
 
-            //Update side cart content
+
+            if (div_tohide != null & div_to_show != null) {
+                $(div_tohide).addClass('add-cart-hidden')
+                $(div_to_show).removeClass('qty-hidden')
+            }
+
             $.get('/Cart/GetSideCartHtml', function (html) {
                 $('#bookSideCart').html(html);
             });
@@ -24,9 +33,17 @@ $(function () {
     //Handle remove item from side cart
     $(document).on('click', '.remove-from-cart', function () {
         const bookId = $(this).data('id');
+        const div_tohide = '#' + $(this).data("origin");
+        const div_to_show = '#' + $(this).data("complementary");
 
         $.post('/Cart/RemoveFromSideCart', { bookId: bookId }, function (response) {
             $('.cart-count').text(response.cartCount);
+
+            //Unhide controlls
+            if (div_tohide != null & div_to_show != null) {
+                $(div_to_show).removeClass('add-cart-hidden')
+                $(div_tohide).addClass('qty-hidden')
+            }
 
             //Refresh the side cart from the server
             $.get('/Cart/GetSideCartHtml', function (html) {

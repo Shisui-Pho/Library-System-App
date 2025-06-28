@@ -10,6 +10,7 @@ public class CartItem
     public int BookID {  get; set; }
     public string UserID { get; set; }
     [Required]
+    [Range(1,10)]
     public int Quantity { get; set; }
     [Required]
     public decimal Price { get; set; }
