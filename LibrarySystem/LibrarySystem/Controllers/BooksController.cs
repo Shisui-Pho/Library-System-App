@@ -10,9 +10,12 @@ namespace LibrarySystem.Controllers;
 public class BooksController : Controller
 {
     private readonly IRepositoryWrapper _repository;
-    public BooksController(IRepositoryWrapper repositoryWrapper)
+    private readonly ICartService _cartService;
+
+    public BooksController(IRepositoryWrapper repositoryWrapper, ICartService cartService)
     {
         _repository = repositoryWrapper;
+        _cartService = cartService;
     }
     //default page size
     private const int PAGE_SIZE = 16;
@@ -33,9 +36,11 @@ public class BooksController : Controller
         };
 
         IEnumerable<Book> books = _repository.Books.GetWithOptions(queryOptions);
-
+        var cartItems = _cartService.GetCart(HttpContext)
+                                    .CartItems.Select(x => (x.BookID, x.Quantity))
+                                    .ToList();
         //Create the view model
-        BooksDisplayViewModel model = new()
+        BooksDisplayViewModel model = new(cartItems)
         {
             Books = books,
             PagingInfomation = paging
