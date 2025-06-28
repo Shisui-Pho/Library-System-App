@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibrarySystem.Models;
 
@@ -25,6 +26,7 @@ public class Book
     public string Language { get; set; } // e.g., "en", "fr"
 
     public string Genre { get; set; } // e.g., "Fantasy", "Science Fiction"
+    [Precision(18,2)]
     public decimal Price { get; set; }
     public DateOnly AddedDate { get; set; }
 
