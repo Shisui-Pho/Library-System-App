@@ -12,6 +12,10 @@ public class AddToCartTagHelper : TagHelper
 
     public int CartItemPrice { get;set; }
     public string PageWhereItemWasAdded { get; set; }
+    
+    public string DivID { get; set; }
+    [HtmlAttributeName("complementary-div")]
+    public string IncrementDivID { get; set; }
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
         //Form Container
@@ -26,6 +30,8 @@ public class AddToCartTagHelper : TagHelper
 
         //button for adding to cart
         var button = BuildClickButton();
+        button.Attributes.Add("data-origin", DivID);
+        button.Attributes.Add("data-complementary", IncrementDivID);
 
         //Combine elements
         buttonDiv.InnerHtml.AppendHtml(button);
@@ -48,7 +54,6 @@ public class AddToCartTagHelper : TagHelper
         TagBuilder form = new("form");
         form.Attributes.Add("method", "post");
         form.Attributes.Add("action", "/Cart/AddToCart");
-
         //Build all fields
         //-Hiddent inputs 
         form.InnerHtml.AppendHtml(CreateHiddenInput("CartItem.BookID", CartItemBookID.ToString()));
