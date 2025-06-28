@@ -1,7 +1,7 @@
 ﻿using LibrarySystem.Models;
 using LibrarySystem.Models.ViewModels;
 
-namespace LibrarySystem.Infrastructure;
+namespace LibrarySystem.Infrastructure.Interfaces;
 public interface ICartService
 {
     int CountCartItems (HttpContext context);

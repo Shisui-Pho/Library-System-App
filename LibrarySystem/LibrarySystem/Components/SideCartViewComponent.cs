@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Infrastructure;
+﻿using LibrarySystem.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Components;

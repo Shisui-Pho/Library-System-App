@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Data;
+﻿using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;

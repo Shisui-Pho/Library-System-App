@@ -1,7 +1,7 @@
 ﻿using LibrarySystem.Data.DataAccess;
 using System.Linq.Expressions;
 
-namespace LibrarySystem.Data.Repositories;
+namespace LibrarySystem.Infrastructure.Interfaces;
 public interface IBaseRepository<T> where T : class
 {
     int Count();

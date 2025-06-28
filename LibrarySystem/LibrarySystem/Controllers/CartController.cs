@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Infrastructure;
+﻿using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Mvc;
