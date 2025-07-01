@@ -38,6 +38,10 @@ public class Book
     public string GetCoverPath() => $"/images/covers/{this.Id}.png"; 
     public string GetAuthorsString(string namesSeperator = " ", string deliminator = ",")
     {
+        if(Authors == null || Authors.Count == 0)
+        {
+            return "Unknown Author";
+        }
         var str = string.Join(deliminator, Authors?.Select(a => a.FirstName + namesSeperator + a.LastName));
         return str;
     }//GetAuthorsString

@@ -3,85 +3,73 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="container">
-    <div class="row shadow p-2">
-        <div class="col-md-7 ">
-            <div id="registration" class="box-shadow">
-                <h1>Register for exploration</h1>
+<div class="container py-5">
+    <div class="row justify-content-center shadow p-4 rounded bg-dark text-white">
+        <div class="col-lg-7">
+            <div id="registration">
+                <h1 class="mb-3">Register for Exploration</h1>
                 <p>
                     Getting started with <span class="platform">The Explorer</span> is completely free for up to <strong>2000</strong>
                     books or titles. Setup takes less than 5 minutes. Start with the <strong>basic plan</strong>, and upgrade to our
                     affordable <strong>premium plan</strong> if you need access to more titles or advanced features.
                 </p>
-                <div class="seperator-white"></div>
-                <div class="form-container">
-                    <form method="post" asp-action="Register" asp-controller="Account">
-                        <div style="display:none;">
-                            <!--This will serve for all hidden controls that need to be passed here.-->
+                <hr class="bg-secondary" />
+                <form method="post" asp-action="Register" asp-controller="Account" class="needs-validation" novalidate>
+                    <div class="text-danger mb-3" asp-validation-summary="ModelOnly"></div>
+                    <div class="mb-3">
+                        <label asp-for="FirstName" class="form-label"></label>
+                        <input asp-for="FirstName" class="form-control" autocomplete="off" placeholder="Enter your first name" id="FirstName" />
+                        <span asp-validation-for="FirstName" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="LastName" class="form-label"></label>
+                        <input asp-for="LastName" class="form-control" autocomplete="off" placeholder="Enter your last name" id="LastName" />
+                        <span asp-validation-for="LastName" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" autocomplete="off" type="email" placeholder="Enter your email address" id="Email" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                        <div class="form-text text-light">
+                            This email will also be used to log in.
                         </div>
-                        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-                        <fieldset>
-                            <div class="input text">
-                                <label for="FirstName">@Html.DisplayNameFor(b => b.FirstName)</label>
-                                <input autocomplete="off" type="text" placeholder="Enter your first name" asp-for="FirstName"
-                                       id="FirstName" />
-                                <div class="form-error"><span asp-validation-for="FirstName" class="text-danger"></span></div>
-                            </div>
-                            <div class="input text">
-                                <label for="LastName">@Html.DisplayNameFor(b => b.LastName)</label>
-                                <input autocomplete="off" type="text" placeholder="Enter your last name" asp-for="LastName"
-                                       id="LastName" />
-                                <div class="form-error"><span asp-validation-for="LastName" class="text-danger"></span></div>
-                            </div>
-                            <div class="input text">
-                                <label for="Email">@Html.DisplayNameFor(b => b.Email)</label>
-                                <input autocomplete="off" type="email" placeholder="Enter your emial address" asp-for="Email"
-                                       id="Email" />
-                                <div class="form-error"><span asp-validation-for="Email" class="text-danger"></span></div>
-                                <div class="form-hints">
-                                    this email will also be used to log-in.
-                                </div>
-                            </div>
-                            <div class="input text">
-                                <label for="Contact">@Html.DisplayNameFor(b => b.ContactNumber)</label>
-                                <input autocomplete="off" type="text" maxlength="10" min="10" placeholder="Enter your phone number" asp-for="ContactNumber"
-                                       id="Contact" />
-                                <div class="form-error"><span asp-validation-for="ContactNumber" class="text-danger"></span></div>
-
-                                <div class="form-hints">
-                                    your phone number should start with a 0 and must be 10 digits, e.g:0700000000
-                                </div>
-                            </div>
-
-                            <section class="password-section">
-                                <div class="input password required">
-                                    <label for="Password">Password</label>
-                                    <input autocomplete="off" type="password" required placeholder="Enter password" asp-for="Password"
-                                           id="Password" />
-                                    <div class="form-error"><span asp-validation-for="Password" class="text-danger"></span></div>
-                                </div>
-                                <div class="input password required">
-                                    <label for="CPassword">Confirm Password</label>
-                                    <input autocomplete="off" type="password" required placeholder="Re-enter password" asp-for="ConfirmPassword"
-                                           id="CPassword" />
-                                    <div class="form-error"><span asp-validation-for="ConfirmPassword" class="text-danger"></span></div>
-                                </div>
-                            </section>
-                        </fieldset>
-
-                        <div class="terms-conditions">
-                            For now I leave nothing, but terms and conditions go here.
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="ContactNumber" class="form-label"></label>
+                        <input asp-for="ContactNumber" class="form-control" autocomplete="off" maxlength="10" placeholder="Enter your phone number" id="Contact" />
+                        <span asp-validation-for="ContactNumber" class="text-danger small"></span>
+                        <div class="form-text text-light">
+                            Your phone number should start with a 0 and must be 10 digits, e.g: 0700000000
                         </div>
-                        <div class="submit">
-                            <input type="submit" value="I agree, please register me" />
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" class="form-control" autocomplete="off" type="password" placeholder="Enter password" id="Password" />
+                            <span asp-validation-for="Password" class="text-danger small"></span>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-md-6">
+                            <label asp-for="ConfirmPassword" class="form-label">Confirm</label>
+                            <input asp-for="ConfirmPassword" class="form-control" autocomplete="off" type="password" placeholder="Re-enter password" id="CPassword" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input d-inline" type="checkbox" id="termsCheck" required>
+                            <label class="form-check-label d-inline" for="termsCheck">
+                                I agree to the <a href="#">terms and conditions</a>.
+                            </label>
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <!--col-md-4 visible-md-block visible-lg-block-->
-        <div class="col-md-5 visible-lg-block">
-           <partial name="_SideBenefits" />
+        <div class="col-lg-5 d-none d-lg-block">
+            <partial name="_SideBenefits" />
         </div>
     </div>
 </div>

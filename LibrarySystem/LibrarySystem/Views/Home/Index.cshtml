@@ -2,66 +2,118 @@
     ViewData["Title"] = "Home";
 }
 <!-- Main Header -->
-<div id="main-header" class="bg-primary text-white py-5 container-fluid">
-    <div class="header-content text-center">
-        <h1 class="display-4">Welcome to the Explorer Library</h1>
-        <p class="lead">Designed for your convenience – access and manage resources anytime, anywhere.</p>
-
-        <div class="button-container">
-            <a href="#" class="button-text-centered button-medium button-blue">
-                Search
-            </a>
-            <a href="#" class="button-text-centered button-medium button-green">
-                Register
-            </a>
+<div id="main-header" class="bg-dark text-white py-5">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">Welcome to the Explorer Library</h1>
+        <p class="lead mb-4">Your digital gateway to thousands of books and resources.</p>
+        <div>
+            <a asp-controller="Books" asp-action="List" class="btn btn-primary btn-lg me-2">Browse Books</a>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-success btn-lg">Register</a>
         </div>
     </div>
 </div>
 
-<div class="container-fluid py-5 bg-secondary-subtle section-body">
+<div class="container py-5 section-body">
 
-    <!-- Special Message Section -->
-    <section id="special-message" class="text-center mb-5">
-        <p class="lead">
-            Specially designed for schools, colleges, organizations, and home libraries – including personal collections. Loved by librarians across the world, our system makes managing books, searching, borrowing, and reading easier.
-        </p>
+    <!-- Announcements or News (Dynamic Placeholder) -->
+    <section id="announcements" class="mb-5">
+        <div class="alert alert-info text-center" role="alert">
+            <strong>Library News:</strong> <span>[Latest announcement or event goes here]</span>
+        </div>
     </section>
 
-    <!-- Features Section (3 Columns) -->
-    <section id="features" class="mb-5">
+    <!-- Quick Actions -->
+    <section id="quick-actions" class="mb-5">
         <div class="row text-center">
-            <div class="col-md-4">
-                <h3>Search Books</h3>
-                <p>Find books in various genres, authors, or titles with ease.</p>
-                <a href="#" class="btn btn-primary">Search Now</a>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-secondary text-white h-100 shadow-sm">
+                    <div class="card-body">
+                        <i class="fas fa-search fa-2x mb-3"></i>
+                        <h5 class="card-title">Search Catalog</h5>
+                        <p class="card-text">Find books by title, author, or genre.</p>
+                        <a asp-controller="Books" asp-action="List" class="btn btn-outline-light btn-sm">Search</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-                <h3>Read Books Online</h3>
-                <p>Access online versions of books for reading at your convenience.</p>
-                <a href="#" class="btn btn-primary">Read Now</a>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-secondary text-white h-100 shadow-sm">
+                    <div class="card-body">
+                        <i class="fas fa-book-reader fa-2x mb-3"></i>
+                        <h5 class="card-title">My Borrowed Books</h5>
+                        <p class="card-text">View and manage your borrowed books.</p>
+                        <a asp-controller="UserProfile" asp-action="Profile" class="btn btn-outline-light btn-sm">My Books</a>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-                <h3>Borrow Books</h3>
-                <p>Request to borrow books from the library collection.</p>
-                <a href="#" class="btn btn-primary">Borrow Now</a>
+            <div class="col-md-4 mb-4">
+                <div class="card bg-secondary text-white h-100 shadow-sm">
+                    <div class="card-body">
+                        <i class="fas fa-user-plus fa-2x mb-3"></i>
+                        <h5 class="card-title">Join the Library</h5>
+                        <p class="card-text">Create an account to start borrowing and reading.</p>
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-outline-light btn-sm">Register</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Featured Books (Dynamic Placeholder) -->
+    <section id="featured-books" class="mb-5">
+        <h2 class="text-center mb-4">Featured Books</h2>
+        <div class="row justify-content-center">
+            @* Replace with a loop over a model property like Model.FeaturedBooks *@
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 bg-dark text-white border-secondary shadow">
+                    <img src="~/images/sample-book1.jpg" class="card-img-top" alt="Book 1">
+                    <div class="card-body">
+                        <h5 class="card-title">[Book Title]</h5>
+                        <p class="card-text small">by [Author]</p>
+                        <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 bg-dark text-white border-secondary shadow">
+                    <img src="~/images/sample-book2.jpg" class="card-img-top" alt="Book 2">
+                    <div class="card-body">
+                        <h5 class="card-title">[Book Title]</h5>
+                        <p class="card-text small">by [Author]</p>
+                        <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 bg-dark text-white border-secondary shadow">
+                    <img src="~/images/sample-book3.jpg" class="card-img-top" alt="Book 3">
+                    <div class="card-body">
+                        <h5 class="card-title">[Book Title]</h5>
+                        <p class="card-text small">by [Author]</p>
+                        <a href="#" class="btn btn-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <a asp-controller="Books" asp-action="List" class="btn btn-outline-primary">See All Books</a>
+        </div>
+    </section>
+
+    <!-- Benefits Section (Shortened) -->
     <section id="benefits" class="text-center mb-5">
-        <h2>Why Choose Our Library System?</h2>
+        <h2>Why Explorer Library?</h2>
         <div class="row">
             <div class="col-md-4">
-                <h4>Convenient Access</h4>
-                <p>Access our collection anytime, anywhere—whether you're at home, in school, or at work.</p>
+                <h5>24/7 Access</h5>
+                <p>Browse and borrow books anytime, anywhere.</p>
             </div>
             <div class="col-md-4">
-                <h4>Easy Book Management</h4>
-                <p>Easily manage your borrowed books, request new ones, and track your reading history.</p>
+                <h5>Easy Management</h5>
+                <p>Track your loans and reading history with ease.</p>
             </div>
             <div class="col-md-4">
-                <h4>Improved User Experience</h4>
-                <p>Our user-friendly interface makes searching, borrowing, and reading books seamless and quick.</p>
+                <h5>For Everyone</h5>
+                <p>Perfect for students, educators, and book lovers.</p>
             </div>
         </div>
     </section>

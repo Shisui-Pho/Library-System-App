@@ -2,54 +2,84 @@
 @{
     ViewData["Title"] = "Order";
 }
-<div class="container">
+<div class="container py-4">
     <nav aria-label="breadcrumb" class="mt-2">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb bg-dark text-light px-3 py-2 rounded">
             <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Cart</li>
         </ol>
     </nav>
 
-    <div class="section-body shadow">
+    <div class="section-body shadow p-4">
         <div class="book-cart">
-            <h2>Your Book Cart</h2>
-            <table class="book-cart-table">
-                <thead>
-                    <tr>
-                        <th>Book</th>
-                        <th>Qty</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                        <th>Remove</th>
-                    </tr>
-                </thead>
-                <tbody id="book-cart-items">
-                    @foreach(var item in Model.CartItems)
-                    {
+            <h2 class="mb-4">Your Book Cart</h2>
+            @if (Model.CartItems == null || !Model.CartItems.Any())
+            {
+                <div class="alert alert-info text-center my-5">
+                    Your cart is empty. <a asp-action="List" asp-controller="Books" class="btn btn-primary ms-2">Browse Books</a>
+                </div>
+            }
+            else
+            {
+                <table class="book-cart-table table table-dark table-hover align-middle">
+                    <thead>
                         <tr>
-                            <td>
-                                <div class="book-info">
-                                    <img src="@item.BookInCart.GetCoverPath()" alt="Book Cover" />
-                                    <div>
-                                        <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@item.BookID"><strong>@item.BookInCart.BookTitle</strong><br /></a>
-                                        <small>by @item.BookInCart.GetAuthorsString()</small><br />
-                                        <small>ISBN: @item.BookInCart.ISBN</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>@item.Quantity</td>
-                            <td>@item.Price.ToString("C2")</td>
-                            <td class="item-total">@item.GetTotalPrice().ToString("C2")</td>
-                            <td><button class="remove-btn">Remove</button></td>
+                            <th>Book</th>
+                            <th style="width:120px;">Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                            <th>Remove</th>
                         </tr>
-                    }
+                    </thead>
+                    <tbody id="book-cart-items">
+                        @foreach(var item in Model.CartItems)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="book-info d-flex align-items-center gap-3">
+                                        <img src="@item.BookInCart.GetCoverPath()" alt="Book Cover" class="rounded shadow-sm" style="width:60px; height:auto;" />
+                                        <div>
+                                            <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@item.BookID" class="fw-bold text-white">@item.BookInCart.BookTitle</a><br />
+                                            <small class="text-secondary">by @item.BookInCart.GetAuthorsString()</small><br />
+                                            <small class="text-secondary">ISBN: @item.BookInCart.ISBN</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group input-group-sm qty-input-group" style="max-width: 110px;">
+                                        <button class="btn btn-outline-secondary qty-count qty-count--minus" data-action="minus" data-id="@item.BookID" type="button" tabindex="-1">-</button>
+                                        <input class="form-control text-center product-qty" type="number" name="product-qty" data-id="@item.BookID" min="1" max="10" value="@item.Quantity" style="max-width:50px;">
+                                        <button class="btn btn-outline-secondary qty-count qty-count--add" data-action="add" data-id="@item.BookID" type="button" tabindex="-1">+</button>
+                                    </div>
+                                </td>
+                                <td>@item.Price.ToString("C2")</td>
+                                <td class="item-total">@item.GetTotalPrice().ToString("C2")</td>
+                                <td>
+                                    <button class="remove-btn btn btn-danger btn-sm" data-id="@item.BookID" type="button">
+                                        <i class="fa fa-trash"></i> Remove
+                                    </button>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
-            </table>
+                </table>
 
-            <div class="cart-summary">
-                <strong>Subtotal: <span id="book-cart-subtotal">@Model.CalculateTotalPrice().ToString("C2")</span></strong><br />
-                <button class="checkout-button">Proceed to Checkout</button>
-            </div>
+                <div class="cart-summary mt-4 text-end">
+                    <strong>Subtotal: <span id="book-cart-subtotal">@Model.CalculateTotalPrice().ToString("C2")</span></strong>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <form asp-action="ClearCart" asp-controller="Cart" method="post">
+                        <button type="submit" class="btn btn-outline-warning">
+                            <i class="fa fa-trash-alt"></i> Clear Cart
+                        </button>
+                    </form>
+                    <form asp-action="Checkout" asp-controller="Cart" method="post">
+                        <button type="submit" class="checkout-button btn btn-success">
+                            <i class="fa fa-credit-card"></i> Proceed to Checkout
+                        </button>
+                    </form>
+                </div>
+            }
         </div>
     </div>
 </div>
