@@ -71,7 +71,7 @@
                             <div class="@(isContained ? "add-cart-hidden" : "")"
                                  id="@Model.GenerateUniqueIdentifier(book.Id, isForAddToChart: true)"
                                  cart-item-book-id="@book.Id"
-                                 cart-item-price="2000"
+                                 cart-item-price="@book.Price"
                                  cart-item-quantity="1"
                                  page-where-item-was-added="@currentPage"
                                  complementary-div="@Model.GenerateUniqueIdentifier(book.Id, isForAddToChart: false)"

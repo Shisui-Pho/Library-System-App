@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LibrarySystem.Models;
@@ -13,6 +14,7 @@ public class CartItem
     [Range(1,10)]
     public int Quantity { get; set; }
     [Required]
+    [Precision(18, 2)]
     public decimal Price { get; set; }
     [Required]
     public DateOnly CreatedDate { get; set; }
