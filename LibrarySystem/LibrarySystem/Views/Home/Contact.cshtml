@@ -2,45 +2,103 @@
 @{
     ViewData["Title"] = "Contact";
 }
-<div class="container section-body">
+<div class="container section-body py-5">
     @if (TempData["Message"] != null)
     {
-        //Display a message about the email being sent
         <div class="alert alert-success alert-dismissible" role="alert">
             <button type="button" class="btn-close"
-                    data-bs-dismiss="alert" aria-label="Close">
-            </button>
+                    data-bs-dismiss="alert" aria-label="Close"></button>
             @TempData["Message"]
         </div>
     }
-    <div class="pt-1 text-md-center">
-        <p class="h3">Get in touch</p>
-        <p>Contact us for best deals</p>
+
+    <!-- Contact Info Section -->
+    <div class="row mb-5">
+        <div class="col-md-6 mb-4 mb-md-0">
+            <div class="bg-dark text-white rounded shadow p-4 h-100">
+                <h4 class="mb-3">Contact Information</h4>
+                <p class="mb-2"><i class="fa fa-envelope me-2"></i> <a href="mailto:info@explorerlibrary.com" class="text-white text-decoration-underline">info@explorerlibrary.com</a></p>
+                <p class="mb-2"><i class="fa fa-phone me-2"></i> (+27) 01 234 567</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt me-2"></i> 123 Library Ave, Booktown, Country</p>
+                <p class="mb-0"><i class="fa fa-clock me-2"></i> Mon-Fri: 8am - 6pm</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="text-center mb-4">
+                <h3 class="mb-1">Get in touch</h3>
+                <p class="lead">Contact us for the best deals</p>
+            </div>
+            <form asp-action="Contact" asp-controller="Home" method="post" class="bg-dark text-white rounded shadow p-4">
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <label asp-for="FullNames" class="form-label"></label>
+                        <input asp-for="FullNames" class="form-control" placeholder="Enter your name" />
+                        <span asp-validation-for="FullNames" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="PhoneNumber" class="form-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" placeholder="Enter your phone number" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Message" class="form-label"></label>
+                    <textarea asp-for="Message" class="form-control" rows="4" placeholder="Your message"></textarea>
+                    <span asp-validation-for="Message" class="text-danger small"></span>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary btn-lg px-5" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <form asp-action="Contact" asp-controller="Home" method="post">
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="m-3 row">
-            <div class="col-md-4">
-                <input type="text" class="form-control form-text"
-                       placeholder="Enter your name" asp-for="FullNames" value="@Model.FullNames" />
+
+    <!-- FAQ Section -->
+    <div class="bg-dark text-white rounded shadow p-4 mt-5">
+        <h4 class="mb-4">Frequently Asked Questions</h4>
+        <div class="accordion accordion-flush" id="faqAccordion">
+            <div class="accordion-item bg-dark text-white">
+                <h2 class="accordion-header" id="faq1-heading">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="false" aria-controls="faq1">
+                        How do I register for an account?
+                    </button>
+                </h2>
+                <div id="faq1" class="accordion-collapse collapse" aria-labelledby="faq1-heading" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Click on the "Register" button at the top right and fill in your details to create a free account.
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-                <input type="email" class="form-control form-text"
-                       placeholder="Enter your email" asp-for="Email" value="@Model.Email" />
+            <div class="accordion-item bg-dark text-white">
+                <h2 class="accordion-header" id="faq2-heading">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false" aria-controls="faq2">
+                        Can I borrow books online?
+                    </button>
+                </h2>
+                <div id="faq2" class="accordion-collapse collapse" aria-labelledby="faq2-heading" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, registered users can request to borrow available books directly from the website.
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4">
-                <input type="text" class="form-control form-text" placeholder="Enter yout phone number" asp-for="PhoneNumber" value="@Model.PhoneNumber" />
+            <div class="accordion-item bg-dark text-white">
+                <h2 class="accordion-header" id="faq3-heading">
+                    <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false" aria-controls="faq3">
+                        How do I contact support?
+                    </button>
+                </h2>
+                <div id="faq3" class="accordion-collapse collapse" aria-labelledby="faq3-heading" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Use the contact form above or email us at <a href="mailto:info@explorerlibrary.com" class="text-white text-decoration-underline">info@explorerlibrary.com</a>.
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="m-4">
-            <textarea class="text-message form-control" placeholder="Your message" asp-for="Message">
-                @Model.Message
-        </textarea>
-        </div>
-        <div class="text-md-center">
-            <div class="text-center mb-1">
-                <button class="site-btn" type="submit">Submit</button>
-            </div>
-        </div>
-    </form>
+    </div>
 </div>

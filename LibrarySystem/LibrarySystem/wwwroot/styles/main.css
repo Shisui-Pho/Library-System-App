@@ -1,9 +1,10 @@
 ﻿/*General css*/
 body {
     /*font-family: "lucida grande", tahoma, verdana, arial, sans-serif;*/
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333333;
-    background: #F2F2F2;
+    background: #23272f;
+    color: #e4e6eb;
+    min-height: 100vh;
+    font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
     line-height: 1.8em;
     font-size: 14px;
 }
@@ -86,7 +87,9 @@ a {
 }
 
 .page-title a {
-    color: white;
+    color: #f8f9fa !important;
+    font-weight: 600;
+    letter-spacing: 1px;
 }
 
 .sign-in-opt {
@@ -95,7 +98,7 @@ a {
     text-align: right;
 }
 .user-name-heading {
-    color: white;
+    color: #e4e6eb;
     font-size: 1.1rem;
 }
 /*Naviagation - Navigation menu main*/
@@ -126,6 +129,7 @@ a {
     font-weight: normal;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    border-radius: 5px;
     float: left;
     display: block;
     margin: 0 5px 2px;
@@ -136,6 +140,17 @@ a {
 }
 
 /*Home page*/
+#main-header {
+    background: #23272f !important;
+    color: #f8f9fa !important;
+    border-bottom: 1px solid #343a40;
+}
+#main-header .btn-primary, #main-header .btn-success {
+    font-size: 1.2rem;
+    padding: 0.75rem 2rem;
+    border-radius: 2rem;
+}
+
 #main-header {
     background: url('../images/background.jpg') no-repeat center center fixed;
     /* background-image: url('../images/background.jpg');*/
@@ -243,10 +258,9 @@ a {
 
 /*Books List Page - Container*/
 .section-body {
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    padding: 1em;
-    border-radius: 5px;
+    background: #262b33;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .books-header {
@@ -425,4 +439,140 @@ a {
 .btn-block {
     display: block;
     width: 100%;
+}
+
+/* Header */
+.library-header {
+    background: #23272f !important;
+    border-bottom: 1px solid #343a40;
+}
+
+.library-header .btn,
+.library-header .user-name-heading {
+    color: #e4e6eb;
+}
+
+.library-header .btn-outline-primary {
+    border-color: #6c63ff;
+    color: #6c63ff;
+}
+.library-header .btn-outline-primary:hover {
+    background: #6c63ff;
+    color: #fff;
+}
+
+/* Shopping cart icon */
+.shopping-cart {
+    color: #f8f9fa;
+}
+.cart-count {
+    background: #6c63ff !important;
+    color: #fff !important;
+    font-size: 0.8rem;
+    min-width: 1.5em;
+    min-height: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Navbar */
+.navbar {
+    background: #23272f !important;
+    border-bottom: 1px solid #343a40;
+}
+.navbar .nav-link,
+.navbar .navbar-brand {
+    color: #e4e6eb !important;
+}
+.navbar .nav-link.active,
+.navbar .nav-link:hover {
+    color: #6c63ff !important;
+}
+.navbar .dropdown-menu {
+    background: #23272f;
+    border: 1px solid #343a40;
+}
+.navbar .dropdown-item {
+    color: #e4e6eb;
+}
+.navbar .dropdown-item:hover {
+    background: #343a40;
+    color: #6c63ff;
+}
+
+/* Main content */
+main.container {
+    background: #262b33;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding: 2rem 1.5rem;
+}
+
+/* Footer */
+.footer {
+    background: #23272f !important;
+    color: #b0b3b8 !important;
+    border-top: 1px solid #343a40 !important;
+}
+
+/* Sidebar cart (optional, for consistency) */
+#bookSideCart {
+    background: #23272f;
+    color: #e4e6eb;
+    border-left: 1px solid #343a40;
+}
+
+/* Buttons */
+.btn-primary, .btn-success {
+    background: #6c63ff;
+    border-color: #6c63ff;
+}
+.btn-primary:hover, .btn-success:hover {
+    background: #5548c8;
+    border-color: #5548c8;
+}
+
+/* Featured Books */
+#featured-books .card {
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+#featured-books .card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+}
+
+/* Cards */
+.card.bg-secondary, .card.bg-dark {
+    border: none;
+    border-radius: 1rem;
+}
+.card-title {
+    font-weight: 600;
+}
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+    border-radius: 1rem 1rem 0 0;
+}
+.book-card {
+    transition: transform 0.15s, box-shadow 0.15s;
+    border-radius: 1rem;
+}
+.book-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+}
+.book-cover {
+    height: 220px;
+    object-fit: cover;
+    border-radius: 1rem 1rem 0 0;
+}
+.qty-input-group .input-group {
+    align-items: center;
+}
+.add-to-cart-btn {
+    margin-top: 0.5rem;
 }

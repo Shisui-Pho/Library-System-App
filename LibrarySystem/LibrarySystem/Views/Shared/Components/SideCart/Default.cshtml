@@ -1,33 +1,48 @@
 ﻿@model CartViewModel
 
 <div>
-    <div class="position-fixed top-0 end-0 bg-white shadow p-3 h-100 border-start" style="width: 350px; z-index: 1050; overflow-y: auto;">
+    <div class="position-fixed top-0 end-0 bg-dark text-white shadow p-3 h-100 border-start" style="width: 350px; z-index: 1050; overflow-y: auto;">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="mb-0">Your Cart</h5>
-            <button type="button" class="btn-close" aria-label="Close" onclick="closeSideCart()"></button>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close" onclick="closeSideCart()"></button>
         </div>
 
-        <ul class="list-unstyled" id="sideCartItems">
-            @foreach(var item in Model.CartItems)
-            {
-                <li class="d-flex gap-2 align-items-start mb-3 position-relative">
-                    <img src="@item.BookInCart.GetCoverPath()" alt="Book Cover" class="img-thumbnail" style="width: 50px; height: 75px;" />
-                    <div class="flex-grow-1">
-                        <a asp-action="BookDetails" asp-action="Books" asp-route-id="@item.BookID"><strong>@item.BookInCart.BookTitle</strong><br /></a>
-                        <small>Qty: @item.Quantity</small><br />
-                        <span class="fw-bold price">@item.GetTotalPrice().ToString("C2")</span>
-                    </div>
-                    <button data-id="@item.BookID" class="btn btn-sm text-danger position-absolute top-0 end-0 mb-2 remove-from-cart" title="Remove">✕</button>
-                </li>
-            }
-        </ul>
-
-        <div class="border-top pt-3 mt-4">
-            <div class="d-flex justify-content-between mb-3">
-                <span class="fw-bold">Total:</span>
-                <span class="fw-bold"><span id="sideCartTotal">@Model.CalculateTotalPrice().ToString("C2")</span></span>
+        @if (Model.CartItems == null || !Model.CartItems.Any())
+        {
+            <div class="alert alert-info text-center my-5">
+                Your cart is empty.
             </div>
-            <a asp-controller="Cart" asp-action="Index" class="btn btn-primary w-100">View Full Cart</a>
-        </div>
+        }
+        else
+        {
+            <ul class="list-unstyled" id="sideCartItems">
+                @foreach(var item in Model.CartItems)
+                {
+                    <li class="d-flex gap-2 align-items-start mb-3">
+                        <img src="@item.BookInCart.GetCoverPath()" alt="Book Cover" class="img-thumbnail bg-secondary border-0" style="width: 50px; height: 75px;" />
+                        <div class="flex-grow-1">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@item.BookID" class="text-white fw-bold text-decoration-none sidecart-title" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                    @item.BookInCart.BookTitle
+                                </a>
+                                <button data-id="@item.BookID" class="btn btn-sm btn-link text-danger remove-from-cart ms-2 p-0" title="Remove" style="font-size:1.2rem;">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                            <small class="text-secondary">Qty: @item.Quantity</small><br />
+                            <span class="fw-bold price">@item.GetTotalPrice().ToString("C2")</span>
+                        </div>
+                    </li>
+                }
+            </ul>
+
+            <div class="border-top pt-3 mt-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="fw-bold">Total:</span>
+                    <span class="fw-bold"><span id="sideCartTotal">@Model.CalculateTotalPrice().ToString("C2")</span></span>
+                </div>
+                <a asp-controller="Cart" asp-action="Index" class="btn btn-primary w-100">View Full Cart</a>
+            </div>
+        }
     </div>
 </div>

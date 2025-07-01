@@ -1,6 +1,65 @@
 ﻿@{
     ViewData["Title"] = "About";
 }
-<p>
-    This is the about page.
-</p>
+<div class="container section-body py-5">
+    <div class="bg-dark text-white rounded shadow p-4 mb-5">
+        <h1 class="mb-3">About Explorer Library</h1>
+        <p class="lead">
+            Explorer Library is a modern, user-friendly library management system designed for South African schools, colleges, organisations, and home libraries. Our mission is to make books and knowledge accessible to everyone, everywhere in South Africa.
+        </p>
+        <hr class="bg-secondary" />
+        <h4 class="mb-3">Our Vision</h4>
+        <p>
+            To empower communities and individuals across South Africa by providing easy access to books, digital resources, and library services through innovative technology.
+        </p>
+        <h4 class="mb-3">What We Offer</h4>
+        <ul>
+            <li>Online catalogue and book search</li>
+            <li>Easy borrowing and return management</li>
+            <li>Personalised user accounts and reading history</li>
+            <li>Support for both physical and digital collections</li>
+            <li>Secure, cloud-based access from anywhere</li>
+        </ul>
+        <h4 class="mb-3">Proudly South African</h4>
+        <p>
+            Explorer Library is developed and supported in South Africa, with a focus on local needs, languages, and communities. We are committed to supporting literacy and education throughout the country.
+        </p>
+        <h4 class="mb-3">Meet the Team</h4>
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="card bg-secondary text-white h-100 shadow text-center">
+                    <img src="~/images/team/phiwokwakhe.jpg" class="card-img-top rounded-circle mx-auto mt-4" alt="Phiwokwakhe Khathwane" style="width: 120px; height: 120px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title mb-1">Phiwokwakhe Khathwane</h5>
+                        <p class="card-text text-primary mb-2 fw-bold">Founder & Lead Architect</p>
+                        <p class="card-text small">Visionary behind Explorer Library, passionate about empowering South African communities through technology and literacy.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-secondary text-white h-100 shadow text-center">
+                    <img src="~/images/team/ayanda.jpg" class="card-img-top rounded-circle mx-auto mt-4" alt="Ayanda Mthembu" style="width: 120px; height: 120px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title mb-1">Ayanda Mthembu</h5>
+                        <p class="card-text text-info mb-2 fw-bold">Community Outreach Lead</p>
+                        <p class="card-text small">Connecting libraries and schools across South Africa, ensuring everyone has access to knowledge.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-secondary text-white h-100 shadow text-center">
+                    <img src="~/images/team/sipho.jpg" class="card-img-top rounded-circle mx-auto mt-4" alt="Sipho Dlamini" style="width: 120px; height: 120px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title mb-1">Sipho Dlamini</h5>
+                        <p class="card-text text-success mb-2 fw-bold">Technical Lead</p>
+                        <p class="card-text small">Ensures the platform is secure, reliable, and always evolving with the latest technology.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h4 class="mb-3">Contact Us</h4>
+        <p>
+            For more information, partnership opportunities, or support, please visit our <a asp-action="Contact" asp-controller="Home" class="text-primary text-decoration-underline">Contact</a> page.
+        </p>
+    </div>
+</div>

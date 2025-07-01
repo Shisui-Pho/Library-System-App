@@ -4,95 +4,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <!--  Bootstrap -->
-    <link rel="stylesheet" asp-href-include="/lib/bootstrap/css/bootstrap.min.css" />
-    <!-- Font Awesome -->
-    <link rel="stylesheet" asp-href-include="/lib/font-awesome/css/all.min.css" />
-    <link rel="stylesheet" asp-href-include="/styles/main.css" />
-    <link rel="stylesheet" asp-href-include="/styles/account.css" />
-    <link rel="stylesheet" asp-href-include="/styles/cart.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Explore: @ViewData["Title"]</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="~/styles/main.css" />
+    <link rel="stylesheet" href="~/styles/account.css" />
+    <link rel="stylesheet" href="~/styles/cart.css" />
 </head>
 <body>
-    <!-- Navigation -->
-    <div class="fixed-top head-layout container-fluid">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-7 col-sm-6 col-xs-12">
-                    <h1 class="page-title">
-                        <a asp-action="Index" asp-controller="Home">Explorer</a>
-                    </h1>
-                </div>
-                <div class="col-md-5 col-sm-6 col-xs-12">
-                    <div class="sign-in-opt">
-                        <div class="buttons" id="menu-1">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <p class="d-inline user-name-heading">Hello user</p>
-                                <!--Putt shopping cart before display name and login-->
-                                <a asp-action="index" asp-controller="Cart" class="shopping-cart">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span class="cart-count">@cartCount</span>
-                                      @*@if (cartCount != 0)
-                                    {
-                                        <span class="cart-count">@cartCount</span>
-                                    } *@
-                                </a>
-                                if (User.IsInRole("Customer"))
-                                {
-                                    <a id="LogIn" class="button-medium button-blue" asp-action="Logout" asp-controller="Account">Log out</a>
-                                }
-                            }
-                            else
-                            {
-                                <!--Putt shopping cart before login and logout buttons-->
-                                    <a asp-action="Index" asp-controller="Cart" class="shopping-cart">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span class="cart-count">@cartCount</span>
-                                      @*@if (cartCount != 0)
-                                    {
-                                        <span class="cart-count">@cartCount</span>
-                                    } *@
-                                </a>
-                                <a class="button-green button-medium" asp-controller="Account" asp-action="Register">Sign-up</a>
-                                <a id="LogIn" class="button-medium button-blue" asp-action="Login" asp-controller="Account">Log in</a>
-                            }
-                        </div>
-                    </div>
-                </div>
+    <!-- Header -->
+    <header class="library-header shadow-sm bg-white sticky-top">
+        <div class="container d-flex align-items-center justify-content-between py-2">
+            <h1 class="mb-0 page-title">
+                <a asp-action="Index" asp-controller="Home" class="text-decoration-none text-dark">Explorer</a>
+            </h1>
+            <div class="d-flex align-items-center gap-3">
+                <a asp-action="Index" asp-controller="Cart" class="shopping-cart position-relative me-2">
+                    <i class="fa fa-shopping-cart fa-lg"></i>
+                    <span class="cart-count badge bg-primary position-absolute top-0 start-100 translate-middle">@cartCount</span>
+                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <span class="user-name-heading me-2">Hello user</span>
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <a id="LogIn" class="btn btn-outline-primary btn-sm" asp-action="Logout" asp-controller="Account">Log out</a>
+                    }
+                }
+                else
+                {
+                    <a class="btn btn-success btn-sm me-2" asp-controller="Account" asp-action="Register">Sign-up</a>
+                    <a id="LogIn" class="btn btn-primary btn-sm" asp-action="Login" asp-controller="Account">Log in</a>
+                }
             </div>
         </div>
-    </div>
+    </header>
 
-    <div class="navigation navbar nav-pills navbar-expand-md mt-5">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm">
         <div class="container">
-            <!-- Toggler/collapsible Button -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#MyNavbar">
+            <a class="navbar-brand d-md-none" asp-action="Index" asp-controller="Home">Explorer</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <!-- Links -->
-            <div class="collapse navbar-collapse" id="MyNavbar">
-                <ul class="navbar-nav ml-auto">
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button"
-                           id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="booksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Books
                         </a>
-
-                        <div class="dropdown-books dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a class="dropdown-books-item dropdown-item" asp-action="List" asp-controller="Books">Books</a>
-                            <a class="dropdown-books-item dropdown-item" href="#">Top books</a>
-                            <a class="dropdown-books-item dropdown-item" href="#">Advance Search</a>
-                        </div>
+                        <ul class="dropdown-menu" aria-labelledby="booksDropdown">
+                            <li><a class="dropdown-item" asp-action="List" asp-controller="Books">Books</a></li>
+                            <li><a class="dropdown-item" href="#">Top books</a></li>
+                            <li><a class="dropdown-item" href="#">Advance Search</a></li>
+                        </ul>
                     </li>
                     @if (User.IsInRole("Staff") && User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">Staff Dashboard</a></li>
-
                     }
                     @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
                     {
@@ -104,37 +78,35 @@
                     }
                     <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">About</a></li>
                     <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a></li>
-
                 </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <!--A stand-alone -->
-    <div class="templete">
+    <!-- Main content -->
+    <main class="container py-4">
         @RenderBody()
-    </div>
+    </main>
 
-    <div class="container mt-3">
-        <div class="border-top footer text-muted text-center small">
-            <p>
+    <!-- Footer -->
+    <footer class="footer bg-light border-top text-muted text-center small py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0">
                 Created by: Phiwokwakhe Khathwane<br />
                 <span class="fas fa-copyright"></span>@DateTime.Now.Year
             </p>
         </div>
-    </div>
+    </footer>
 
-    <!--Render sidebar cart-->
+    <!-- Sidebar cart -->
     <div id="bookSideCart" class="side-cart-hidden">
         @await Component.InvokeAsync("SideCart")
     </div>
-    
 
-    <!-- JavaScript -->
-    <script asp-src-include="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/scripts/cart.js"></script>
     <script src="~/scripts/quantityinput.js"></script>
-    @* <script src="~/styles/js/login.js"></script> *@
 </body>
 </html>

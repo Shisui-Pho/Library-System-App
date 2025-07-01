@@ -18,27 +18,26 @@ public class AddToCartTagHelper : TagHelper
     public string IncrementDivID { get; set; }
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        //Form Container
-        TagBuilder div = new("div");
-
-        //Form
+        // Build form
         var form = BuildForm();
 
-        //Button Container
-        var buttonDiv = new TagBuilder("div");
-        buttonDiv.AddCssClass("buttons");
-
-        //button for adding to cart
+        // Button for adding to cart
         var button = BuildClickButton();
         button.Attributes.Add("data-origin", DivID);
         button.Attributes.Add("data-complementary", IncrementDivID);
 
-        //Combine elements
+        // Button container
+        var buttonDiv = new TagBuilder("div");
+        buttonDiv.AddCssClass("buttons");
         buttonDiv.InnerHtml.AppendHtml(button);
-        form.InnerHtml.AppendHtml(buttonDiv);
-        div.InnerHtml.AppendHtml(form);
 
-        output.Content.SetHtmlContent(form);
+        form.InnerHtml.AppendHtml(buttonDiv);
+
+        // Output only the form (no extra wrapping div)
+        output.TagName = "form";
+        output.Attributes.SetAttribute("method", "post");
+        output.Attributes.SetAttribute("action", "/Cart/AddToCart");
+        output.Content.SetHtmlContent(form.InnerHtml);
     }//Process
     private static TagBuilder BuildClickButton()
     {

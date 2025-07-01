@@ -132,8 +132,13 @@ form .text input, .form-container .password input {
     border-radius: 3px;
 }
 
-
-
+/* Make form labels more visible on dark backgrounds */
+.form-label,
+label {
+    color: #f8f9fa !important;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
 
 /*Login form*/
 .popup {

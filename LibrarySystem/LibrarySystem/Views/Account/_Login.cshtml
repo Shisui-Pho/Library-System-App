@@ -2,29 +2,34 @@
 @{
     ViewData["Title"] = "Login";
 }
-<div class="login-form">
-    <div class="button-close">
-        <span class="btn-close"></span>
-    </div>
-    <form method="post" asp-action="Login" asp-controller="Account">
-        <div class="form">
-            <h2>User Login</h2>
-            <div class="form-element">
-                <label asp-for="Email" class="form-label">Email</label>
-                <input type="text" id="email" placeholder="Enter email" asp-for="Email"/>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow bg-dark text-white p-4">
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn-close btn-close-white" aria-label="Close" onclick="window.history.back()"></button>
+                </div>
+                <form method="post" asp-action="Login" asp-controller="Account" class="needs-validation" novalidate>
+                    <h2 class="mb-4 text-center">User Login</h2>
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" autocomplete="username" placeholder="Enter email" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" class="form-control" type="password" autocomplete="current-password" placeholder="Enter password" />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-success btn-lg">Log In</button>
+                    </div>
+                    <div class="text-center">
+                        <a href="#" class="link-light">Forgotten password?</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-element">
-                <label asp-for="Password" class="form-label">Password</label>
-                <input type="password" id="password" placeholder="Enter password" asp-for="Email" />
-            </div>
-
-            <div class="form-element">
-                <input type="submit" class="button-green" value="LogIn" />
-            </div>
-            <div class="form-element">
-                <a href="#">Forgotten password?</a>
-            </div>
-
         </div>
-    </form>
+    </div>
 </div>
