@@ -10,7 +10,7 @@ public class AddToCartTagHelper : TagHelper
     public int CartItemBookID { get; set; }
     public int CartItemQuantity { get; set; }
 
-    public int CartItemPrice { get;set; }
+    public decimal CartItemPrice { get;set; }
     public string PageWhereItemWasAdded { get; set; }
     
     public string DivID { get; set; }
