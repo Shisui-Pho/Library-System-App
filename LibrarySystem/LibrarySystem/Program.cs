@@ -30,7 +30,7 @@ builder.Services.AddSession();
 builder.Services.AddRouting(options =>
 {
     options.AppendTrailingSlash = true;
-    options.LowercaseQueryStrings = true;//this makes sure my url is always lower case for readability
+    options.LowercaseQueryStrings = false;//this makes sure my url is always lower case for readability
 });
 
 //-Configure authorisation paths

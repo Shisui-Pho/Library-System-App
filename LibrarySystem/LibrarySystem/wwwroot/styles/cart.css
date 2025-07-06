@@ -33,9 +33,9 @@
     width:100%;
 }
 .buttons .button-stretch-width {
-    height:40px;
-    align-content:center;
-    margin-bottom:40px;
+    min-height: 2.5rem;
+    align-content: center;
+    margin-bottom: 0.1rem;
 }
 
 
@@ -113,116 +113,6 @@
 #bookSideCart {
     transition: transform 0.3s ease-in-out;
 }
-
-
-/*Quantity*/
-
-.qty-input {
-    color: #000;
-    background: #fff;
-    display: flex;
-    align-items: end;
-    overflow: hidden;
-    width: 100%;
-    place-content: end;
-    border-radius: 4px;
-    box-shadow: 0 1em 2em -0.9em rgba(#000, 0.7);
-    transform: scale(1.1);
-}
-
-.qty-input .product-qty, .qty-input .qty-count {
-    background: transparent;
-    color: inherit;
-    font-weight: bold;
-    font-size: inherit;
-    border: none;
-    display: inline-block;
-    min-width: 0;
-    height: 2.5rem;
-    line-height: 1;
-}
-
-.qty-input .product-qty:focus, .qty-input .qty-count:focus {
-    outline: none;
-}
-
-.qty-input .product-qty {
-    width: 50px;
-    min-width: 0;
-    display: inline-block;
-    text-align: center;
-    appearance: textfield;
-}
-
-.qty-input .product-qty::-webkit-outer-spin-button, .qty-input .product-qty::-webkit-inner-spin-button {
-    appearance: none;
-    margin: 0;
-}
-
-.qty-input .qty-count {
-    padding: 0;
-    cursor: pointer;
-    width: 2.5rem;
-    font-size: 1.25em;
-    text-indent: -100px;
-    overflow: hidden;
-    position: relative;
-}
-
-.qty-input .qty-count:before, .qty-input .qty-count:after {
-    content: "";
-    height: 2px;
-    width: 10px;
-    position: absolute;
-    display: block;
-    background: #000;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-}
-
-.qty-input .qty-count--minus {
-    border-right: 1px solid #e2e2e2;
-}
-
-.qty-input .qty-count--add {
-    border-left: 1px solid #e2e2e2;
-}
-
-.qty-input .qty-count--add:after {
-    transform: rotate(90deg);
-}
-
-.qty-input .qty-count:disabled {
-    color: #ccc;
-    background: #f2f2f2;
-    cursor: not-allowed;
-    border-color: transparent;
-}
-
-.qty-input .qty-count:disabled:before, .qty-input .qty-count:disabled:after {
-    background: #ccc;
-}
-
-.qty-input-group .btn,
-.qty-input-group .form-control {
-    height: 32px;
-    padding: 0 0.5rem;
-    font-size: 1rem;
-    box-shadow: none;
-}
-
-.qty-input-group .form-control {
-    border-left: 0;
-    border-right: 0;
-}
-
-.qty-input-group .btn {
-    min-width: 32px;
-}
-
 /* Side cart dark mode and compact tweaks */
 .position-fixed.bg-dark {
     background: #23272f !important;
@@ -246,4 +136,5 @@
 }
 .remove-from-cart {
     vertical-align: middle;
+    width:50%;
 }

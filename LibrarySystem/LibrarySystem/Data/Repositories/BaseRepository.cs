@@ -46,9 +46,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     }
     public IEnumerable<T> GetWithOptions(QueryOptions<T> options)
     {
-        //Apply query options
+        return ApplyOptions(options);
+    }//GetWithOptions
+    protected IQueryable<T> ApplyOptions(QueryOptions<T> options)
+    {
         IQueryable<T> q = _dbContext.Set<T>();
-
         //Check for the options
         if (options.HasWhere)
         {
@@ -59,7 +61,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         //Check for orderby clause
         if (options.HasOrderBy)
         {
-            if(options.OrderByDirection == "asc")
+            if (options.OrderByDirection == "asc")
                 q = q.OrderBy(options.OrderBy);
             else
                 q = q.OrderByDescending(options.OrderBy);
@@ -72,9 +74,8 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
             q = q.Skip((options.PagingInfomation.CurrentPageNumber - 1) * options.PagingInfomation.NumberOfItemsPerPage)
                  .Take(options.PagingInfomation.NumberOfItemsPerPage);
         }
-
         return q;
-    }//GetWithOptions
+    }
 
     public int Count()
     { 

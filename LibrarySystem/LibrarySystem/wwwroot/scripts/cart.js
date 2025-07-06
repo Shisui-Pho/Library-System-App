@@ -9,11 +9,8 @@ $(function () {
         //For hiding and unhiding
         const div_tohide = '#' + button.data("origin");
         const div_to_show = '#' + button.data("complementary");
-
         $.post(form.attr('action'), formData, function (response) {
             $('.cart-count').text(response.cartCount);
-
-
             if (div_tohide != null & div_to_show != null) {
                 $(div_tohide).addClass('add-cart-hidden')
                 $(div_to_show).removeClass('qty-hidden')

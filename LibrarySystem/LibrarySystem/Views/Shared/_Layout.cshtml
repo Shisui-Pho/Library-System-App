@@ -1,5 +1,8 @@
 ﻿@{
     int cartCount = Context.Session.GetInt32("cartCount") ?? 0;
+
+    string currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    string currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +23,7 @@
     <header class="library-header shadow-sm bg-white sticky-top">
         <div class="container d-flex align-items-center justify-content-between py-2">
             <h1 class="mb-0 page-title">
-                <a asp-action="Index" asp-controller="Home" class="text-decoration-none text-dark">Explorer</a>
+                <a asp-action="Index" asp-controller="Home" class="text-decoration-none text-dark"><i class="fas fa-book-reader me-2"></i>Explorer</a>
             </h1>
             <div class="d-flex align-items-center gap-3">
                 <a asp-action="Index" asp-controller="Cart" class="shopping-cart position-relative me-2">
@@ -45,39 +48,121 @@
     </header>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm">
+    <nav class="navbar navbar-expand-md navbar-light" style="background: #f8f6f1;">
         <div class="container">
-            <a class="navbar-brand d-md-none" asp-action="Index" asp-controller="Home">Explorer</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <a class="navbar-brand d-md-none" asp-action="Index" asp-controller="Home">
+                <i class="fas fa-book-reader me-1"></i>Explorer
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
+                <ul class="navbar-nav ms-auto align-items-md-center gap-2">
+                    <!-- Public Tabs -->
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center @(currentController == "Home" && currentAction == "Index" ? "active" : "")" asp-controller="Home" asp-action="Index">
+                            <i class="fas fa-home me-1"></i> Home
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="booksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Books
+                        <a class="nav-link dropdown-toggle d-flex align-items-center @(currentController == "Books" ? "active" : "")" href="#" id="booksDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-book me-1"></i> Books
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="booksDropdown">
-                            <li><a class="dropdown-item" asp-action="List" asp-controller="Books">Books</a></li>
-                            <li><a class="dropdown-item" href="#">Top books</a></li>
-                            <li><a class="dropdown-item" href="#">Advance Search</a></li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center @(currentController == "Books" && currentAction == "List" ? "active" : "")" asp-action="List" asp-controller="Books">
+                                    <i class="fas fa-book-open me-2"></i> Books
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="fas fa-layer-group me-2"></i> Genres
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="fas fa-user-edit me-2"></i> Authors
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <i class="fas fa-star me-2"></i> New Arrivals
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <span class="dropdown-item text-muted small">Explore our collection</span>
+                            </li>
                         </ul>
                     </li>
-                    @if (User.IsInRole("Staff") && User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">Staff Dashboard</a></li>
-                    }
-                    @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">Admin Dashboard</a></li>
-                    }
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center @(currentController == "Home" && currentAction == "About" ? "active" : "")" asp-controller="Home" asp-action="About">
+                            <i class="fas fa-info-circle me-1"></i> About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center @(currentController == "Home" && currentAction == "Contact" ? "active" : "")" asp-controller="Home" asp-action="Contact">
+                            <i class="fas fa-envelope me-1"></i> Contact
+                        </a>
+                    </li>
+
+                    <!-- Customer Tabs -->
                     @if (User.IsInRole("Customer") && User.Identity.IsAuthenticated)
                     {
-                        <li class="nav-item"><a class="nav-link" asp-action="Profile" asp-controller="UserProfile">My Profile</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center @(currentController == "UserProfile" && currentAction == "Profile" ? "active" : "")" asp-action="Profile" asp-controller="UserProfile">
+                                <i class="fas fa-user me-1"></i> My Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="#">
+                                <i class="fas fa-box me-1"></i> Orders
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="#">
+                                <i class="fas fa-heart me-1"></i> Wishlist
+                            </a>
+                        </li>
                     }
-                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">About</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <!-- Staff Tabs -->
+                    @if (User.IsInRole("Staff") && User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center @(currentController == "Home" && currentAction == "About" ? "active" : "")" asp-controller="Home" asp-action="About">
+                                <i class="fas fa-user-tie me-1"></i> Staff Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="#">
+                                <i class="fas fa-cogs me-1"></i> Manage Books
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="#">
+                                <i class="fas fa-clipboard-list me-1"></i> Issue Requests
+                            </a>
+                        </li>
+                    }
+                    <!-- Admin Tabs -->
+                    @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center @(currentController == "Home" && currentAction == "About" ? "active" : "")" asp-controller="Home" asp-action="About">
+                                <i class="fas fa-user-shield me-1"></i> Admin Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="#">
+                                <i class="fas fa-users-cog me-1"></i> User Management
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link d-flex align-items-center" href="#">
+                                <i class="fas fa-sliders-h me-1"></i> System Settings
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
@@ -89,12 +174,57 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer bg-light border-top text-muted text-center small py-3 mt-auto">
+    <!-- Footer -->
+    <footer class="footer bg-dark text-light pt-4 pb-2 mt-auto">
         <div class="container">
-            <p class="mb-0">
-                Created by: Phiwokwakhe Khathwane<br />
-                <span class="fas fa-copyright"></span>@DateTime.Now.Year
-            </p>
+            <div class="row gy-4">
+                <!-- Branding -->
+                <div class="col-12 col-md-3">
+                    <div class="mb-2">
+                        <a asp-action="Index" asp-controller="Home" class="text-decoration-none text-light fs-4 fw-bold">
+                            <i class="fas fa-book-reader me-2"></i>Explorer
+                        </a>
+                    </div>
+                    <p class="small text-secondary mb-1">Your gateway to a world of books.</p>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-light"><i class="fab fa-facebook fa-lg"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-twitter fa-lg"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-instagram fa-lg"></i></a>
+                    </div>
+                </div>
+                <!-- Quick Links -->
+                <div class="col-6 col-md-2">
+                    <h6 class="text-uppercase fw-bold mb-2">Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a asp-controller="Home" asp-action="Index" class="text-light text-decoration-none">Home</a></li>
+                        <li><a asp-controller="Books" asp-action="List" class="text-light text-decoration-none">Books</a></li>
+                        <li><a asp-controller="Home" asp-action="About" class="text-light text-decoration-none">About</a></li>
+                        <li><a asp-controller="Home" asp-action="Contact" class="text-light text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- Explore -->
+                <div class="col-6 col-md-2">
+                    <h6 class="text-uppercase fw-bold mb-2">Explore</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-light text-decoration-none">Genres</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Authors</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">New Arrivals</a></li>
+                    </ul>
+                </div>
+                <!-- Contact Info -->
+                <div class="col-12 col-md-5">
+                    <h6 class="text-uppercase fw-bold mb-2">Contact</h6>
+                    <ul class="list-unstyled small mb-0">
+                        <li><i class="fas fa-envelope me-2"></i> info@explorerbooks.com</li>
+                        <li><i class="fas fa-phone me-2"></i> +1 234 567 890</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Book St, Library City</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary my-3" />
+            <div class="text-center small text-secondary">
+                &copy; @DateTime.Now.Year Phiwokwakhe. All rights reserved.
+            </div>
         </div>
     </footer>
 
