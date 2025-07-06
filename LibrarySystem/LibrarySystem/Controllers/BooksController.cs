@@ -35,7 +35,7 @@ public class BooksController : Controller
             PagingInfomation = paging
         };
 
-        IEnumerable<Book> books = _repository.Books.GetWithOptions(queryOptions);
+        IEnumerable<Book> books = _repository.Books.GetAllBooksWithAuthors(queryOptions);
         var cartItems = _cartService.GetCart(HttpContext)
                                     .CartItems.Select(x => (x.BookID, x.Quantity))
                                     .ToList();

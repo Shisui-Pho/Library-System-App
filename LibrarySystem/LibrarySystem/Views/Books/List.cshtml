@@ -54,7 +54,7 @@
                                 <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" class="text-white">@book.BookTitle</a>
                             </h5>
                             <p class="card-text small text-secondary mb-2">@book.GetAuthorsString()</p>
-                            <div class="mt-auto">
+                            <div class="mt-auto buttons">
                                 <div id="@Model.GenerateUniqueIdentifier(book.Id, true)" class="@(isContained ? "add-cart-hidden" : "")">
                                     <form method="post" class="form" asp-controller="Cart" asp-action="AddToCart">
                                         <div class="hidden-fields">
@@ -63,7 +63,7 @@
                                             <input type="hidden" name="CartItem.Quantity" value="1" />
                                             <input type="hidden" name="PageWhereItemWasAdded" value="@currentPage" />
                                         </div>
-                                        <div class="buttons">
+                                        <div class="shown-section">
                                             <button class="ajax-cart-btn btn button-blue button-stretch-width"
                                                     type="button"
                                                     data-origin="@Model.GenerateUniqueIdentifier(book.Id, true)"
@@ -73,37 +73,22 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div id="@Model.GenerateUniqueIdentifier(book.Id, false)" class="qty-input-group mt-2 @(isContained ? "" : "qty-hidden")">
-                                    <div class="input-group buttons">
-                                        <button class="btn btn-outline-secondary qty-count qty-count--minus" data-action="minus" data-id="@book.Id" type="button">-</button>
-                                        <input class="form-control text-center product-qty" type="number" name="product-qty" data-id="@book.Id" min="0" max="10" value="@(isContained? quantity : 1)" style="max-width:60px;">
-                                        <button class="btn btn-outline-secondary qty-count qty-count--add" data-action="add" data-id="@book.Id" type="button">+</button>
+                                <div id="@Model.GenerateUniqueIdentifier(book.Id, false)" class="buttons qty-input-group mt-2 row @(isContained ? "" : "qty-hidden")">
+                                    <div class="col-12 col-lg-6 mb-2 mb-md-0 half-width">
+                                        <div class="input-group qty-input full-width">
+                                            <button class="btn btn-outline-secondary qty-count qty-count--minus quater-width" data-action="minus" data-id="@book.Id" type="button">-</button>
+                                            <input class="form-control text-center product-qty third-width" type="number" name="product-qty" data-id="@book.Id" min="0" max="10" value="@(isContained? quantity : 1)" style="max-width:60px;">
+                                            <button class="btn btn-outline-secondary qty-count qty-count--add quater-width" data-action="add" data-id="@book.Id" type="button">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-6 half-width">
                                         <button data-id="@book.Id"
                                                 data-origin="@Model.GenerateUniqueIdentifier(book.Id, false)"
-                                                class="btn btn-danger ms-2 remove-from-cart"
+                                                class="btn btn-danger ms-2 remove-from-cart full-width"
                                                 data-complementary="@Model.GenerateUniqueIdentifier(book.Id, true)">
                                             Remove
                                         </button>
                                     </div>
-                                </div>
-                                <div>
-                                    <!-- #region name -->
-                                    @* @if (!isContained)
-                                {
-                                  <div cart-item-book-id="@book.Id"
-                                         cart-item-price="@book.Price"
-                                         cart-item-quantity="1"
-                                         page-where-item-was-added="@currentPage"
-                                         div-id="@Model.GenerateUniqueIdentifier(book.Id, true)"
-                                         complementary-div="@Model.GenerateUniqueIdentifier(book.Id, false)">
-                                    </div> 
-                                    
-                                }
-                                else
-                                {
-                                    
-                                } *@
-                                    <!-- #endregion -->
                                 </div>
                             </div>
                         </div>

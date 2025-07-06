@@ -576,3 +576,17 @@ main.container {
 .add-to-cart-btn {
     margin-top: 0.5rem;
 }
+
+/*Other*/
+.half-width {
+    width:50% !important;
+}
+.full-width {
+    width:100% !important;
+}
+.third-width {
+    width: 33.33%;
+}
+.quater-width {
+    width: 25%;
+}
