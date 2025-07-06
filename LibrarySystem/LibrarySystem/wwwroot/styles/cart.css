@@ -33,7 +33,7 @@
     width:100%;
 }
 .buttons .button-stretch-width {
-    height: 40px;
+    min-height: 2.5rem;
     align-content: center;
     margin-bottom: 0.1rem;
 }

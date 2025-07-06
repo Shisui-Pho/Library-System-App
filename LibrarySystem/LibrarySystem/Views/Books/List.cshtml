@@ -44,7 +44,7 @@
             @foreach (Book book in Model.Books)
             {
                 var (isContained, quantity) = Model.IsBookInCart(book.Id);
-                <div class="col-md-3 col-sm-6 d-flex">
+                <div class="col-12 col-md-6 col-sm-6 col-lg-3 d-flex">
                     <div class="card bg-dark text-white border-secondary shadow-sm flex-fill book-card h-100">
                         <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
                             <img class="card-img-top book-cover" src="@book.GetCoverPath()" alt="@book.BookTitle" />
@@ -74,17 +74,17 @@
                                     </form>
                                 </div>
                                 <div id="@Model.GenerateUniqueIdentifier(book.Id, false)" class="buttons qty-input-group mt-2 row @(isContained ? "" : "qty-hidden")">
-                                    <div class="col-12 col-lg-6 mb-2 mb-md-0 half-width">
-                                        <div class="input-group qty-input full-width">
-                                            <button class="btn btn-outline-secondary qty-count qty-count--minus quater-width" data-action="minus" data-id="@book.Id" type="button">-</button>
-                                            <input class="form-control text-center product-qty third-width" type="number" name="product-qty" data-id="@book.Id" min="0" max="10" value="@(isContained? quantity : 1)" style="max-width:60px;">
-                                            <button class="btn btn-outline-secondary qty-count qty-count--add quater-width" data-action="add" data-id="@book.Id" type="button">+</button>
+                                    <div class="col-12 col-lg-6 mb-2 mb-md-0">
+                                        <div class="input-group qty-input w-100 justify-content-center">
+                                            <button class="btn btn-outline-secondary qty-count qty-count--minus w-25" data-action="minus" data-id="@book.Id" type="button">-</button>
+                                            <input class="form-control text-center product-qty w-50" type="number" name="product-qty" data-id="@book.Id" min="0" max="10" value="@(isContained? quantity : 1)" style="max-width:60px;">
+                                            <button class="btn btn-outline-secondary qty-count qty-count--add w-25" data-action="add" data-id="@book.Id" type="button">+</button>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-6 half-width">
+                                    <div class="col-12 col-lg-6">
                                         <button data-id="@book.Id"
                                                 data-origin="@Model.GenerateUniqueIdentifier(book.Id, false)"
-                                                class="btn btn-danger ms-2 remove-from-cart full-width"
+                                                class="btn btn-danger ms-2 remove-from-cart w-100"
                                                 data-complementary="@Model.GenerateUniqueIdentifier(book.Id, true)">
                                             Remove
                                         </button>
