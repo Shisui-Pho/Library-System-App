@@ -28,4 +28,6 @@ public class Author
 
     // Navigational property
     public List<Book> Books { get; set; }
+    //Slug for URL-friendly paths
+    public string Slug => FullName.Replace(" ", "-").ToLowerInvariant();
 }
