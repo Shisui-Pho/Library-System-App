@@ -43,7 +43,7 @@
         <div class="row g-4">
             @foreach (Book book in Model.Books)
             {
-                var (isContained, quantity) = Model.IsBookInCart(book.Id);
+                var (isContained, quantity) = Model.CartItemStatus.IsBookInCart(book.Id);
                 <div class="col-12 col-md-6 col-sm-6 col-lg-3 d-flex">
                     <div class="card bg-dark text-white border-secondary shadow-sm flex-fill book-card h-100">
                         <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.Id" asp-route-slug="@book.Slug">
@@ -55,7 +55,7 @@
                             </h5>
                             <p class="card-text small text-secondary mb-2">@book.GetAuthorsString()</p>
                             <div class="mt-auto buttons">
-                                <div id="@Model.GenerateUniqueIdentifier(book.Id, true)" class="@(isContained ? "add-cart-hidden" : "")">
+                                <div id="@Model.CartItemStatus.GenerateUniqueIdentifier(book.Id, true)" class="@(isContained ? "add-cart-hidden" : "")">
                                     <form method="post" class="form" asp-controller="Cart" asp-action="AddToCart">
                                         <div class="hidden-fields">
                                             <input type="hidden" name="CartItem.BookID" value="@book.Id" />
@@ -66,14 +66,14 @@
                                         <div class="shown-section">
                                             <button class="ajax-cart-btn btn button-blue button-stretch-width"
                                                     type="button"
-                                                    data-origin="@Model.GenerateUniqueIdentifier(book.Id, true)"
-                                                    data-complementary="@Model.GenerateUniqueIdentifier(book.Id, false)">
+                                                    data-origin="@Model.CartItemStatus.GenerateUniqueIdentifier(book.Id, true)"
+                                                    data-complementary="@Model.CartItemStatus.GenerateUniqueIdentifier(book.Id, false)">
                                                 Add to cart
                                             </button>
                                         </div>
                                     </form>
                                 </div>
-                                <div id="@Model.GenerateUniqueIdentifier(book.Id, false)" class="buttons qty-input-group mt-2 row @(isContained ? "" : "qty-hidden")">
+                                <div id="@Model.CartItemStatus.GenerateUniqueIdentifier(book.Id, false)" class="buttons qty-input-group mt-2 row @(isContained ? "" : "qty-hidden")">
                                     <div class="col-12 col-lg-6 mb-2 mb-md-0">
                                         <div class="input-group qty-input w-100 justify-content-center">
                                             <button class="btn btn-outline-secondary qty-count qty-count--minus w-25" data-action="minus" data-id="@book.Id" type="button">-</button>
@@ -83,9 +83,9 @@
                                     </div>
                                     <div class="col-12 col-lg-6">
                                         <button data-id="@book.Id"
-                                                data-origin="@Model.GenerateUniqueIdentifier(book.Id, false)"
+                                                data-origin="@Model.CartItemStatus.GenerateUniqueIdentifier(book.Id, false)"
                                                 class="btn btn-danger ms-2 remove-from-cart w-100"
-                                                data-complementary="@Model.GenerateUniqueIdentifier(book.Id, true)">
+                                                data-complementary="@Model.CartItemStatus.GenerateUniqueIdentifier(book.Id, true)">
                                             Remove
                                         </button>
                                     </div>
