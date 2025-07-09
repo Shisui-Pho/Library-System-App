@@ -70,7 +70,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="booksDropdown">
                             <li>
-                                <a class="dropdown-item d-flex align-items-center @(currentController == "Books" && currentAction == "List" ? "active" : "")" asp-action="List" asp-controller="Books">
+                                <a class="dropdown-item d-flex align-items-center @(currentController == "Books" && currentAction == "List" ? "active" : "")" asp-action="BooksList" asp-controller="Books">
                                     <i class="fas fa-book-open me-2"></i> Books
                                 </a>
                             </li>
@@ -80,7 +80,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <a class="dropdown-item d-flex align-items-center" asp-action="AuthorsList" asp-controller="Books">
                                     <i class="fas fa-user-edit me-2"></i> Authors
                                 </a>
                             </li>
