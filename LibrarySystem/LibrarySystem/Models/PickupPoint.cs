@@ -20,6 +20,9 @@ public class PickupPoint
     [Required]
     [StringLength(50)]
     public string Province { get; set; }
+    [Required]
+    [StringLength(3)]
+    public string ProvinceCode { get; set; }
 
     [StringLength(20)]
     public string Phone { get; set; }

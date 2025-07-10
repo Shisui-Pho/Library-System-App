@@ -52,7 +52,8 @@ public class SeedData
                 Province = "Gauteng",
                 Phone = "+27 11 883 1312",
                 OpeningTime = new TimeSpan(9, 0, 0),
-                ClosingTime = new TimeSpan(17, 0, 0)
+                ClosingTime = new TimeSpan(17, 0, 0),
+                ProvinceCode = "GP"
             },
             new () {
                 Name = "Mall of Africa",
@@ -61,7 +62,8 @@ public class SeedData
                 Province = "Gauteng",
                 Phone = "+27 10 593 5660",
                 OpeningTime = new TimeSpan(9, 0, 0),
-                ClosingTime = new TimeSpan(18, 0, 0)
+                ClosingTime = new TimeSpan(18, 0, 0),
+                ProvinceCode = "GP"
             },
             new () {
                 Name = "Menlyn Park Shopping Centre",
@@ -70,7 +72,8 @@ public class SeedData
                 Province = "Gauteng",
                 Phone = "+27 12 764 9600",
                 OpeningTime = new TimeSpan(8, 30, 0),
-                ClosingTime = new TimeSpan(17, 30, 0)
+                ClosingTime = new TimeSpan(17, 30, 0),
+                ProvinceCode = "GP"
             },
             
             // Western Cape
@@ -81,7 +84,8 @@ public class SeedData
                 Province = "Western Cape",
                 Phone = "+27 21 555 3455",
                 OpeningTime = new TimeSpan(9, 0, 0),
-                ClosingTime = new TimeSpan(19, 0, 0)
+                ClosingTime = new TimeSpan(19, 0, 0),
+                ProvinceCode = "WC"
             },
             new () {
                 Name = "V&A Waterfront",
@@ -90,7 +94,8 @@ public class SeedData
                 Province = "Western Cape",
                 Phone = "+27 21 408 7600",
                 OpeningTime = new TimeSpan(10, 0, 0),
-                ClosingTime = new TimeSpan(20, 0, 0)
+                ClosingTime = new TimeSpan(20, 0, 0),
+                ProvinceCode = "WC"
             },
             new () {
                 Name = "Garden Route Mall",
@@ -99,7 +104,8 @@ public class SeedData
                 Province = "Western Cape",
                 Phone = "+27 44 873 3444",
                 OpeningTime = new TimeSpan(9, 0, 0),
-                ClosingTime = new TimeSpan(18, 0, 0)
+                ClosingTime = new TimeSpan(18, 0, 0),
+                ProvinceCode = "WC"
             },
             
             // KwaZulu-Natal
@@ -110,7 +116,8 @@ public class SeedData
                 Province = "KwaZulu-Natal",
                 Phone = "+27 31 514 0500",
                 OpeningTime = new TimeSpan(9, 0, 0),
-                ClosingTime = new TimeSpan(19, 0, 0)
+                ClosingTime = new TimeSpan(19, 0, 0),
+                ProvinceCode = "KZN"
             },
             new () {
                 Name = "Liberty Midlands Mall",
@@ -119,7 +126,8 @@ public class SeedData
                 Province = "KwaZulu-Natal",
                 Phone = "+27 33 342 1551",
                 OpeningTime = new TimeSpan(9, 0, 0),
-                ClosingTime = new TimeSpan(17, 30, 0)
+                ClosingTime = new TimeSpan(17, 30, 0),
+                ProvinceCode = "KZN"
             },
             
             // Eastern Cape
@@ -130,7 +138,8 @@ public class SeedData
                 Province = "Eastern Cape",
                 Phone = "+27 41 363 0271",
                 OpeningTime = new TimeSpan(9, 0, 0),
-                ClosingTime = new TimeSpan(18, 0, 0)
+                ClosingTime = new TimeSpan(18, 0, 0),
+                ProvinceCode = "EC"
             },
             new() {
                 Name = "Vincent Park Shopping Centre",
@@ -139,7 +148,8 @@ public class SeedData
                 Province = "Eastern Cape",
                 Phone = "+27 43 721 2240",
                 OpeningTime = new TimeSpan(8, 30, 0),
-                ClosingTime = new TimeSpan(17, 0, 0)
+                ClosingTime = new TimeSpan(17, 0, 0), 
+                ProvinceCode = "EC"
             }
         };
 
