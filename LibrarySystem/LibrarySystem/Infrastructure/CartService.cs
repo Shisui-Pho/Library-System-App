@@ -156,6 +156,33 @@ public class CartService : ICartService
         //-Negative value means something went wrong
         return (totalItems >= 0, totalItems);
     }
+    public void ClearCart(HttpContext context)
+    {
+        if(_userService.IsLoggedIn(context.User))
+        {
+            //Clear the cart from the database
+            var userid = _userService.GetUserId(context.User);
+            var items = _repo.Carts.FindByCondition(cart => cart.UserID == userid);
+            if (items.Any())
+            {
+                try
+                {
+                    _repo.Carts.DeleteRange(items);
+                    _repo.SaveChanges();
+                }
+                catch (DbUpdateException)
+                {
+                    //For now I swallow the exception
+                    return;
+                }
+            }
+        }
+        else
+        {
+            //Clear the session
+            context.Session.Remove("Cart");
+        }
+    }//ClearCart
     #region Helpers
     private static int AddToCartViaSession(CartItemViewModel cartInfo, HttpContext context)
     {
