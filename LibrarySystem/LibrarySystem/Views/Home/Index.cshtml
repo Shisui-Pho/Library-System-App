@@ -7,7 +7,7 @@
         <h1 class="display-4 fw-bold mb-3">Welcome to the Explorer Library</h1>
         <p class="lead mb-4">Your digital gateway to thousands of books and resources.</p>
         <div>
-            <a asp-controller="Books" asp-action="List" class="btn btn-primary btn-lg me-2">Browse Books</a>
+            <a asp-controller="Books" asp-action="BooksList" class="btn btn-primary btn-lg me-2">Browse Books</a>
             <a asp-controller="Account" asp-action="Register" class="btn btn-success btn-lg">Register</a>
         </div>
     </div>
@@ -31,7 +31,7 @@
                         <i class="fas fa-search fa-2x mb-3"></i>
                         <h5 class="card-title">Search Catalog</h5>
                         <p class="card-text">Find books by title, author, or genre.</p>
-                        <a asp-controller="Books" asp-action="List" class="btn btn-outline-light btn-sm">Search</a>
+                        <a asp-controller="Books" asp-action="BooksList" class="btn btn-outline-light btn-sm">Search</a>
                     </div>
                 </div>
             </div>
@@ -95,7 +95,7 @@
             </div>
         </div>
         <div class="text-center mt-3">
-            <a asp-controller="Books" asp-action="List" class="btn btn-outline-primary">See All Books</a>
+            <a asp-controller="Books" asp-action="BooksList" class="btn btn-outline-primary">See All Books</a>
         </div>
     </section>
 

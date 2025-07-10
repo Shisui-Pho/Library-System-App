@@ -19,7 +19,7 @@ public class BooksController : Controller
     }
     //default page size
     private const int PAGE_SIZE = 16;
-    public IActionResult List(int page = 1)
+    public IActionResult BooksList(int page = 1)
     {
         PagingInfomation paging = new()
         {
@@ -36,11 +36,9 @@ public class BooksController : Controller
         };
 
         IEnumerable<Book> books = _repository.Books.GetAllBooksWithAuthors(queryOptions);
-        var cartItems = _cartService.GetCart(HttpContext)
-                                    .CartItems.Select(x => (x.BookID, x.Quantity))
-                                    .ToList();
+        
         //Create the view model
-        BooksDisplayViewModel model = new(cartItems)
+        BooksDisplayViewModel model = new(GetCartSummary())
         {
             Books = books,
             PagingInfomation = paging
@@ -48,7 +46,13 @@ public class BooksController : Controller
 
         return View(model);
     }
-
+    private List<(int bookId, int quantity)> GetCartSummary()
+    {
+        var cartItems = _cartService.GetCart(HttpContext)
+                                    .CartItems.Select(x => (x.BookID, x.Quantity))
+                                    .ToList();
+        return cartItems;
+    }//GetCartSummary
     public IActionResult BookDetails(int id)
     {
         //this is the id passed
@@ -89,4 +93,35 @@ public class BooksController : Controller
         //Redirect to the calling page
         return Redirect($"{model.PageWhereItemWasAdded}#book-{item.BookID}");
     }//AddToCart
-}
+    public IActionResult AuthorsList()
+    {
+        var authors = _repository.Authors.FindAll();
+        if (authors == null || !authors.Any())
+        {
+            //Return page not found
+            return RedirectToAction("PageNotFound", "Home", new { message = "No authors were found in the database." });
+        }
+        return View(authors);
+    }//AuthorsList
+    public IActionResult AuthorBooks(int id)
+    {
+        //Get the author
+        var author = _repository.Authors.GetById(id);
+        if (author == null)
+        {
+            //Return page not found
+            return RedirectToAction("PageNotFound", "Home", new { message = "Author was not found. It may have been removed from the database." });
+        }
+        //Get the books by the author
+        var books = _repository.Books.FindByCondition(b => b.Authors.Any(a => a.Id == id))
+                                      .OrderBy(b => b.BookTitle)
+                                      .ToList();
+        //Create the view model
+        var model = new BookAuthorViewModel(GetCartSummary())
+        {
+            Author = author,
+            Books = books
+        };
+        return View(model);
+    } //class
+}//class

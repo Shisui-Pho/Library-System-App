@@ -1,0 +1,61 @@
+﻿@model BooksDisplayViewModel;
+
+@{
+    ViewData["Title"] = "Books";
+    string currentPage = ViewContext.HttpContext.Request.Path + ViewContext.HttpContext.Request.QueryString;
+}
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb bg-dark text-light px-3 py-2 rounded">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Books</li>
+        </ol>
+    </nav>
+
+    <div class="section-body shadow p-4">
+
+        <h1 class="books-header mb-2">
+            Discover Amazing Books
+        </h1>
+        <p class="lead mb-4">Explore and read books you like</p>
+
+        <!-- Filter Buttons -->
+        <div class="row mb-4">
+            <div class="col text-center">
+                <div class="btn-group" role="group" aria-label="Book Filters">
+                    <a href="#" class="btn btn-primary active">Popular</a>
+                    <a href="#" class="btn btn-success">Most Liked</a>
+                    <a href="#" class="btn btn-info">Most Read</a>
+                    <a href="#" class="btn btn-warning">Most Viewed</a>
+                    <a href="#" class="btn btn-danger">Latest</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-6 col-lg-4">
+                <input type="text" class="form-control search" placeholder="Search by name or ISBN number" />
+            </div>
+        </div>
+
+        <!-- Book Cards -->
+        <div class="row g-4">
+            @foreach (Book book in Model.Books)
+            {
+                <partial name="_BookCardDetails" model="(Model.CartItemStatus, book)" />
+            }
+        </div>
+
+        <!-- Paging Placeholder -->
+        <div class="d-flex justify-content-center mt-5">
+            <div page-model="Model.PagingInfomation"
+                 action="BooksList"
+                 is-css-enabled="true"
+                 selected-page-class="btn-primary"
+                 un-selected-page-class="btn-outline-primary"
+                 common-page-class="btn"
+                 class="pagination"></div>
+        </div>
+    </div>
+</div>
