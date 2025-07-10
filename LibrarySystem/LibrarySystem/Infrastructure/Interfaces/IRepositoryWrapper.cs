@@ -1,4 +1,6 @@
-﻿namespace LibrarySystem.Infrastructure.Interfaces;
+﻿using LibrarySystem.Models;
+
+namespace LibrarySystem.Infrastructure.Interfaces;
 
 public interface IRepositoryWrapper
 {
@@ -7,5 +9,7 @@ public interface IRepositoryWrapper
     IMessageReuqestsRepository MessageReuqests { get; }
     IOrderRepository Orders { get; }
     ICartRepository Carts { get; }
+    IBaseRepository<PickupPoint> PickupPoints { get; }
+    IBaseRepository<PaymentMethod> PaymentMethods { get; }  
     void SaveChanges();
 }

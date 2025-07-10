@@ -1,5 +1,6 @@
 ﻿using LibrarySystem.Data.Repositories;
 using LibrarySystem.Infrastructure.Interfaces;
+using LibrarySystem.Models;
 
 namespace LibrarySystem.Data;
 
@@ -11,6 +12,9 @@ public class RepositoryWrapper : IRepositoryWrapper
     private IMessageReuqestsRepository messageReuqestsRepository;
     private IOrderRepository orderRepository;
     private ICartRepository cartRepository;
+    private IBaseRepository<PickupPoint> pickupPointRepository;
+    private IBaseRepository<PaymentMethod> paymentMethodsRepository;
+
 
     public IBookRepository Books
     {
@@ -54,6 +58,24 @@ public class RepositoryWrapper : IRepositoryWrapper
         {
             cartRepository ??= new CartRepository(_dbContext);
             return cartRepository;
+        }
+    }
+
+    public IBaseRepository<PickupPoint> PickupPoints
+    {
+        get
+        {
+            pickupPointRepository ??= new BaseRepository<PickupPoint>(_dbContext);
+            return pickupPointRepository;
+        }
+    }
+
+    public IBaseRepository<PaymentMethod> PaymentMethods
+    {
+        get
+        {
+            paymentMethodsRepository ??= new BaseRepository<PaymentMethod>(_dbContext);
+            return paymentMethodsRepository;
         }
     }
 
