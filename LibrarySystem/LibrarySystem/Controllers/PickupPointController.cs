@@ -28,16 +28,17 @@ public class PickupPointController : Controller
         };
 
         var cities = _repo.PickupPoints.GetWithOptions(options)
-                                       .Distinct()
-                                       .Select(x => x.City);
+                                       .Select(x => x.City)
+                                       .Distinct();
+                                       
         return Json(cities);
     }
     [HttpGet]
     public JsonResult GetPickupPoints(string province, string city)
     {
         var points = _repo.PickupPoints.FindByCondition(p => (p.ProvinceCode == province || p.Province == province) && p.City == city && p.IsActive)
-                                       .Distinct()
                                        .Select(p => new {id = p.Id, name = p.Name})
+                                       .Distinct()
                                        .ToList();
         return Json(points);
     }//GetPickupPoints
