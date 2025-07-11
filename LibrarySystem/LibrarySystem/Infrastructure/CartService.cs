@@ -220,6 +220,8 @@ public class CartService : ICartService
         {
             return -1;// sign that it was not added or cannot be addded
         }
+        //Assign the user id to the cart item
+        cartInfo.CartItem.UserID = userid;
         try
         {
             var item = _repo.Carts.FindByCondition(cart => cart.UserID == userid && cart.BookID == cartInfo.CartItem.BookID)
