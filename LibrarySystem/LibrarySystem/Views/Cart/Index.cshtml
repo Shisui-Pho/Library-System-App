@@ -73,11 +73,9 @@
                             <i class="fa fa-trash-alt"></i> Clear Cart
                         </button>
                     </form>
-                    <form asp-action="Checkout" asp-controller="Cart" method="post">
-                        <button type="submit" class="checkout-button btn btn-success">
-                            <i class="fa fa-credit-card"></i> Proceed to Checkout
-                        </button>
-                    </form>
+                    <a asp-action="Checkout" asp-controller="Cart" class="checkout-button btn btn-success">
+                        <i class="fa fa-credit-card"></i> Proceed to Checkout
+                    </a>
                 </div>
             }
         </div>
