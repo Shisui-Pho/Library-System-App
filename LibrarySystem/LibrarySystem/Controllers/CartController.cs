@@ -1,33 +1,32 @@
-﻿using LibrarySystem.Infrastructure.Interfaces;
+﻿using LibrarySystem.Data;
+using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models.ViewModels;
-using LibrarySystem.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Controllers;
 public class CartController : Controller
 {
     private readonly ICartService _cartService;
-    private readonly IUserService _userService;
+    private readonly ICheckoutService _checkoutService;
 
-    public CartController(ICartService cartService, IUserService userService)
+    //I am going to remove this context later, it's just for testing purposes
+    private readonly AppDBContext _context;
+    public CartController(ICartService cartService, ICheckoutService checkoutService, AppDBContext context)
     {
         this._cartService = cartService;
-        this._userService = userService;
+        this._checkoutService = checkoutService;
+        //I am goinf to remove this context later, it's just for testing purposes
+        this._context = context;
     }
     [HttpPost]
     public IActionResult AddToCart(CartItemViewModel model)
     {
-        //Check if the user is logged in or not
-        if (_userService.IsLoggedIn(HttpContext.User))
-        {
-            //Assign the user id to the model
-            model.CartItem.UserID = _userService.GetUserId(HttpContext.User);
-        }
         var (success, totalCartItems) = _cartService.AddToCart(HttpContext, model);
-        return Json(new 
-        { 
+        return Json(new
+        {
             success = success,
-            cartCount = totalCartItems 
+            cartCount = totalCartItems
         });
     }
     [HttpGet]
@@ -48,11 +47,11 @@ public class CartController : Controller
             ViewComponentName = "SideCart"
         };
     }//GetSideCartHtml
-    [HttpPost] 
+    [HttpPost]
     public IActionResult RemvoveFromCart(int bookid)
     {
         _ = _cartService.RemoveFromCart(HttpContext, bookid);
-        var cart  = _cartService.GetCart(HttpContext);
+        var cart = _cartService.GetCart(HttpContext);
         return View(cart);
     }//RemvoveFromCart
     [HttpPost]
@@ -85,4 +84,42 @@ public class CartController : Controller
             totalItems = totalItems
         });
     }//UpdateQuantity
-}//class
+    //This page will need authorisation
+    [HttpGet]
+    [Authorize]
+    public async Task<IActionResult> Checkout()
+    {
+        var model = await _checkoutService.PrepareForCheckoutAsync(HttpContext);
+        if (model == null)
+        {
+            return RedirectToAction("Index");
+        }
+        return View(model);
+    }//Checkout
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> Checkout(CheckoutViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        model.Cart = _cartService.GetCart(HttpContext);
+        if (!await _checkoutService.CheckoutAsync(HttpContext, model))
+        {
+            ModelState.AddModelError("", "An error occurred while processing your order. Please try again.");
+            //Repopulate the other fields
+            await _checkoutService.PopulateCheckoutViewModel(model, HttpContext);
+            return View(model);
+        }
+        //If we reach here, it means the checkout was successful
+        //Clear the cart after successful checkout
+        _cartService.ClearCart(HttpContext);
+        return RedirectToAction("Confirmation");
+    }
+    [Authorize]
+    public IActionResult Confirmation()
+    {
+        return View(default);
+    }
+}//CartController
