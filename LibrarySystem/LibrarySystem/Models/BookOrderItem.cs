@@ -17,7 +17,7 @@ public class BookOrderItem
     public int Quantity { get; set; }
 
     [Precision(18, 2)]
-    public decimal UnitPrice { get; set; } // Optional if needed per book
+    public decimal UnitPrice { get; set; }
 
     // Navigation properties
     public BookOrder BookOrder { get; set; }
