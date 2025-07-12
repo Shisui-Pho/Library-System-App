@@ -14,7 +14,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     private ICartRepository cartRepository;
     private IBaseRepository<PickupPoint> pickupPointRepository;
     private IBaseRepository<PaymentMethod> paymentMethodsRepository;
-
+    private IBaseRepository<DeliveryAddress> deliveryAddressRepository;
 
     public IBookRepository Books
     {
@@ -76,6 +76,15 @@ public class RepositoryWrapper : IRepositoryWrapper
         {
             paymentMethodsRepository ??= new BaseRepository<PaymentMethod>(_dbContext);
             return paymentMethodsRepository;
+        }
+    }
+
+    public IBaseRepository<DeliveryAddress> DeliveryAddresses
+    {
+        get
+        {
+            deliveryAddressRepository ??= new BaseRepository<DeliveryAddress>(_dbContext);
+            return deliveryAddressRepository;
         }
     }
 

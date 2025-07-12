@@ -14,6 +14,7 @@ public class AppDBContext(DbContextOptions<AppDBContext> options):
     public DbSet<PickupPoint> PickupPoints { get; set; }
     public DbSet<PaymentMethod> PaymentMethods { get; set; }
     public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
+    public DbSet<BookOrderItem> BookOrderItems { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //Create the tables explicity to avoid pluralization
@@ -25,6 +26,8 @@ public class AppDBContext(DbContextOptions<AppDBContext> options):
         modelBuilder.Entity<PickupPoint>().ToTable(nameof(PickupPoint));
         modelBuilder.Entity<PaymentMethod>().ToTable(nameof(PaymentMethod));
         modelBuilder.Entity<DeliveryAddress>().ToTable(nameof(DeliveryAddress));
+        modelBuilder.Entity<BookOrderItem>().ToTable(nameof(BookOrderItem));
+
         base.OnModelCreating(modelBuilder);
     }//OnModelCreating
 }//class
