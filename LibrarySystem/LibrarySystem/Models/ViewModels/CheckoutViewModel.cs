@@ -52,11 +52,11 @@ public class CheckoutViewModel
 
     // Pickup Information(if needed/ if no delivery)
     [RequiredIf(nameof(DeliveryOption), "Pickup", ErrorMessage = "Please select a pickup point")]
-    public int? PickupPointId { get; set; }
+    public int PickupPointId { get; set; }
 
     // Payment Method
     [Required(ErrorMessage = "Payment method is required")]
-    public int? PaymentMethodId { get; set; }
+    public int PaymentMethodId { get; set; }
 
     // Address Saving
     public bool SaveAddress { get; set; } = true;
