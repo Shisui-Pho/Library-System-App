@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LibrarySystem.Models;
 public class OrderItem
 {
-    public int BookOrderItemId { get; set; }
+    public int OrderItemId { get; set; }
 
     [ForeignKey(nameof(BookOrder))]
     public int BookOrderId { get; set; }

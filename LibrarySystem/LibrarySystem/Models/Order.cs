@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace LibrarySystem.Models;
 public class Order
 {
-    public int BookOrderId { get; set; }
+    public int OrderId { get; set; }
     [ForeignKey(nameof(Models.Book))]
     public string UserID { get; set; }
     [StringLength(500, ErrorMessage ="Description cannot be more than 500 characters.")]
