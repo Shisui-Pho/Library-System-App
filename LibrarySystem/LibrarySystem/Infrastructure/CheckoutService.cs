@@ -65,7 +65,7 @@ public class CheckoutService : ICheckoutService
     private Order CreateOrder(CheckoutViewModel model, HttpContext context)
     {
         //This method should create a new order based on the model
-        var orderItems = model.Cart.CartItems.Select(ci => new BookOrderItem
+        var orderItems = model.Cart.CartItems.Select(ci => new OrderItem
         {
             BookId = ci.BookID,
             Quantity = ci.Quantity,

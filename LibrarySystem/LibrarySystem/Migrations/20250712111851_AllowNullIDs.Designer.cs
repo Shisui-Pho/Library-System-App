@@ -175,7 +175,7 @@ namespace LibrarySystem.Migrations
                     b.ToTable("Order", (string)null);
                 });
 
-            modelBuilder.Entity("LibrarySystem.Models.BookOrderItem", b =>
+            modelBuilder.Entity("LibrarySystem.Models.OrderItem", b =>
                 {
                     b.Property<int>("BookOrderItemId")
                         .ValueGeneratedOnAdd()
@@ -202,7 +202,7 @@ namespace LibrarySystem.Migrations
 
                     b.HasIndex("BookOrderId");
 
-                    b.ToTable("BookOrderItem", (string)null);
+                    b.ToTable("OrderItem", (string)null);
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.CartItem", b =>
@@ -416,7 +416,7 @@ namespace LibrarySystem.Migrations
                     b.Navigation("PickupPoint");
                 });
 
-            modelBuilder.Entity("LibrarySystem.Models.BookOrderItem", b =>
+            modelBuilder.Entity("LibrarySystem.Models.OrderItem", b =>
                 {
                     b.HasOne("LibrarySystem.Models.Book", "Book")
                         .WithMany()

@@ -51,7 +51,7 @@ namespace LibrarySystem.Migrations
                 defaultValue: 0m);
 
             migrationBuilder.CreateTable(
-                name: "BookOrderItem",
+                name: "OrderItem",
                 columns: table => new
                 {
                     BookOrderItemId = table.Column<int>(type: "int", nullable: false)
@@ -108,12 +108,12 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookOrderItem_BookId",
-                table: "BookOrderItem",
+                table: "OrderItem",
                 column: "BookId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookOrderItem_BookOrderId",
-                table: "BookOrderItem",
+                table: "OrderItem",
                 column: "BookOrderId");
 
             migrationBuilder.AddForeignKey(
@@ -144,7 +144,7 @@ namespace LibrarySystem.Migrations
                 table: "Order");
 
             migrationBuilder.DropTable(
-                name: "BookOrderItem");
+                name: "OrderItem");
 
             migrationBuilder.DropTable(
                 name: "DeliveryAddress");

@@ -36,7 +36,7 @@ public class Order
     public int? PickupPointId { get; set; }
 
     //Navigation properties
-    public ICollection<BookOrderItem> BookOrderItems { get; set; }
+    public ICollection<OrderItem> BookOrderItems { get; set; }
 
     //Either DeliveryAddress or PickupPoint must be set, but not both.
     // This is enforced at the application level, not in the database.

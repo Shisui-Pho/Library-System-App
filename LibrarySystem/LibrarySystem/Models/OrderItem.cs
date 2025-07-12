@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LibrarySystem.Models;
-public class BookOrderItem
+public class OrderItem
 {
     public int BookOrderItemId { get; set; }
 
