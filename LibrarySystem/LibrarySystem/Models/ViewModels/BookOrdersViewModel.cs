@@ -2,6 +2,6 @@
 
 public class BookOrdersViewModel
 {    
-    public IEnumerable<BookOrder> BookOrders { get; set; }
+    public IEnumerable<Order> BookOrders { get; set; }
     //Other properties
 }

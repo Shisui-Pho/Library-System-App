@@ -1,0 +1,251 @@
+﻿@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb bg-dark text-light px-3 py-2 rounded">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Cart">Cart</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Order Summary -->
+        <div class="col-md-7">
+            <div class="section-body shadow p-4 mb-4">
+                <h3 class="mb-4"><i class="fas fa-shopping-cart me-2"></i>Order Summary</h3>
+
+                <table class="table table-dark table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Book</th>
+                            <th>Qty</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Cart.CartItems)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="book-info d-flex align-items-center gap-3">
+                                        <img src="@item.BookInCart.GetCoverPath()" alt="Book Cover" class="rounded shadow-sm" style="width:60px; height:auto;" />
+                                        <div>
+                                            <span class="fw-bold text-white">@item.BookInCart.BookTitle</span><br />
+                                            <small class="text-secondary">by @item.BookInCart.GetAuthorsString()</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Price.ToString("C2")</td>
+                                <td>@item.GetTotalPrice().ToString("C2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <div class="cart-summary mt-4">
+                    <div class="d-flex justify-content-between">
+                        <span>Subtotal:</span>
+                        <span>@Model.Cart.CalculateTotalPrice().ToString("C2")</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <span>Shipping:</span>
+                        <span id="shipping-cost">R0.00</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Total:</span>
+                        <span id="order-total">@Model.Cart.CalculateTotalPrice().ToString("C2")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Information -->
+        <div class="col-md-5">
+            <div class="section-body shadow p-4">
+                <h3 class="mb-4"><i class="fas fa-user me-2"></i>Customer Information</h3>
+
+                <form asp-action="Checkout" method="post" id="checkout-form">
+                    <!-- User Information -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <input asp-for="FirstName" class="form-control" readonly />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="LastName" class="form-label"></label>
+                            <input asp-for="LastName" class="form-control" readonly />
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" readonly />
+                    </div>
+
+                    <!-- Delivery Options -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Delivery Method</label>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input delivery-option" type="radio" name="DeliveryOption"
+                                   id="deliveryOption1" value="Delivery"
+                                   @(Model.DeliveryOption == "Delivery" ? "checked" : "")>
+                            <label class="form-check-label" for="deliveryOption1">
+                                <i class="fas fa-truck me-2"></i>Delivery to my address
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input delivery-option" type="radio" name="DeliveryOption"
+                                   id="deliveryOption2" value="Pickup"
+                                   @(Model.DeliveryOption == "Pickup" ? "checked" : "")>
+                            <label class="form-check-label" for="deliveryOption2">
+                                <i class="fas fa-store me-2"></i>Pick up at a store
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Address Section -->
+                    <div id="deliveryAddressSection" class="@(Model.DeliveryOption == "Delivery" ? "" : "d-none")">
+                        <h5 class="mb-3"><i class="fas fa-home me-2"></i>Delivery Address</h5>
+
+                        <div class="mb-3">
+                            <label asp-for="AddressLine1" class="form-label"></label>
+                            <input asp-for="AddressLine1" class="form-control" />
+                            <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AddressLine2" class="form-label">Address Line 2 (Optional)</label>
+                            <input asp-for="AddressLine2" class="form-control" />
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="City" class="form-label"></label>
+                                <input asp-for="City" class="form-control" />
+                                <span asp-validation-for="City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="PostalCode" class="form-label"></label>
+                                <input asp-for="PostalCode" class="form-control" />
+                                <span asp-validation-for="PostalCode" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Province" class="form-label"></label>
+                             <select asp-for="Province" class="form-select">
+                                <option value="">Select Province</option>
+                                <option value="EC">Eastern Cape</option>
+                                <option value="FS">Free State</option>
+                                <option value="GP">Gauteng</option>
+                                <option value="KZN">KwaZulu-Natal</option>
+                                <option value="LP">Limpopo</option>
+                                <option value="MP">Mpumalanga</option>
+                                <option value="NC">Northern Cape</option>
+                                <option value="NW">North West</option>
+                                <option value="WC">Western Cape</option>
+                            </select> 
+                            <span asp-validation-for="Province" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input asp-for="SaveAddress" class="form-check-input" />
+                            <label asp-for="SaveAddress" class="form-check-label">Save this address for future orders</label>
+                        </div>
+                    </div>
+
+                    <!-- Pickup Points Section -->
+                    <div id="pickupSection" class="@(Model.DeliveryOption == "Pickup" ? "" : "d-none")">
+                        <h5 class="mb-3"><i class="fas fa-map-marker-alt me-2"></i>Select Pickup Point</h5>
+
+                        <div class="mb-3">
+                            <label class="form-label">Province</label>
+                            @Html.DropDownListFor(m => m.Province, Model.Provinces, "Select Province", new { @class = "form-select", id = "pickupProvince" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">City</label>
+                            <select id="pickupCity" class="form-select" disabled>
+                                <option value="">Select City</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Pickup Location</label>
+                            <select id="pickupPoint" class="form-select" disabled>
+                                <option value="">Select Pickup Point</option>
+                            </select>
+                            <input type="hidden" asp-for="PickupPointId" id="selectedPickupPointId" />
+                        </div>
+
+                        <div id="pickupPointDetails" class="card text-bg-dark border-secondary mt-3 d-none">
+                            <div class="card-body">
+                                <h6 class="card-title"><i class="fas fa-store me-2"></i><span id="pickupPointName"></span></h6>
+                                <p class="card-text mb-1"><i class="fas fa-map-marker-alt me-2"></i><span id="pickupPointAddress"></span></p>
+                                <p class="card-text mb-1"><i class="fas fa-clock me-2"></i>Hours: <span id="pickupPointHours"></span></p>
+                                <p class="card-text"><i class="fas fa-phone me-2"></i><span id="pickupPointPhone"></span></p>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Pickup is available Monday-Friday, 9am-5pm. Please bring your ID for verification.
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="mb-4 mt-4">
+                        <label class="form-label fw-bold">Payment Method</label>
+                        @if (Model.PaymentMethods != null)
+                        {
+                            foreach (var method in Model.PaymentMethods)
+                            {
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="PaymentMethodId"
+                                           id="paymentMethod@(method.Id)" value="@method.Id"
+                                           @(Model.PaymentMethodId == method.Id ? "checked" : "")>
+                                    <label class="form-check-label" for="paymentMethod@(method.Id)">
+                                        @method.Name
+                                    </label>
+                                    @if (!string.IsNullOrEmpty(method.Description))
+                                    {
+                                        <div class="">@method.Description</div>
+                                    }
+                                </div>
+                            }
+                        }
+                        <span asp-validation-for="PaymentMethodId" class="text-danger"></span>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="form-check mb-4">
+                        <input asp-for="AgreeToTerms" class="form-check-input" />
+                        <label asp-for="AgreeToTerms" class="form-check-label">
+                            I agree to the <a href="#" class="text-decoration-none">Terms and Conditions</a>
+                        </label>
+                        <span asp-validation-for="AgreeToTerms" class="text-danger d-block"></span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-check-circle me-2"></i>Complete Order
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Link vaidaton scripts-->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -15,13 +15,14 @@ builder.Services.AddDbContext<AppDBContext>(options =>
 builder.Services.AddDbContext<AppIdentityDBContext>(options => 
         options.UseSqlServer(
         builder.Configuration.GetConnectionString("LibraryUsersDatabase")));
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+       .AddEntityFrameworkStores<AppIdentityDBContext>();
 
 //Inject 
 builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-       .AddEntityFrameworkStores<AppIdentityDBContext>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICheckoutService, CheckoutService>();
 
 //-Session
 builder.Services.AddSession();

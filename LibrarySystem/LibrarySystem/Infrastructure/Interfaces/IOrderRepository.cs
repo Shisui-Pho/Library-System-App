@@ -2,7 +2,7 @@
 
 namespace LibrarySystem.Infrastructure.Interfaces;
 
-public interface IOrderRepository : IBaseRepository<BookOrder>
+public interface IOrderRepository : IBaseRepository<Order>
 {
-    IEnumerable<BookOrder> GetUserOrders(ApplicationUser user);
+    IEnumerable<Order> GetUserOrders(ApplicationUser user);
 }

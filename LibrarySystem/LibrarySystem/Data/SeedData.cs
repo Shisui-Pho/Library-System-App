@@ -14,24 +14,166 @@ public class SeedData
         {
             context.Database.Migrate();
         }
+        PopulateBooksAndAuthors(context);
+        PopulatePickupPoints(context);
+        PopulatePaymentMethods(context);
+    }//EnsurePopulant
+    public static void PopulatePaymentMethods(AppDBContext context)
+    {
+        if (context.PaymentMethods.Any())
+        {
+            //no need to populate
+            return;
+        }
+        var methods = new List<PaymentMethod>
+        {
+            new() {Name = "Credit Card", Description = "Pay with Visa, Mastercard or American Express" },
+            new() {Name = "PayPal",Description = "Pay using your PayPal account"},
+            new() {Name = "Cash on Delivery",Description = "Pay cash when your order is delivered"},
+            new() {Name = "EFT",Description = "Electronic Funds Transfer"},
+            new() {Name = "SnapScan",Description = "Scan to pay with SnapScan"}
+        };
 
+        context.PaymentMethods.AddRange(methods);
+        context.SaveChanges();
+    }//PopulatePaymentMethods
+    public static void PopulatePickupPoints(AppDBContext context)
+    {
+        if (context.PickupPoints.Any())
+            return;
+
+        var pickupPoints = new List<PickupPoint>
+        {
+            // Gauteng
+            new () {
+                Name = "Sandton City",
+                Address = "Cnr Rivonia Rd and 5th St, Sandton",
+                City = "Johannesburg",
+                Province = "Gauteng",
+                Phone = "+27 11 883 1312",
+                OpeningTime = new TimeSpan(9, 0, 0),
+                ClosingTime = new TimeSpan(17, 0, 0),
+                ProvinceCode = "GP"
+            },
+            new () {
+                Name = "Mall of Africa",
+                Address = "Magwa Cres, Waterfall City, Midrand",
+                City = "Johannesburg",
+                Province = "Gauteng",
+                Phone = "+27 10 593 5660",
+                OpeningTime = new TimeSpan(9, 0, 0),
+                ClosingTime = new TimeSpan(18, 0, 0),
+                ProvinceCode = "GP"
+            },
+            new () {
+                Name = "Menlyn Park Shopping Centre",
+                Address = "Atterbury Rd, Menlyn, Pretoria",
+                City = "Pretoria",
+                Province = "Gauteng",
+                Phone = "+27 12 764 9600",
+                OpeningTime = new TimeSpan(8, 30, 0),
+                ClosingTime = new TimeSpan(17, 30, 0),
+                ProvinceCode = "GP"
+            },
+            
+            // Western Cape
+            new () {
+                Name = "Canal Walk Shopping Centre",
+                Address = "Century Blvd, Century City",
+                City = "Cape Town",
+                Province = "Western Cape",
+                Phone = "+27 21 555 3455",
+                OpeningTime = new TimeSpan(9, 0, 0),
+                ClosingTime = new TimeSpan(19, 0, 0),
+                ProvinceCode = "WC"
+            },
+            new () {
+                Name = "V&A Waterfront",
+                Address = "19 Dock Rd, Victoria & Alfred Waterfront",
+                City = "Cape Town",
+                Province = "Western Cape",
+                Phone = "+27 21 408 7600",
+                OpeningTime = new TimeSpan(10, 0, 0),
+                ClosingTime = new TimeSpan(20, 0, 0),
+                ProvinceCode = "WC"
+            },
+            new () {
+                Name = "Garden Route Mall",
+                Address = "Cnr Knysna Rd & Nelson Mandela Blvd, George",
+                City = "George",
+                Province = "Western Cape",
+                Phone = "+27 44 873 3444",
+                OpeningTime = new TimeSpan(9, 0, 0),
+                ClosingTime = new TimeSpan(18, 0, 0),
+                ProvinceCode = "WC"
+            },
+            
+            // KwaZulu-Natal
+            new () {
+                Name = "Gateway Theatre of Shopping",
+                Address = "1 Palm Blvd, Umhlanga Ridge",
+                City = "Durban",
+                Province = "KwaZulu-Natal",
+                Phone = "+27 31 514 0500",
+                OpeningTime = new TimeSpan(9, 0, 0),
+                ClosingTime = new TimeSpan(19, 0, 0),
+                ProvinceCode = "KZN"
+            },
+            new () {
+                Name = "Liberty Midlands Mall",
+                Address = "1 Chatterton Rd, Pietermaritzburg",
+                City = "Pietermaritzburg",
+                Province = "KwaZulu-Natal",
+                Phone = "+27 33 342 1551",
+                OpeningTime = new TimeSpan(9, 0, 0),
+                ClosingTime = new TimeSpan(17, 30, 0),
+                ProvinceCode = "KZN"
+            },
+            
+            // Eastern Cape
+            new () {
+                Name = "Greenacres Shopping Centre",
+                Address = "102 Cape Rd, Greenacres, Gqeberha",
+                City = "Port Elizabeth",
+                Province = "Eastern Cape",
+                Phone = "+27 41 363 0271",
+                OpeningTime = new TimeSpan(9, 0, 0),
+                ClosingTime = new TimeSpan(18, 0, 0),
+                ProvinceCode = "EC"
+            },
+            new() {
+                Name = "Vincent Park Shopping Centre",
+                Address = "Devereux Ave, Vincent, East London",
+                City = "East London",
+                Province = "Eastern Cape",
+                Phone = "+27 43 721 2240",
+                OpeningTime = new TimeSpan(8, 30, 0),
+                ClosingTime = new TimeSpan(17, 0, 0), 
+                ProvinceCode = "EC"
+            }
+        };
+
+        context.PickupPoints.AddRange(pickupPoints);
+        context.SaveChanges();
+    }
+    private static void PopulateBooksAndAuthors(AppDBContext context)
+    {
         var authors = CreateAuthors();
-
 
         if (!context.Authors.Any())
         {
             //Add authors
             context.Authors.AddRange(authors);
-        };
+        }
+
         if (!context.Authors.Any())
         {
             //Add books
             var books = CreateBooks(authors);
             context.Books.AddRange(books);
-
         }
         context.SaveChanges();
-    }//EnsurePopulant
+    }//PopulateBooksAndAuthors
     private static List<Book> CreateBooks(List<Author> authors)
     {
         var books = new List<Book>();

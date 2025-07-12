@@ -9,4 +9,5 @@ public interface ICartService
     (bool success, int total) AddToCart(HttpContext context, CartItemViewModel item);
     (bool success, int total) RemoveFromCart(HttpContext context, int bookID);
     (bool success, int total) UpdateQuantity(HttpContext context,int bookId, int quantity);
+    void ClearCart(HttpContext context);
 }

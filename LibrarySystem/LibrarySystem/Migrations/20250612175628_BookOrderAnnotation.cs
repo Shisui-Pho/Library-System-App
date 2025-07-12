@@ -13,28 +13,28 @@ namespace LibrarySystem.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_BookOrder_ApplicationUser_UserID",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.DropTable(
                 name: "ApplicationUser");
 
             migrationBuilder.DropIndex(
                 name: "IX_BookOrder_UserID",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.RenameColumn(
                 name: "OrderPlacedDate",
-                table: "BookOrder",
+                table: "Order",
                 newName: "CreatedAt");
 
             migrationBuilder.RenameColumn(
                 name: "Id",
-                table: "BookOrder",
+                table: "Order",
                 newName: "BookOrderId");
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserID",
-                table: "BookOrder",
+                table: "Order",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -43,7 +43,7 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Description",
-                table: "BookOrder",
+                table: "Order",
                 type: "nvarchar(500)",
                 maxLength: 500,
                 nullable: true,
@@ -53,7 +53,7 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "LastUpdatedAt",
-                table: "BookOrder",
+                table: "Order",
                 type: "datetime2",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
@@ -64,21 +64,21 @@ namespace LibrarySystem.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "LastUpdatedAt",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.RenameColumn(
                 name: "CreatedAt",
-                table: "BookOrder",
+                table: "Order",
                 newName: "OrderPlacedDate");
 
             migrationBuilder.RenameColumn(
                 name: "BookOrderId",
-                table: "BookOrder",
+                table: "Order",
                 newName: "Id");
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserID",
-                table: "BookOrder",
+                table: "Order",
                 type: "nvarchar(450)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -87,7 +87,7 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.AlterColumn<string>(
                 name: "Description",
-                table: "BookOrder",
+                table: "Order",
                 type: "nvarchar(max)",
                 nullable: true,
                 oldClrType: typeof(string),
@@ -124,12 +124,12 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookOrder_UserID",
-                table: "BookOrder",
+                table: "Order",
                 column: "UserID");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BookOrder_ApplicationUser_UserID",
-                table: "BookOrder",
+                table: "Order",
                 column: "UserID",
                 principalTable: "ApplicationUser",
                 principalColumn: "Id");

@@ -22,7 +22,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         _dbContext.Set<T>().Remove(entity);
     }
-
+    public void DeleteRange(IEnumerable<T> entities)
+    {
+        //Remove a range of entities
+        _dbContext.Set<T>().RemoveRange(entities);
+    }
     public IEnumerable<T> FindAll()
     {
         return _dbContext.Set<T>();
