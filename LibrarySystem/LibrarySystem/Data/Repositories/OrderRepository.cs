@@ -2,9 +2,9 @@
 using LibrarySystem.Models;
 
 namespace LibrarySystem.Data.Repositories;
-public class OrderRepository(AppDBContext context) : BaseRepository<BookOrder>(context), IOrderRepository
+public class OrderRepository(AppDBContext context) : BaseRepository<Order>(context), IOrderRepository
 {
-    public IEnumerable<BookOrder> GetUserOrders(ApplicationUser user)
+    public IEnumerable<Order> GetUserOrders(ApplicationUser user)
     {
         return base._dbContext.BookOrders.Where(b => b.UserID == user.Id);
     }//GetUserOrders

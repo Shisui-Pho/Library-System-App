@@ -12,11 +12,11 @@ namespace LibrarySystem.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_BookOrder_DeliveryAddress_DeliveryAddressId",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.AlterColumn<int>(
                 name: "DeliveryAddressId",
-                table: "BookOrder",
+                table: "Order",
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
@@ -24,7 +24,7 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BookOrder_DeliveryAddress_DeliveryAddressId",
-                table: "BookOrder",
+                table: "Order",
                 column: "DeliveryAddressId",
                 principalTable: "DeliveryAddress",
                 principalColumn: "Id");
@@ -35,11 +35,11 @@ namespace LibrarySystem.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_BookOrder_DeliveryAddress_DeliveryAddressId",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.AlterColumn<int>(
                 name: "DeliveryAddressId",
-                table: "BookOrder",
+                table: "Order",
                 type: "int",
                 nullable: false,
                 defaultValue: 0,
@@ -49,7 +49,7 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BookOrder_DeliveryAddress_DeliveryAddressId",
-                table: "BookOrder",
+                table: "Order",
                 column: "DeliveryAddressId",
                 principalTable: "DeliveryAddress",
                 principalColumn: "Id",

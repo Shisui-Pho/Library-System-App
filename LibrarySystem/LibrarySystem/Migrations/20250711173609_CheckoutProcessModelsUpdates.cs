@@ -12,38 +12,38 @@ namespace LibrarySystem.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_BookOrder_Book_BookID",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.DropIndex(
                 name: "IX_BookOrder_BookID",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.RenameColumn(
                 name: "Quantity",
-                table: "BookOrder",
+                table: "Order",
                 newName: "PaymentMethodId");
 
             migrationBuilder.RenameColumn(
                 name: "BookID",
-                table: "BookOrder",
+                table: "Order",
                 newName: "DeliveryOption");
 
             migrationBuilder.AddColumn<int>(
                 name: "DeliveryAddressId",
-                table: "BookOrder",
+                table: "Order",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.AddColumn<int>(
                 name: "PickupPointId",
-                table: "BookOrder",
+                table: "Order",
                 type: "int",
                 nullable: true);
 
             migrationBuilder.AddColumn<decimal>(
                 name: "TotalPrice",
-                table: "BookOrder",
+                table: "Order",
                 type: "decimal(18,2)",
                 precision: 18,
                 scale: 2,
@@ -67,7 +67,7 @@ namespace LibrarySystem.Migrations
                     table.ForeignKey(
                         name: "FK_BookOrderItem_BookOrder_BookOrderId",
                         column: x => x.BookOrderId,
-                        principalTable: "BookOrder",
+                        principalTable: "Order",
                         principalColumn: "BookOrderId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -98,12 +98,12 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookOrder_DeliveryAddressId",
-                table: "BookOrder",
+                table: "Order",
                 column: "DeliveryAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookOrder_PickupPointId",
-                table: "BookOrder",
+                table: "Order",
                 column: "PickupPointId");
 
             migrationBuilder.CreateIndex(
@@ -118,7 +118,7 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BookOrder_DeliveryAddress_DeliveryAddressId",
-                table: "BookOrder",
+                table: "Order",
                 column: "DeliveryAddressId",
                 principalTable: "DeliveryAddress",
                 principalColumn: "Id",
@@ -126,7 +126,7 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BookOrder_PickupPoint_PickupPointId",
-                table: "BookOrder",
+                table: "Order",
                 column: "PickupPointId",
                 principalTable: "PickupPoint",
                 principalColumn: "Id");
@@ -137,11 +137,11 @@ namespace LibrarySystem.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_BookOrder_DeliveryAddress_DeliveryAddressId",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_BookOrder_PickupPoint_PickupPointId",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.DropTable(
                 name: "BookOrderItem");
@@ -151,42 +151,42 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.DropIndex(
                 name: "IX_BookOrder_DeliveryAddressId",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.DropIndex(
                 name: "IX_BookOrder_PickupPointId",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.DropColumn(
                 name: "DeliveryAddressId",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.DropColumn(
                 name: "PickupPointId",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.DropColumn(
                 name: "TotalPrice",
-                table: "BookOrder");
+                table: "Order");
 
             migrationBuilder.RenameColumn(
                 name: "PaymentMethodId",
-                table: "BookOrder",
+                table: "Order",
                 newName: "Quantity");
 
             migrationBuilder.RenameColumn(
                 name: "DeliveryOption",
-                table: "BookOrder",
+                table: "Order",
                 newName: "BookID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookOrder_BookID",
-                table: "BookOrder",
+                table: "Order",
                 column: "BookID");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BookOrder_Book_BookID",
-                table: "BookOrder",
+                table: "Order",
                 column: "BookID",
                 principalTable: "Book",
                 principalColumn: "Id",

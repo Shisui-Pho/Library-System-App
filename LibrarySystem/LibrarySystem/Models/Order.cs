@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
 namespace LibrarySystem.Models;
-public class BookOrder
+public class Order
 {
     public int BookOrderId { get; set; }
     [ForeignKey(nameof(Models.Book))]

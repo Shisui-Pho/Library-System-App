@@ -20,7 +20,7 @@ public class BookOrderItem
     public decimal UnitPrice { get; set; }
 
     // Navigation properties
-    public BookOrder BookOrder { get; set; }
+    public Order BookOrder { get; set; }
 
     public Book Book { get; set; }
 }

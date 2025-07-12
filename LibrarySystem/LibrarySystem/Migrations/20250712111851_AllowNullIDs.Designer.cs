@@ -126,7 +126,7 @@ namespace LibrarySystem.Migrations
                     b.ToTable("Book", (string)null);
                 });
 
-            modelBuilder.Entity("LibrarySystem.Models.BookOrder", b =>
+            modelBuilder.Entity("LibrarySystem.Models.Order", b =>
                 {
                     b.Property<int>("BookOrderId")
                         .ValueGeneratedOnAdd()
@@ -172,7 +172,7 @@ namespace LibrarySystem.Migrations
 
                     b.HasIndex("PickupPointId");
 
-                    b.ToTable("BookOrder", (string)null);
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.BookOrderItem", b =>
@@ -401,7 +401,7 @@ namespace LibrarySystem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LibrarySystem.Models.BookOrder", b =>
+            modelBuilder.Entity("LibrarySystem.Models.Order", b =>
                 {
                     b.HasOne("LibrarySystem.Models.DeliveryAddress", "DeliveryAddress")
                         .WithMany()
@@ -424,7 +424,7 @@ namespace LibrarySystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LibrarySystem.Models.BookOrder", "BookOrder")
+                    b.HasOne("LibrarySystem.Models.Order", "Order")
                         .WithMany("BookOrderItems")
                         .HasForeignKey("BookOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -432,7 +432,7 @@ namespace LibrarySystem.Migrations
 
                     b.Navigation("Book");
 
-                    b.Navigation("BookOrder");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.CartItem", b =>
@@ -446,7 +446,7 @@ namespace LibrarySystem.Migrations
                     b.Navigation("BookInCart");
                 });
 
-            modelBuilder.Entity("LibrarySystem.Models.BookOrder", b =>
+            modelBuilder.Entity("LibrarySystem.Models.Order", b =>
                 {
                     b.Navigation("BookOrderItems");
                 });

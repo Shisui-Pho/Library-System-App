@@ -62,7 +62,7 @@ public class CheckoutService : ICheckoutService
         }
 
     }
-    private BookOrder CreateOrder(CheckoutViewModel model, HttpContext context)
+    private Order CreateOrder(CheckoutViewModel model, HttpContext context)
     {
         //This method should create a new order based on the model
         var orderItems = model.Cart.CartItems.Select(ci => new BookOrderItem
@@ -79,7 +79,7 @@ public class CheckoutService : ICheckoutService
         }
 
         //var suc = Enum.TryParse<DeliveryOption>(model.DeliveryOption, out var deliveryOption);
-        var order = new BookOrder
+        var order = new Order
         {
             BookOrderItems = [.. orderItems],
             UserID = _userService.GetUserId(context.User),

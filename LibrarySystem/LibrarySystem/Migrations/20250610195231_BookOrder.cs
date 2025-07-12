@@ -39,7 +39,7 @@ namespace LibrarySystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookOrder",
+                name: "Order",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -69,12 +69,12 @@ namespace LibrarySystem.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookOrder_BookID",
-                table: "BookOrder",
+                table: "Order",
                 column: "BookID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookOrder_UserID",
-                table: "BookOrder",
+                table: "Order",
                 column: "UserID");
         }
 
@@ -82,7 +82,7 @@ namespace LibrarySystem.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookOrder");
+                name: "Order");
 
             migrationBuilder.DropTable(
                 name: "ApplicationUser");
