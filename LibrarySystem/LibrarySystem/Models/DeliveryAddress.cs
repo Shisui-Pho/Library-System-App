@@ -6,6 +6,8 @@ namespace LibrarySystem.Models;
 public class DeliveryAddress
 {
     public int Id { get; set; }
+    [Required]
+    public string UserId { get; set; }
     // Delivery Address
     [Required(ErrorMessage = "Address line 1 is required")]
     [DisplayName("Address Line 1")]
