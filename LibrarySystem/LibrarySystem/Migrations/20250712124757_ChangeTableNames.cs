@@ -12,12 +12,12 @@ namespace LibrarySystem.Migrations
         {
             migrationBuilder.RenameColumn(
                 name: "BookOrderItemId",
-                table: "OrderItem",
+                table: "BookOrderItem",
                 newName: "OrderItemId");
 
             migrationBuilder.RenameColumn(
                 name: "BookOrderId",
-                table: "Order",
+                table: "BookOrder",
                 newName: "OrderId");
         }
 
