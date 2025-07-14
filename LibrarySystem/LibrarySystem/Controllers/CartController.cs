@@ -105,7 +105,8 @@ public class CartController : Controller
             return View(model);
         }
         model.Cart = _cartService.GetCart(HttpContext);
-        if (!await _checkoutService.CheckoutAsync(HttpContext, model))
+        var(success, orderID) = await _checkoutService.CheckoutAsync(HttpContext, model);
+        if (!success)
         {
             ModelState.AddModelError("", "An error occurred while processing your order. Please try again.");
             //Repopulate the other fields
@@ -115,7 +116,7 @@ public class CartController : Controller
         //If we reach here, it means the checkout was successful
         //Clear the cart after successful checkout
         _cartService.ClearCart(HttpContext);
-        return RedirectToAction("Confirmation");
+        return RedirectToAction("OrderDetails", "Order", new { orderId = orderID});
     }
     [Authorize]
     public IActionResult Confirmation()
