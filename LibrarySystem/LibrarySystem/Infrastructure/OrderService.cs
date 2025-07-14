@@ -79,22 +79,26 @@ public class OrderService : IOrderService
     }
     private async Task<OrderDetailsViewModel> MakeOrderDetails(ClaimsPrincipal user, int id)
     {
-        var userId = _userService.GetUserId(user);
+        var orderUser = await _userService.GetCurrentLoggedInUserAsync(user);
+
+        if(orderUser == null)
+        {
+            return null; // User not found
+        }
 
         var order = await _context.BookOrders
             .Include(o => o.BookOrderItems)
             .ThenInclude(oi => oi.Book)
             .Include(o => o.DeliveryAddress)
             .Include(o => o.PickupPoint)
-            .FirstOrDefaultAsync(o => o.OrderId == id && o.UserID == userId);
+            .FirstOrDefaultAsync(o => o.OrderId == id && o.UserID == orderUser.Id);
 
         if (order == null)
         {
             return null;
         }
-
+        order.User = orderUser; // Ensure the user is loaded
         var paymentMethod = _context.PaymentMethods.Find(order.PaymentMethodId);
-
         var model = new OrderDetailsViewModel
         {
             OrderId = order.OrderId,
