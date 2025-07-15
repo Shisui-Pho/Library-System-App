@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Data;
+﻿using LibrarySystem.Data.DataAccess;
 using LibrarySystem.Infrastructure.Enums;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models;
@@ -9,13 +9,11 @@ namespace LibrarySystem.Infrastructure;
 public class OrderService : IOrderService
 {
     private readonly IUserService _userService;
-    private readonly AppDBContext _context;
-
-    public OrderService(IUserService userService, AppDBContext context)
+    private readonly IRepositoryWrapper _repo;
+    public OrderService(IUserService userService,IRepositoryWrapper repo)
     {
         this._userService = userService;
-        this._context = context;
-
+        this._repo = repo;
     }
     public bool CancelOrder(ClaimsPrincipal user, int orderID)
     {
@@ -25,8 +23,7 @@ public class OrderService : IOrderService
         {
             return false; // User not found
         }
-        var order = _context.BookOrders
-            .FirstOrDefault(o => o.OrderId == orderID && o.UserID == userId);
+        var order = _repo.Orders.FindByCondition(o => o.OrderId == orderID && o.UserID == userId).FirstOrDefault();
 
         if(order == null)
             return false; // Order not found or does not belong to user
@@ -38,10 +35,10 @@ public class OrderService : IOrderService
         order.Status = BookOrderStatus.Cancelled;
         order.LastUpdatedAt = DateTime.UtcNow;
         order.Description = "Order cancelled by user.";
-        _context.BookOrders.Update(order);
+        _repo.Orders.Update(order);
         try
         {
-            _context.SaveChanges();
+            _repo.SaveChanges();
             return true; //Order cancelled successfully
         }
         catch (DbUpdateException)
@@ -55,25 +52,14 @@ public class OrderService : IOrderService
         return MakeOrderDetails(user, orderDetails).Result;
     }
 
-    public IEnumerable<OrderViewModel> GetOrders(ClaimsPrincipal user)
+    public IEnumerable<OrderViewModel> GetOrders(ClaimsPrincipal user, QueryOptions<Order> options = null)
     {
-        return LoadOrders(user).Result;
-    }
-    private async Task<IEnumerable<OrderViewModel>> LoadOrders(ClaimsPrincipal user)
-    {
-        var userId = _userService.GetUserId(user);
+        var orderUser = _userService.GetCurrentLoggedInUserAsync(user).Result;
 
-        var orders = await _context.BookOrders
-            .Where(o => o.UserID == userId)
-            .OrderByDescending(o => o.CreatedAt)
-            .Take(10)
-            .Include(o => o.BookOrderItems)
-                .ThenInclude(boi => boi.Book)
-                .ThenInclude(b => b.Authors)
-            .ToListAsync();
+        var orders = _repo.Orders.GetUserOrders(orderUser, options);
 
         // Project to ViewModel
-        var orderViewModels = orders.Select(order => MakeOrder(order)).ToList();
+        var orderViewModels = orders.Select(o => new OrderViewModel(o)).ToList();
 
         return orderViewModels;
     }
@@ -86,67 +72,14 @@ public class OrderService : IOrderService
             return null; // User not found
         }
 
-        var order = await _context.BookOrders
-            .Include(o => o.BookOrderItems)
-            .ThenInclude(oi => oi.Book)
-            .Include(o => o.DeliveryAddress)
-            .Include(o => o.PickupPoint)
-            .FirstOrDefaultAsync(o => o.OrderId == id && o.UserID == orderUser.Id);
-
-        if (order == null)
+        var order = _repo.Orders.GetOrderWithDetails(orderUser, id);
+       
+        var model = new OrderDetailsViewModel(order)
         {
-            return null;
-        }
-        order.User = orderUser; // Ensure the user is loaded
-        var paymentMethod = _context.PaymentMethods.Find(order.PaymentMethodId);
-        var model = new OrderDetailsViewModel
-        {
-            OrderId = order.OrderId,
-            OrderNumber = $"ORD-{order.OrderId:D6}",
-            OrderDate = order.CreatedAt,
-            Status = order.Status,
-            FullName = $"{order.User.FirstName} {order.User.LastName}",
-            Email = order.User.Email,
-            DeliveryOption = order.DeliveryOption,
-            DeliveryAddress = order.DeliveryAddress,
-            PickupPoint = order.PickupPoint,
-            PaymentMethod = paymentMethod,
-            OrderItems = order.BookOrderItems.Select(oi => new OrderItemViewModel
-            {
-                BookTitle = oi.Book.BookTitle,
-                Authors = oi.Book.GetAuthorsString(),
-                BookCoverUrl = oi.Book.GetCoverPath(),
-                Price = oi.UnitPrice,
-                Quantity = oi.Quantity,
-                TotalPrice = oi.UnitPrice * oi.Quantity
-            }).ToList(),
-            Subtotal = order.BookOrderItems.Sum(oi => oi.UnitPrice * oi.Quantity),
             ShippingCost = order.DeliveryOption == DeliveryOption.Delivery ? 50.00m : 0.00m,
-            TotalPrice = order.TotalPrice,
             EstimatedDeliveryDate = DateTime.Now.AddDays(3),
             TrackingNumber = "SA" + new Random().Next(1000000, 9999999).ToString(),
-            TrackingUrl = "https://tracking.sapost.co.za/?tracking="
         };
         return model;
     }//MakeOrderDetails
-    private OrderViewModel MakeOrder(Order order)
-    {
-        var firstBookItem = order.BookOrderItems.FirstOrDefault();
-        var firstBook = firstBookItem?.Book;
-        var firstAuthor = firstBook?.Authors.FirstOrDefault();
-
-        return new OrderViewModel
-        {
-            OrderId = order.OrderId,
-            OrderNumber = $"ORD-{order.OrderId:D1}",
-            OrderDate = order.CreatedAt,
-            ItemCount = order.BookOrderItems.Count,
-            TotalPrice = order.TotalPrice,
-            Status = order.Status,
-            DeliveryOption = order.DeliveryOption,
-            FirstBookTitle = firstBook?.BookTitle,
-            FirstBookAuthor = firstAuthor != null ? $"{firstAuthor.FullName} {firstAuthor.LastName}" : "Unknown",
-            FirstBookCover = firstBookItem?.Book.GetCoverPath()
-        };
-    }//MakeOrder
 }//class
