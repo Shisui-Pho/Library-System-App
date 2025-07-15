@@ -5,7 +5,7 @@ using LibrarySystem.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data.Common;
 
-namespace LibrarySystem.Infrastructure;
+namespace LibrarySystem.Infrastructure.Services;
 public class CheckoutService : ICheckoutService
 {
     private readonly IRepositoryWrapper _repo;
@@ -14,9 +14,9 @@ public class CheckoutService : ICheckoutService
 
     public CheckoutService(IRepositoryWrapper repo, IUserService userService, ICartService cartService)
     {
-        this._repo = repo;
-        this._userService = userService;
-        this._cartService = cartService;
+        _repo = repo;
+        _userService = userService;
+        _cartService = cartService;
     }
     public async Task<CheckoutViewModel> PrepareForCheckoutAsync(HttpContext context)
     {

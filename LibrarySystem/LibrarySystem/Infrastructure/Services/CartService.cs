@@ -6,15 +6,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 
-namespace LibrarySystem.Infrastructure;
+namespace LibrarySystem.Infrastructure.Services;
 public class CartService : ICartService
 {
     private readonly IUserService _userService;
     private readonly IRepositoryWrapper _repo;
     public CartService(IUserService userService, IRepositoryWrapper repository)
     {
-        this._userService = userService;
-        this._repo = repository;
+        _userService = userService;
+        _repo = repository;
     }
     public int CountCartItems(HttpContext context)
     {

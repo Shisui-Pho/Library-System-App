@@ -5,15 +5,15 @@ using LibrarySystem.Models;
 using LibrarySystem.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-namespace LibrarySystem.Infrastructure;
+namespace LibrarySystem.Infrastructure.Services;
 public class OrderService : IOrderService
 {
     private readonly IUserService _userService;
     private readonly IRepositoryWrapper _repo;
     public OrderService(IUserService userService,IRepositoryWrapper repo)
     {
-        this._userService = userService;
-        this._repo = repo;
+        _userService = userService;
+        _repo = repo;
     }
     public int CountOrders(ClaimsPrincipal user, QueryOptions<Order> options = null)
     {

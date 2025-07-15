@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 
-namespace LibrarySystem.Infrastructure;
+namespace LibrarySystem.Infrastructure.Services;
 public class UserService : IUserService
 {
     //Contants
@@ -19,9 +19,9 @@ public class UserService : IUserService
                        RoleManager<IdentityRole> roleManager,
                        SignInManager<ApplicationUser> signInManager)
     {
-        this._userManager = userManager;
-        this._roleManager = roleManager;
-        this._signInManager = signInManager;
+        _userManager = userManager;
+        _roleManager = roleManager;
+        _signInManager = signInManager;
     }//
     public bool IsLoggedIn(ClaimsPrincipal user)
     {
