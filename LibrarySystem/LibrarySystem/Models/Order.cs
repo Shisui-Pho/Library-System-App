@@ -42,6 +42,7 @@ public class Order
     // This is enforced at the application level, not in the database.
     public DeliveryAddress DeliveryAddress { get; set; }
     public PickupPoint PickupPoint { get; set; }
+    public PaymentMethod PaymentMethod { get; set; }
     [NotMapped]
     public ApplicationUser User { get; set; }
 }

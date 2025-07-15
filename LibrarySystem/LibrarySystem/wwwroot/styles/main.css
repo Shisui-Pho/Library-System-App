@@ -590,3 +590,6 @@ main.container {
 .quater-width {
     width: 25%;
 }
+.muted-text {
+    color: #b0b0b0 !important;
+}

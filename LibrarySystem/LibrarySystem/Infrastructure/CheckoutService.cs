@@ -36,7 +36,7 @@ public class CheckoutService : ICheckoutService
         //- for now, we will just return the model with the cart and user info
         return model;
     }
-    public async Task<bool> CheckoutAsync(HttpContext context, CheckoutViewModel model)
+    public async Task<(bool success, int orderID)> CheckoutAsync(HttpContext context, CheckoutViewModel model)
     {
         //Here I need to log this to the database
         var order = CreateOrder(model, context);
@@ -44,7 +44,7 @@ public class CheckoutService : ICheckoutService
         {
             //Repopulate model
             await PopulateCheckoutViewModel(model, context);
-            return false; // If we couldn't create the order, return false
+            return (false, 0); // If we couldn't create the order, return false
         }
 
         //Here we will save the order to the database
@@ -52,13 +52,13 @@ public class CheckoutService : ICheckoutService
         {
             _repo.Orders.Create(order);
             _repo.SaveChanges();
-            return true; //Indicate success if the order was created and saved successfully
+            return (true, order.OrderId); //Indicate success if the order was created and saved successfully
         }
         catch (DbException)
         {
             //For now we will just catch the exception and return false
             await PopulateCheckoutViewModel(model, context);
-            return false; //Indicate failure if an exception occurs
+            return (false, 0); //Indicate failure if an exception occurs
         }
 
     }

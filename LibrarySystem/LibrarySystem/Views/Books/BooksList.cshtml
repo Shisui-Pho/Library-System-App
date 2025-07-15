@@ -8,7 +8,7 @@
     <nav aria-label="breadcrumb" class="mt-2">
         <ol class="breadcrumb bg-dark text-light px-3 py-2 rounded">
             <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Books</li>
+            <li class="breadcrumb-item active muted-text" aria-current="page">Books</li>
         </ol>
     </nav>
 
@@ -48,14 +48,9 @@
         </div>
 
         <!-- Paging Placeholder -->
-        <div class="d-flex justify-content-center mt-5">
+@*         <div class="d-flex justify-content-center mt-5"> *@
             <div page-model="Model.PagingInfomation"
-                 action="BooksList"
-                 is-css-enabled="true"
-                 selected-page-class="btn-primary"
-                 un-selected-page-class="btn-outline-primary"
-                 common-page-class="btn"
-                 class="pagination"></div>
-        </div>
+                 action="BooksList"></div>
+@*         </div> *@
     </div>
 </div>

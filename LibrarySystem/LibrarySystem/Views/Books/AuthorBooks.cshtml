@@ -11,7 +11,7 @@
         <ol class="breadcrumb bg-dark text-light px-3 py-2 rounded">
             <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
             <li class="breadcrumb-item"><a asp-action="AuthorsList" asp-controller="Books">Authors</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Model.Author.FullName</li>
+            <li class="breadcrumb-item active muted-text" aria-current="page">@Model.Author.FullName</li>
         </ol>
     </nav>
 
@@ -54,11 +54,11 @@
                 <h5 class="fw-bold mb-2">Biography</h5>
                 @if (!string.IsNullOrWhiteSpace(Model.Author.Biography))
                 {
-                    <p class="text-muted">@Model.Author.Biography</p>
+                    <p class="muted-text">@Model.Author.Biography</p>
                 }
                 else
                 {
-                    <p class="text-muted fst-italic">No biography available for this author.</p>
+                    <p class="muted-text fst-italic">No biography available for this author.</p>
                 }
             </div>
         </div>

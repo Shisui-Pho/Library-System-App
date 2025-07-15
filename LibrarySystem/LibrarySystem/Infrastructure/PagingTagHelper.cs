@@ -29,49 +29,70 @@ public class PagingTagHelper : TagHelper
     /// Contains all the information about the Paging.
     /// </summary>
     public PagingInfomation PageModel { get; set; }
-    /// <summary>
-    /// Indicates whether css attributes will be applied to the pages or not.
-    /// </summary>
-    public bool IsCssEnabled {  get; set; }
-    /// <summary>
-    /// The css class to be applied to the currently selected page.
-    /// </summary>
-    public string SelectedPageClass {  get; set; }
-    /// <summary>
-    /// The css class to be applied to the pages that have not been selected yet.
-    /// </summary>
-    public string UnSelectedPageClass { get; set; }
-    /// <summary>
-    /// Css page class that is common in both the two different pages(Current and default pages)
-    /// </summary>
-    public string CommonPageClass { get; set; }
-
 
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        //Define the outer container
-        TagBuilder div = new("div");
-        var urlBuilder = _urlHelperFactory.GetUrlHelper(ViewContext);
+        TagBuilder nav = new("nav");
+        nav.Attributes["aria-label"] = "something something";
 
+        //Nav list
+        TagBuilder ul = new("ul");
+        ul.AddCssClass("pagination");
+        ul.AddCssClass("justify-content-center");
+        ul.AddCssClass("mt-4");
+
+        BuildLinks(ul);
+        nav.InnerHtml.AppendHtml(ul);
+        output.Content.AppendHtml(ul);
+    }//Process
+    private TagBuilder BuildLinks(TagBuilder ul)
+    {
+        var urlBuilder = _urlHelperFactory.GetUrlHelper(ViewContext);
+        int current = PageModel.CurrentPageNumber;
+        //Left arrow if needed
+        if (PageModel.TotalNumberOfPages > 1)
+        {
+            var previousPage = current <= 1 ? 1 : current - 1;
+            ul.InnerHtml.AppendHtml(GetPagingArrow("left",current != 1, previousPage));
+        }
         for (int i = 1; i <= PageModel.TotalNumberOfPages; i++)
         {
-            //Create a link element
-            TagBuilder a = new ("a");
+            //Build list item
+            TagBuilder li = new("li");
+            li.AddCssClass("page-item");
+            li.AddCssClass(i == PageModel.CurrentPageNumber ? "active" : "");
 
-            //Apply css classes
-            if (IsCssEnabled)
-            {
-                //Apply common css
-                a.AddCssClass(CommonPageClass);
-                a.AddCssClass(i == PageModel.CurrentPageNumber ? SelectedPageClass : UnSelectedPageClass);
-            }
-            
+            //Build link
+            TagBuilder a = new("a");
+            a.AddCssClass("page-link");
+            a.InnerHtml.Append(i.ToString());//For displaying
             a.Attributes["href"] = urlBuilder.Action(Action, new { page = i });
-            a.InnerHtml.Append(i.ToString());//Add the page name
-            div.InnerHtml.AppendHtml(a);//Add the link to the div
+            //Link them
+            li.InnerHtml.AppendHtml(a);
+            ul.InnerHtml.AppendHtml(li);
         }//end for
 
-        div.AddCssClass("btn-group");
-        output.Content.AppendHtml(div);
-    }//Process
+        //Right arrow if needed
+        if (PageModel.TotalNumberOfPages > 1)
+        {
+            var nextPage = current >= PageModel.TotalNumberOfPages ? PageModel.TotalNumberOfPages : current + 1;
+            ul.InnerHtml.AppendHtml(GetPagingArrow("right", current != PageModel.TotalNumberOfPages, nextPage));
+        }
+
+        return ul;
+    }//BuildLinks
+    private TagBuilder GetPagingArrow(string direction, bool enabled, int page)
+    {
+        TagBuilder liArrow = new("li");
+        liArrow.AddCssClass(enabled ? "" : "disabled");
+        liArrow.AddCssClass("page-item");
+        TagBuilder arrowLink = new("a");
+        arrowLink.AddCssClass("page-link");
+        arrowLink.Attributes["href"] = _urlHelperFactory.GetUrlHelper(ViewContext).Action(Action, new { page = page });
+        TagBuilder icon = new("i");
+        icon.AddCssClass($"fa fa-chevron-{direction}");
+        arrowLink.InnerHtml.AppendHtml(icon);
+        liArrow.InnerHtml.AppendHtml(arrowLink);
+        return liArrow;
+    }
 }//class
