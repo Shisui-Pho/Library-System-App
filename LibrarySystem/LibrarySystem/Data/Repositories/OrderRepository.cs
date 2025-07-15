@@ -9,7 +9,7 @@ public class OrderRepository(AppDBContext context) : BaseRepository<Order>(conte
     public IEnumerable<Order> GetUserOrders(ApplicationUser user, QueryOptions<Order> options = null)
     {
         options ??= new QueryOptions<Order>(){Where = p => p.UserID == user.Id};
-
+        options.Where ??= o => o.UserID == user.Id;
         //Apply query options
         var qOrders = base.ApplyOptions(options);
 

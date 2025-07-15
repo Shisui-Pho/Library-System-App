@@ -75,6 +75,8 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         if (options.HasPaging)
         {
             //Select the top n items
+            options.PagingInfomation.TotalNumberOfItems = q.Count();
+
             q = q.Skip((options.PagingInfomation.CurrentPageNumber - 1) * options.PagingInfomation.NumberOfItemsPerPage)
                  .Take(options.PagingInfomation.NumberOfItemsPerPage);
         }
