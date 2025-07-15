@@ -1,0 +1,301 @@
+﻿@model OrderDetailsViewModel
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<div class="container py-4">
+    <nav aria-label="breadcrumb" class="mt-2">
+        <ol class="breadcrumb bg-dark text-light px-3 py-2 rounded">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="Orders" asp-controller="Order">My Orders</a></li>
+            <li class="breadcrumb-item active muted-text" aria-current="page">Order @Model.OrderNumber</li>
+        </ol>
+    </nav>
+
+    <div class="section-body shadow p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-0">Order @Model.OrderNumber</h2>
+                <p class="muted-text mb-0">Placed on @Model.OrderDate.ToString("dd MMMM yyyy 'at' HH:mm")</p>
+            </div>
+            <div>
+                <span class="badge @GetStatusBadgeClass(Model.Status)" style="font-size: 1rem;">
+                    @Model.Status
+                </span>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card bg-dark border-secondary text-bg-dark">
+                    <div class="card-header">
+                        <h4 class="mb-0"><i class="fas fa-box me-2"></i>Order Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-dark table-hover align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Book</th>
+                                        <th>Price</th>
+                                        <th>Qty</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OrderItems)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img src="@item.BookCoverUrl" alt="Book Cover" class="rounded shadow-sm" style="width:60px; height:auto;" />
+                                                    <div>
+                                                        <span class="fw-bold">@item.BookTitle</span><br />
+                                                        <small class="text-secondary">by @item.Authors</small>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>@item.Price.ToString("C2")</td>
+                                            <td>@item.Quantity</td>
+                                            <td class="fw-bold">@item.TotalPrice.ToString("C2")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="order-summary-totals mt-4">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal:</span>
+                                <span>@Model.Subtotal.ToString("C2")</span>
+                            </div>
+                            @if (Model.DeliveryOption == DeliveryOption.Delivery)
+                            {
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Shipping:</span>
+                                    <span>@Model.ShippingCost.ToString("C2")</span>
+                                </div>
+                            }
+                            <hr class="my-2">
+                            <div class="d-flex justify-content-between fw-bold fs-5">
+                                <span>Total:</span>
+                                <span>@Model.TotalPrice.ToString("C2")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 muted-text">
+                <div class="card bg-dark border-secondary mb-4 text-bg-dark">
+                    <div class="card-header">
+                        <h4 class="mb-0"><i class="fas fa-credit-card me-2"></i>Payment Information</h4>
+                    </div>
+                    <div class="card-body text-white">
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="fw-bold">Payment Method:</span>
+                            <span>@Model.PaymentMethod.Name</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="fw-bold">Payment Status:</span>
+                            <span class="badge bg-success">Paid</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <span class="fw-bold">Payment Date:</span>
+                            <span>@Model.OrderDate.ToString("dd MMM yyyy")</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold">Transaction ID:</span>
+                            <span class="muted-text">Phiwo was here</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card bg-dark border-secondary text-bg-dark">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fas @(Model.DeliveryOption == DeliveryOption.Delivery ? "fa-truck" : "fa-store") me-2"></i>
+                            @(Model.DeliveryOption == DeliveryOption.Delivery ? "Delivery Information" : "Pickup Information")
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.DeliveryOption == DeliveryOption.Delivery)
+                        {
+                            <h5 class="mb-3"><i class="fas fa-home me-2"></i>Shipping Address</h5>
+                            <p class="mb-1">@Model.FullName</p>
+                            <p class="mb-1">@Model.DeliveryAddress.AddressLine1</p>
+                            @if (!string.IsNullOrEmpty(Model.DeliveryAddress.AddressLine2))
+                            {
+                                <p class="mb-1">@Model.DeliveryAddress.AddressLine2</p>
+                            }
+                            <p class="mb-1">@Model.DeliveryAddress.City, @Model.DeliveryAddress.Province</p>
+                            <p class="mb-1">@Model.DeliveryAddress.PostalCode</p>
+
+                            <div class="mt-4">
+                                <h5><i class="fas fa-shipping-fast me-2"></i>Delivery Status</h5>
+                                <div class="progress mt-3" style="height: 10px;">
+                                    <div class="progress-bar @GetProgressBarClass(Model.Status)"
+                                         role="progressbar"
+                                         style="width: @GetProgressBarWidth(Model.Status)%;"
+                                         aria-valuenow="@GetProgressBarWidth(Model.Status)"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2 text-sm">
+                                    <span>Order Placed</span>
+                                    <span>Processing</span>
+                                    <span>Shipped</span>
+                                    <span>Delivered</span>
+                                </div>
+
+                                @if (Model.Status >= BookOrderStatus.Shipped)
+                                {
+                                    <p class="mt-3 mb-0">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        Estimated delivery: @Model.EstimatedDeliveryDate.ToString("dd MMMM yyyy")
+                                    </p>
+
+                                    <p class="mt-2">
+                                        <i class="fas fa-barcode me-2"></i>
+                                        Tracking Number:
+                                        <a href="@Model.TrackingUrl" target="_blank" class="text-info">
+                                            @Model.TrackingNumber
+                                        </a>
+                                    </p>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <h5 class="mb-3"><i class="fas fa-store me-2"></i>Pickup Location</h5>
+                            <p class="mb-1"><strong>@Model.PickupPoint.Name</strong></p>
+                            <p class="mb-1">@Model.PickupPoint.Address</p>
+                            <p class="mb-1">@Model.PickupPoint.City, @Model.PickupPoint.Province</p>
+                            <p class="mb-1">Phone: @Model.PickupPoint.Phone</p>
+
+                            <div class="mt-4">
+                                <h5><i class="fas fa-clock me-2"></i>Pickup Hours</h5>
+                                <p class="mb-1">Monday-Friday: @Model.PickupPoint.OpeningTime.ToString(@"hh\:mm") - @Model.PickupPoint.ClosingTime.ToString(@"hh\:mm")</p>
+                                <p class="mb-0">Saturday: 9:00 - 13:00</p>
+
+                                <div class="alert alert-info mt-3">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Please bring your ID and order confirmation when picking up your order.
+                                </div>
+
+                                <p class="mt-3">
+                                    <i class="fas fa-map-marker-alt me-2"></i>
+                                    <a href="https://maps.google.com?q=@Model.PickupPoint.Address, @Model.PickupPoint.City, @Model.PickupPoint.Province"
+                                       target="_blank" class="btn btn-sm btn-outline-light">
+                                        View on Map
+                                    </a>
+                                </p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Actions -->
+        <div class="d-flex justify-content-between mt-4">
+            <div>
+                <a asp-action="OrderHistory" asp-controller="Account" class="btn btn-outline-light">
+                    <i class="fas fa-arrow-left me-2"></i>Back to Orders
+                </a>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="#" class="btn btn-outline-info">
+                    <i class="fas fa-download me-2"></i>Download Invoice
+                </a>
+                @if (Model.Status == BookOrderStatus.Processing)
+                {
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelOrderModal">
+                        <i class="fas fa-times-circle me-2"></i>Cancel Order
+                    </button>
+                }
+                <a asp-action="BooksList" asp-controller="Books" class="btn btn-primary">
+                    <i class="fas fa-book me-2"></i>Continue Shopping
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Order Modal -->
+<div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelOrderModalLabel">Cancel Order</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel this order?</p>
+                <p class="mb-0"><strong>Order #@Model.OrderNumber</strong> - @Model.TotalPrice.ToString("C2")</p>
+
+                <div class="mt-3">
+                    <label class="form-label">Reason for cancellation</label>
+                    <select class="form-select bg-dark text-light">
+                        <option>Changed my mind</option>
+                        <option>Found a better price</option>
+                        <option>Ordered by mistake</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger">Confirm Cancellation</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusBadgeClass(BookOrderStatus status)
+    {
+        switch (status)
+        {
+            case BookOrderStatus.Pending:
+                return "bg-secondary";
+            case BookOrderStatus.Processing:
+                return "bg-info";
+            case BookOrderStatus.Shipped:
+                return "bg-primary";
+            case BookOrderStatus.Delivered:
+                return "bg-success";
+            case BookOrderStatus.Cancelled:
+            case BookOrderStatus.Returned:
+            case BookOrderStatus.Refunded:
+                return "bg-danger";
+            default:
+                return "bg-secondary";
+        }
+    }
+
+    string GetProgressBarClass(BookOrderStatus status)
+    {
+        return status switch
+        {
+            BookOrderStatus.Delivered => "bg-success",
+            BookOrderStatus.Shipped => "bg-primary",
+            _ => "bg-info"
+        };
+    }
+
+    int GetProgressBarWidth(BookOrderStatus status)
+    {
+        return status switch
+        {
+            BookOrderStatus.Pending => 10,
+            BookOrderStatus.Processing => 40,
+            BookOrderStatus.Shipped => 70,
+            BookOrderStatus.Delivered => 100,
+            _ => 10
+        };
+    }
+}

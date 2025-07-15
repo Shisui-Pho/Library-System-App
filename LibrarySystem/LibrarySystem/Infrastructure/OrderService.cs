@@ -15,6 +15,19 @@ public class OrderService : IOrderService
         this._userService = userService;
         this._repo = repo;
     }
+    public int CountOrders(ClaimsPrincipal user, QueryOptions<Order> options = null)
+    {
+        var orderUser = _userService.GetCurrentLoggedInUserAsync(user).Result;
+        if(orderUser != null)
+        {
+            //The "Find by conditions" will not do any aggregations
+            if (options != null)
+                return _repo.Orders.GetWithOptions(options).Count();
+
+            return _repo.Orders.FindByCondition(o => o.UserID == orderUser.Id).Count();
+        }
+        return 0;
+    }//
     public bool CancelOrder(ClaimsPrincipal user, int orderID)
     {
         //Find the by ID
@@ -46,7 +59,6 @@ public class OrderService : IOrderService
             return false; //Failed to cancel order
         }
     }//CancelOrder
-
     public OrderDetailsViewModel GetOrderDetails(ClaimsPrincipal user, int orderDetails)
     {
         return MakeOrderDetails(user, orderDetails).Result;
@@ -59,7 +71,7 @@ public class OrderService : IOrderService
         var orders = _repo.Orders.GetUserOrders(orderUser, options);
 
         // Project to ViewModel
-        var orderViewModels = orders.Select(o => new OrderViewModel(o)).ToList();
+        var orderViewModels = orders.Select(o => new OrderViewModel(o));
 
         return orderViewModels;
     }

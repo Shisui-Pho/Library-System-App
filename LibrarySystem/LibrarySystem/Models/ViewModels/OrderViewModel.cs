@@ -35,5 +35,6 @@ public class OrderViewModel
         DeliveryOption = order.DeliveryOption;
         FirstBookTitle = firstBook?.BookTitle;
         FirstBookAuthor = firstAuthor != null ? $"{firstAuthor.FullName} {firstAuthor.LastName}" : "Unknown";
+        FirstBookCover = firstBook?.GetCoverPath();
     }//AssignProperties
 }//class
