@@ -11,7 +11,6 @@ public class BooksController : Controller
 {
     private readonly IRepositoryWrapper _repository;
     private readonly ICartService _cartService;
-
     public BooksController(IRepositoryWrapper repositoryWrapper, ICartService cartService)
     {
         _repository = repositoryWrapper;
@@ -93,15 +92,29 @@ public class BooksController : Controller
         //Redirect to the calling page
         return Redirect($"{model.PageWhereItemWasAdded}#book-{item.BookID}");
     }//AddToCart
-    public IActionResult AuthorsList()
+    public IActionResult AuthorsList(int page = 1)
     {
-        var authors = _repository.Authors.FindAll();
+        var options = new QueryOptions<Author>                                                                       
+        {
+            PagingInfomation = new()
+            {
+                TotalNumberOfItems = _repository.Authors.Count(),
+                CurrentPageNumber = page,
+                NumberOfItemsPerPage = PAGE_SIZE - 1
+            }
+        };
+        var authors = _repository.Authors.GetWithOptions(options);
         if (authors == null || !authors.Any())
         {
             //Return page not found
             return RedirectToAction("PageNotFound", "Home", new { message = "No authors were found in the database." });
         }
-        return View(authors);
+        var model = new AuthorsDisplayViewModel
+        {
+            Authors = authors,
+            PagingInformation = options.PagingInfomation
+        };
+        return View(model);
     }//AuthorsList
     public IActionResult AuthorBooks(int id)
     {
