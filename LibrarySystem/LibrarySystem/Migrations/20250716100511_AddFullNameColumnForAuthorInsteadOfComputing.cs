@@ -10,6 +10,12 @@ namespace LibrarySystem.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            //Drop the existing FullName column if it exists
+            //-This is the column that was computed before
+            migrationBuilder.DropColumn(
+                name: "FullName",
+                table: "Author");
+
             migrationBuilder.AddColumn<string>(
                 name: "FullName",
                 table: "Author",
