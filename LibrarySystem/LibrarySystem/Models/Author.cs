@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LibrarySystem.Models;
 
@@ -23,8 +24,7 @@ public class Author
 
     public string Website { get; set; }
 
-    // Computed full name
-    public string FullName => $"{FirstName} {LastName}";
+    public string FullName { get; set; }
 
     // Navigational property
     public List<Book> Books { get; set; }
