@@ -4,6 +4,7 @@ using LibrarySystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibrarySystem.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250717131408_AddBookInteractionEntities")]
+    partial class AddBookInteractionEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -431,7 +434,7 @@ namespace LibrarySystem.Migrations
             modelBuilder.Entity("LibrarySystem.Models.BookInteraction", b =>
                 {
                     b.HasOne("LibrarySystem.Models.Book", "Book")
-                        .WithMany("BookInteractions")
+                        .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -517,11 +520,6 @@ namespace LibrarySystem.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("BookOrder");
-                });
-
-            modelBuilder.Entity("LibrarySystem.Models.Book", b =>
-                {
-                    b.Navigation("BookInteractions");
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.Order", b =>
