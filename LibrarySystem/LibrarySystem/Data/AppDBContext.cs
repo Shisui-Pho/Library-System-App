@@ -15,6 +15,7 @@ public class AppDBContext(DbContextOptions<AppDBContext> options):
     public DbSet<PaymentMethod> PaymentMethods { get; set; }
     public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
     public DbSet<OrderItem> BookOrderItems { get; set; }
+    public DbSet<BookInteraction> SocialInteractions { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //Create the tables explicity to avoid pluralization
@@ -27,6 +28,13 @@ public class AppDBContext(DbContextOptions<AppDBContext> options):
         modelBuilder.Entity<PaymentMethod>().ToTable(nameof(PaymentMethod));
         modelBuilder.Entity<DeliveryAddress>().ToTable(nameof(DeliveryAddress));
         modelBuilder.Entity<OrderItem>().ToTable(nameof(OrderItem));
+
+        //Configure the BookInteraction entity
+        modelBuilder.Entity<BookInteraction>(bi =>
+        {
+            bi.ToTable(nameof(BookInteraction));
+            bi.OwnsOne(b => b.Review);
+        });
 
         base.OnModelCreating(modelBuilder);
     }//OnModelCreating
