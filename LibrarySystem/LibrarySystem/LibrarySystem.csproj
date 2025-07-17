@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Database Scripts\" />
     <Folder Include="wwwroot\*" />
   </ItemGroup>
 

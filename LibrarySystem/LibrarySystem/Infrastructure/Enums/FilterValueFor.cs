@@ -7,6 +7,7 @@
         Genre,
         Format,
         SearchTerm,
-        Page
+        Page, 
+        PriceRange
     }
 }

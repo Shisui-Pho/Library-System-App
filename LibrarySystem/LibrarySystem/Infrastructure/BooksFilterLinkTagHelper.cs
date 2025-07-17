@@ -27,7 +27,7 @@ public class BooksFilterLinkTagHelper : TagHelper
         {
             case FilterValueFor.Top:
                 AddParam("genre", CurrentFilter.Genre);
-                AddParam("format", CurrentFilter.Format);
+                AddParam("pricerange", CurrentFilter.PriceRange);
                 AddParam("search", CurrentFilter.SearchTerm);
                 AddParam("page", CurrentFilter.Page);
                 if (CurrentFilter.Top == FilterValue)
@@ -36,25 +36,25 @@ public class BooksFilterLinkTagHelper : TagHelper
 
             case FilterValueFor.Genre:
                 AddParam("top", CurrentFilter.Top);
-                AddParam("format", CurrentFilter.Format);
+                AddParam("pricerange", CurrentFilter.PriceRange);
                 AddParam("search", CurrentFilter.SearchTerm);
                 AddParam("page", CurrentFilter.Page);
                 if (CurrentFilter.Genre == FilterValue || (string.IsNullOrEmpty(CurrentFilter.Genre) && FilterValue.Equals("all", StringComparison.OrdinalIgnoreCase)))
                     output.Attributes.SetAttribute("class", $"{CssClass} active");
             break;
 
-            case FilterValueFor.Format:
+            case FilterValueFor.PriceRange:
                 AddParam("genre", CurrentFilter.Genre);
                 AddParam("top", CurrentFilter.Top);
                 AddParam("search", CurrentFilter.SearchTerm);
                 AddParam("page", CurrentFilter.Page);
-                if (CurrentFilter.Format == FilterValue || (string.IsNullOrEmpty(CurrentFilter.Format) && FilterValue.Equals("all", StringComparison.OrdinalIgnoreCase)))
+                if (CurrentFilter.PriceRange == FilterValue || (string.IsNullOrEmpty(CurrentFilter.PriceRange) && FilterValue.Equals("all", StringComparison.OrdinalIgnoreCase)))
                     output.Attributes.SetAttribute("class", $"{CssClass} active");
             break;
 
             case FilterValueFor.SearchTerm:
                 AddParam("genre", CurrentFilter.Genre);
-                AddParam("format", CurrentFilter.Format);
+                AddParam("pricerange", CurrentFilter.PriceRange);
                 AddParam("top", CurrentFilter.Top);
                 AddParam("page", CurrentFilter.Page);
                 if (CurrentFilter.SearchTerm == FilterValue)
@@ -63,7 +63,7 @@ public class BooksFilterLinkTagHelper : TagHelper
 
             case FilterValueFor.Page:
                 AddParam("genre", CurrentFilter.Genre);
-                AddParam("format", CurrentFilter.Format);
+                AddParam("pricerange", CurrentFilter.PriceRange);
                 AddParam("search", CurrentFilter.SearchTerm);
                 AddParam("top", CurrentFilter.Top);
                 if (CurrentFilter.Page.ToString() == FilterValue)

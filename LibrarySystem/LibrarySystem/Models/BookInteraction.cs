@@ -18,8 +18,9 @@ public class BookInteraction
 
     [Range(1, 5)]
     public int Rating { get; set; } = 0;
-
-    #nullable enable
+    public bool Viewed { get; set; } = false;
+    public bool AddedToWishlist { get; set; } = false;
+#nullable enable
     public Review? Review { get; set; }
     #nullable disable
 

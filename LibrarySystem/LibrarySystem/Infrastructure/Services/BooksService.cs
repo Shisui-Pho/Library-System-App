@@ -36,12 +36,13 @@ public class BooksService : IBooksService
 
     public IEnumerable<Book> GetBooks(AdvanceSearchViewModel searchParameters)
     {
-        var words = searchParameters.Keywords.Split(',');
-        //searchParameters.
-        //searchParameters.
-        Expression<Func<Book, bool>> whereClause =
-            p => ContainsKeyWord(words, p) || p.BookTitle.Contains(searchParameters.Title) 
-                || p.
+        //var words = searchParameters.Keywords.Split(',');
+        ////searchParameters.
+        ////searchParameters.
+        //Expression<Func<Book, bool>> whereClause =
+        //    p => ContainsKeyWord(words, p) || p.BookTitle.Contains(searchParameters.Title) 
+        //        || p.
+        throw new NotImplementedException("Advance search is not implemented yet.");
     }//GetBooks
     private static bool ContainsKeyWord(string[] keyWords, Book book)
     {

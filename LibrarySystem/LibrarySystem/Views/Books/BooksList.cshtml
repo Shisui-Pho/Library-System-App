@@ -37,12 +37,12 @@
                         <i class="fas fa-bolt me-1"></i> New release
                     </book-filter-link>
 
-                    <book-filter-link filter-option-values="Model.FilteringOptions" filter-value="popular"
+                    <book-filter-link filter-option-values="Model.FilteringOptions" filter-value="staff-picks"
                                       filter-value-for="Top">
                         <i class="fas fa-badge-check me-1"></i> Staff Picks
                     </book-filter-link>
 
-                    <book-filter-link filter-option-values="Model.FilteringOptions" filter-value="popular"
+                    <book-filter-link filter-option-values="Model.FilteringOptions" filter-value="hidden-germs"
                                       filter-value-for="Top">
                         <i class="fas fa-gem me-1"></i> Hidden Germs
                     </book-filter-link>
@@ -80,36 +80,43 @@
                     <div class="dropdown">
                         <button class="btn btn-filter dropdown-toggle" type="button"
                                 id="formatDropdown" data-bs-toggle="dropdown">
-                            <i class="fas fa-book me-1"></i> Format
+                            <i class="fas fa-book me-1"></i> Price Range
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="formatDropdown">
                             <li>@* <a class="dropdown-item" href="#" data-filter="format-all">All Formats</a> *@
                                 <book-filter-link filter-option-values="Model.FilteringOptions"
-                                                  filter-value="all" filter-value-for="Format"
+                                                  filter-value="all" filter-value-for="PriceRange"
                                                   css-class="dropdown-item">
-                                                    All Formats
+                                                    All Prices
                                 </book-filter-link>    
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <book-filter-link filter-option-values="Model.FilteringOptions"
-                                                  filter-value="ebook" filter-value-for="Format"
+                                                  filter-value="under-200" filter-value-for="PriceRange"
                                                   css-class="dropdown-item">
-                                    eBook
+                                    Under R200
                                 </book-filter-link>
                             </li>
                             <li>
                                 <book-filter-link filter-option-values="Model.FilteringOptions"
-                                                  filter-value="audio-book" filter-value-for="Format"
+                                                  filter-value="200-500" filter-value-for="PriceRange"
                                                   css-class="dropdown-item">
-                                    Audio Book
+                                    R200 – R500
                                 </book-filter-link>
                             </li>
                             <li>
                                 <book-filter-link filter-option-values="Model.FilteringOptions"
-                                                  filter-value="hard-copy" filter-value-for="Format"
+                                                  filter-value="500-1000" filter-value-for="PriceRange"
                                                   css-class="dropdown-item">
-                                    Hard Copy
+                                    R500 - R1 000
+                                </book-filter-link>
+                            </li>
+                            <li>
+                                <book-filter-link filter-option-values="Model.FilteringOptions"
+                                                  filter-value="1000-plus" filter-value-for="PriceRange"
+                                                  css-class="dropdown-item">
+                                    R1 000+
                                 </book-filter-link>
                             </li>
                         </ul>
@@ -132,7 +139,7 @@
                                     <input type="hidden" asp-for="FilteringOptions.Page"/>
                                     <input type="hidden" asp-for="FilteringOptions.Top"/>
                                     <input type="hidden" asp-for="FilteringOptions.Genre"/>
-                                    <input type="hidden" asp-for="FilteringOptions.Format"/>
+                                    <input type="hidden" asp-for="FilteringOptions.PriceRange"/>
                                 </div>
                                 <button class="search-btn">
                                     <i class="fas fa-search"></i>
@@ -170,21 +177,6 @@
             </div>
             <div class="modal-body">
                 <form id="advancedSearchForm" method="post" asp-action="AdvancedSearch" asp-controller="Books">
-                    @*
-                        public class AdvanceSearchViewModel
-                        {
-                            public string Title { get; set; }
-                            public string Author { get; set; }
-                            public string Genre { get; set; }
-                            public string ISBN { get; set; }
-                            public DateTime? PublicationDateFrom { get; set; }
-                            public int RatingFrom { get; set; } = 0; //default rating
-                            public string Keywords { get; set; }
-                            public decimal? PriceFrom { get; set; }
-                            public decimal? PriceTo { get; set; }
-                            public string Language { get; set; }
-                        } //class
-                    *@
                     <div class="mb-3">
                         <label class="form-label">Title</label>
                         <input type="text" class="form-control" name="AdvanceSearchViewModel.Title">
