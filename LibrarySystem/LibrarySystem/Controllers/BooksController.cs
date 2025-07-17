@@ -4,6 +4,9 @@ using LibrarySystem.Models;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Linq.Expressions;
 
 namespace LibrarySystem.Controllers;
 
@@ -45,13 +48,7 @@ public class BooksController : Controller
 
         return View(model);
     }
-    private List<(int bookId, int quantity)> GetCartSummary()
-    {
-        var cartItems = _cartService.GetCart(HttpContext)
-                                    .CartItems.Select(x => (x.BookID, x.Quantity))
-                                    .ToList();
-        return cartItems;
-    }//GetCartSummary
+    
     public IActionResult BookDetails(int id)
     {
         //this is the id passed
@@ -65,44 +62,23 @@ public class BooksController : Controller
 
         return View("BookDetails", book);
     }//BookDetails
-    [HttpPost]
-    public IActionResult AddToCart(CartItemViewModel model)
+    public IActionResult AuthorsList(int page = 1, string search = "", string sort = "full_name_asc")
     {
-        //Use session based interactions
-        List<CartItem> cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? [];
-        var item = model.CartItem;
-        var existingItem = cart.FirstOrDefault(c => c.BookID == item.BookID);
-        
-        if (existingItem != null)
+        var paging = new PagingInfomation()
         {
-            existingItem.Quantity += item.Quantity;//increament the quantity of the item
-        }
-        else
-        {
-            //Add the item
-            cart.Add(item);
-        }
-
-        //Add to the current user session objects
-        HttpContext.Session.SetObjectAsJson("Cart", cart);
-
-        //Pass the current number of items
-        TempData["NumberOfItemsInCart"] = cart.Count;
-
-        //Redirect to the calling page
-        return Redirect($"{model.PageWhereItemWasAdded}#book-{item.BookID}");
-    }//AddToCart
-    public IActionResult AuthorsList(int page = 1)
-    {
+            CurrentPageNumber = page,
+            NumberOfItemsPerPage = PAGE_SIZE - 1
+        };
+        int len = (sort.Length - sort.LastIndexOf('_'));
+        //sort = $"FullName_{sort[^len..]}";
         var options = new QueryOptions<Author>                                                                       
         {
-            PagingInfomation = new()
-            {
-                TotalNumberOfItems = _repository.Authors.Count(),
-                CurrentPageNumber = page,
-                NumberOfItemsPerPage = PAGE_SIZE - 1
-            }
+            OrderBy = GetSortByClause<Author>(sort, out string orderByDirection),
+            OrderByDirection = orderByDirection, 
+            PagingInfomation = paging, 
+            Where = a => string.IsNullOrEmpty(search) || a.FullName.ToLower().Contains(search.ToLower())
         };
+
         var authors = _repository.Authors.GetWithOptions(options);
         if (authors == null || !authors.Any())
         {
@@ -116,6 +92,10 @@ public class BooksController : Controller
         };
         return View(model);
     }//AuthorsList
+    public IActionResult AdvanceSearch(AdvanceSearchViewModel model)
+    {
+        return View(model);
+    }
     public IActionResult AuthorBooks(int id)
     {
         //Get the author
@@ -137,4 +117,28 @@ public class BooksController : Controller
         };
         return View(model);
     } //class
+    private static Expression<Func<T, object>> GetSortByClause<T>(string sortBy, out string orderByDirection)
+        where T : class
+    {
+        orderByDirection = "asc"; //default ordering
+        if(sortBy.EndsWith("_dsc") || sortBy.EndsWith("_asc") || sortBy.EndsWith("_desc"))
+        {
+            orderByDirection = sortBy[^3..];
+            sortBy = sortBy.Replace("_dsc", "").Replace("_asc", "").Replace("_desc", "");
+        }
+
+        //Split and join properties in camel case
+        sortBy = sortBy.Split('_').Apply(CultureInfo.CurrentCulture.TextInfo.ToTitleCase).Join("");
+
+        //Get order by expression
+        Expression<Func<T, object>> orderby = p => EF.Property<T>(p, sortBy);
+        return orderby;
+    }//GetSortByClause
+    private List<(int bookId, int quantity)> GetCartSummary()
+    {
+        var cartItems = _cartService.GetCart(HttpContext)
+                                    .CartItems.Select(x => (x.BookID, x.Quantity))
+                                    .ToList();
+        return cartItems;
+    }//GetCartSummary
 }//class

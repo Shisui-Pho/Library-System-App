@@ -13,41 +13,214 @@
     </nav>
 
     <div class="section-body shadow p-4">
+        <h1 class="books-header mb-2">Discover Amazing Books</h1>
+        <p class="lead mb-4">Explore our curated collection</p>
 
-        <h1 class="books-header mb-2">
-            Discover Amazing Books
-        </h1>
-        <p class="lead mb-4">Explore and read books you like</p>
+        <!-- Modern Filter Section - Optimized Layout -->
+        <div class="book-filters mb-5">
+            <!-- Main Filter Row -->
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+                <!-- Filter Group -->
+                <div class="d-flex flex-wrap gap-2">
+                    <book-filter-link filter-option-values="Model.FilteringOptions" filter-value="popular"
+                                      filter-value-for="Top">
+                         <i class="fas fa-fire me-1"></i> Trending
+                    </book-filter-link>
 
-        <!-- Filter Buttons -->
-        <div class="row mb-4">
-            <div class="col text-center">
-                <div class="btn-group" role="group" aria-label="Book Filters">
-                    <a href="#" class="btn btn-primary active">Popular</a>
-                    <a href="#" class="btn btn-success">Most Liked</a>
-                    <a href="#" class="btn btn-info">Most Read</a>
-                    <a href="#" class="btn btn-warning">Most Viewed</a>
-                    <a href="#" class="btn btn-danger">Latest</a>
+                    <book-filter-link filter-option-values="Model.FilteringOptions" filter-value="top-rated"
+                                      filter-value-for="Top">
+                        <i class="fas fa-crown me-1"></i> Top Rated
+                    </book-filter-link>
+
+                    <book-filter-link filter-option-values="Model.FilteringOptions" filter-value="new-release"
+                                      filter-value-for="Top">
+                        <i class="fas fa-bolt me-1"></i> New release
+                    </book-filter-link>
+
+                    <book-filter-link filter-option-values="Model.FilteringOptions" filter-value="popular"
+                                      filter-value-for="Top">
+                        <i class="fas fa-badge-check me-1"></i> Staff Picks
+                    </book-filter-link>
+
+                    <book-filter-link filter-option-values="Model.FilteringOptions" filter-value="popular"
+                                      filter-value-for="Top">
+                        <i class="fas fa-gem me-1"></i> Hidden Germs
+                    </book-filter-link>
+                </div>
+
+                <!-- Dropdown Filters -->
+                <div class="d-flex gap-2">
+                    <div class="dropdown">
+                        <button class="btn btn-filter dropdown-toggle" type="button"
+                                id="genreDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-bookmark me-1"></i> Genre
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="genreDropdown">
+                            @* <li><a class="dropdown-item" href="#" data-filter="genre-all">All Genres</a></li> *@
+                            <li>
+                                <book-filter-link css-class="dropdown-item" filter-option-values="Model.FilteringOptions"
+                                                 filter-value="all" filter-value-for="Genre">
+                                                 All Genres
+                                </book-filter-link>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            @foreach (var genre in Model.Genres)
+                            {
+                                <li>
+                                    <book-filter-link css-class="dropdown-item" filter-option-values="Model.FilteringOptions"
+                                                      filter-value="@genre" filter-value-for="Genre">
+                                        @genre
+                                    </book-filter-link>
+                                   @*  <a class="dropdown-item" href="#" data-filter="genre-@genre">@genre</a> *@
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <button class="btn btn-filter dropdown-toggle" type="button"
+                                id="formatDropdown" data-bs-toggle="dropdown">
+                            <i class="fas fa-book me-1"></i> Format
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="formatDropdown">
+                            <li>@* <a class="dropdown-item" href="#" data-filter="format-all">All Formats</a> *@
+                                <book-filter-link filter-option-values="Model.FilteringOptions"
+                                                  filter-value="all" filter-value-for="Format"
+                                                  css-class="dropdown-item">
+                                                    All Formats
+                                </book-filter-link>    
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <book-filter-link filter-option-values="Model.FilteringOptions"
+                                                  filter-value="ebook" filter-value-for="Format"
+                                                  css-class="dropdown-item">
+                                    eBook
+                                </book-filter-link>
+                            </li>
+                            <li>
+                                <book-filter-link filter-option-values="Model.FilteringOptions"
+                                                  filter-value="audio-book" filter-value-for="Format"
+                                                  css-class="dropdown-item">
+                                    Audio Book
+                                </book-filter-link>
+                            </li>
+                            <li>
+                                <book-filter-link filter-option-values="Model.FilteringOptions"
+                                                  filter-value="hard-copy" filter-value-for="Format"
+                                                  css-class="dropdown-item">
+                                    Hard Copy
+                                </book-filter-link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Row -->
+            <div class="row">
+                <div class="col">
+                    <div class="position-relative">
+                        <div class="search-container">
+                            <form class="form w-100" method="get" asp-controller="Books" asp-action="Search">
+                                <input type="text"
+                                       class="form-control search-input"
+                                       placeholder="Search books, authors, or topics..."
+                                       id="bookSearch"
+                                       asp-for="FilteringOptions.SearchTerm">
+                                <div class="hidden-fields">
+                                    <input type="hidden" asp-for="FilteringOptions.Page"/>
+                                    <input type="hidden" asp-for="FilteringOptions.Top"/>
+                                    <input type="hidden" asp-for="FilteringOptions.Genre"/>
+                                    <input type="hidden" asp-for="FilteringOptions.Format"/>
+                                </div>
+                                <button class="search-btn">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </form>
+                            <a href="#" class="advanced-search-link ms-2" data-bs-toggle="modal" data-bs-target="#advancedSearchModal">
+                                Advanced
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Search Bar -->
-        <div class="row justify-content-center mb-5">
-            <div class="col-md-6 col-lg-4">
-                <input type="text" class="form-control search" placeholder="Search by name or ISBN number" />
-            </div>
-        </div>
 
         <!-- Book Cards -->
-        <div class="row g-4">
+        <div class="row g-4" id="bookContainer">
             @foreach (Book book in Model.Books)
             {
                 <partial name="_BookCardDetails" model="(Model.CartItemStatus, book)" />
             }
         </div>
 
-        <div page-model="Model.PagingInfomation"
-                action="BooksList"></div>
+        <div page-model="Model.PagingInfomation" action="BooksList"></div>
+    </div>
+</div>
+
+<!-- Advanced Search Modal -->
+<div class="modal fade" id="advancedSearchModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title muted-text">Advanced Search</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="advancedSearchForm" method="post" asp-action="AdvancedSearch" asp-controller="Books">
+                    @*
+                        public class AdvanceSearchViewModel
+                        {
+                            public string Title { get; set; }
+                            public string Author { get; set; }
+                            public string Genre { get; set; }
+                            public string ISBN { get; set; }
+                            public DateTime? PublicationDateFrom { get; set; }
+                            public int RatingFrom { get; set; } = 0; //default rating
+                            public string Keywords { get; set; }
+                            public decimal? PriceFrom { get; set; }
+                            public decimal? PriceTo { get; set; }
+                            public string Language { get; set; }
+                        } //class
+                    *@
+                    <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input type="text" class="form-control" name="AdvanceSearchViewModel.Title">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Author</label>
+                        <input type="text" class="form-control" name="AdvanceSearchViewModel.Author">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">ISBN</label>
+                        <input type="text" class="form-control" name="AdvanceSearchViewModel.ISBN">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Publication Year</label>
+                            <input type="date" class="form-control" name="AdvanceSearchViewModel.PublicationDateFrom" min="@(new DateTime(1900,01,01))" max="@DateTime.Now">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Rating</label>
+                            <select class="form-select" name="AdvanceSearchViewModel.RatingFrom">
+                                <option value="">Any Rating</option>
+                                <option value="4">4+ Stars</option>
+                                <option value="3">3+ Stars</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Keywords</label>
+                        <input type="text" class="form-control" name="AdvanceSearchViewModel.Keywords" placeholder="Separate with commas">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="applyAdvancedSearch">Search</button>
+            </div>
+        </div>
     </div>
 </div>
