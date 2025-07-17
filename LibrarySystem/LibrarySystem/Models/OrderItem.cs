@@ -7,7 +7,7 @@ public class OrderItem
 {
     public int OrderItemId { get; set; }
 
-    [ForeignKey(nameof(BookOrder))]
+    [ForeignKey(nameof(Models.Order))]
     public int BookOrderId { get; set; }
 
     [ForeignKey(nameof(Models.Book))]
