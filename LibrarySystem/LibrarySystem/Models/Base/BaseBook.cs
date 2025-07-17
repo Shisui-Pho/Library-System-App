@@ -34,4 +34,5 @@ public class BaseBook
 
     // Navigational property
     public List<Author> Authors { get; set; }
+    public ICollection<BookInteraction> BookInteractions { get; set; }
 }
