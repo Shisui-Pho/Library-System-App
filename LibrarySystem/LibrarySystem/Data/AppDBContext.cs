@@ -1,4 +1,5 @@
 ﻿using LibrarySystem.Models;
+using LibrarySystem.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.Data;
@@ -28,7 +29,7 @@ public class AppDBContext(DbContextOptions<AppDBContext> options):
         modelBuilder.Entity<PaymentMethod>().ToTable(nameof(PaymentMethod));
         modelBuilder.Entity<DeliveryAddress>().ToTable(nameof(DeliveryAddress));
         modelBuilder.Entity<OrderItem>().ToTable(nameof(OrderItem));
-
+        modelBuilder.Entity<BookDto>().HasNoKey();
         //Configure the BookInteraction entity
         modelBuilder.Entity<BookInteraction>(bi =>
         {

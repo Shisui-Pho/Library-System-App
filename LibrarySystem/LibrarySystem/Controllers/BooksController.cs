@@ -1,13 +1,8 @@
-﻿using LibrarySystem.Data.DataAccess;
-using LibrarySystem.Infrastructure.Interfaces;
-using LibrarySystem.Models;
+﻿using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.Globalization;
-using System.Linq.Expressions;
 
 namespace LibrarySystem.Controllers;
 
@@ -50,7 +45,7 @@ public class BooksController : Controller
     public IActionResult BookDetails(int id)
     {
         //this is the id passed
-        var book = _bookService.GetBook(id);
+        var book = _bookService.GetBookDto(id);
 
         if(book == null)
         {
