@@ -8,7 +8,7 @@ namespace LibrarySystem.Infrastructure;
 public class BooksFilterLinkTagHelper : TagHelper
 {
     [HtmlAttributeName("filter-option-values")]
-    public FilteringOptions CurrentFilter { get; set; }
+    public BookFilteringOptions CurrentFilter { get; set; }
     [HtmlAttributeName("filter-value")]
     public string FilterValue { get; set; }
     [HtmlAttributeName("filter-value-for")]

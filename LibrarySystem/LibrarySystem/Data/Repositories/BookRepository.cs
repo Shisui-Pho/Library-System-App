@@ -27,7 +27,7 @@ public class BookRepository(AppDBContext dbContex)
                 Include(b => b.Authors).
                 FirstOrDefault();
     }//GetBookWithAuthors 
-    public async Task<IEnumerable<Book>> GetBooksByFilter(FilteringOptions options)
+    public async Task<IEnumerable<Book>> GetBooksByFilter(BookFilteringOptions options)
     {
         var top = new SqlParameter("@Top", (object?)options.Top ?? DBNull.Value);
         var genre = new SqlParameter("@Genre", (object?)options.Genre ?? DBNull.Value);
