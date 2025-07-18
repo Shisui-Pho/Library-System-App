@@ -1,12 +1,9 @@
 ﻿using LibrarySystem.Data.DataAccess;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models;
+using LibrarySystem.Models.DTO;
 using LibrarySystem.Models.ViewModels;
-using LibrarySystem.Utils;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-using System.Linq.Expressions;
-using System.Security.Cryptography.Xml;
 namespace LibrarySystem.Infrastructure.Services;
 public class BooksService : IBooksService
 {
@@ -52,6 +49,10 @@ public class BooksService : IBooksService
     {
         return _repo.Books.GetBookWithAuthors(bookId);
     }
+    public BookDto GetBookDto(int bookId)
+    {
+        return _repo.Books.GetBookDto(bookId);
+    }//GetBookDto
     public (Author author, IEnumerable<Book> books) GetAuthorWithBooks(int authorID)
     {
         var author = _repo.Authors.GetById(authorID);

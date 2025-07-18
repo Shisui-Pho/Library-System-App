@@ -1,6 +1,7 @@
 ﻿using LibrarySystem.Data.DataAccess;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models;
+using LibrarySystem.Models.DTO;
 using LibrarySystem.Models.ViewModels;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,32 @@ public class BookRepository(AppDBContext dbContex)
                 Include(b => b.Authors).
                 FirstOrDefault();
     }//GetBookWithAuthors 
+    public BookDto? GetBookDto(int id)
+    {
+        var idParam = new SqlParameter("@BookId", id);
+        
+        //Execute the stored procedure to get the book DTO
+        var book = _dbContext.Set<BookDto>()
+            .FromSqlRaw($"EXEC Proc_GetBookDtoValuesByBookId @BookId", idParam)
+            .AsEnumerable()
+            .FirstOrDefault();
+
+        //Get the book with authors and interactions
+        var bookExtraDetails = _dbContext.Set<Book>().Where(b => b.Id == id)
+            .Include(b => b.Authors)
+            .Include(b => b.BookInteractions)
+            .AsNoTracking()
+            .FirstOrDefault();
+
+        //If the book is not found, return null
+        if (bookExtraDetails != null && book != null)
+        {
+            book.Authors = bookExtraDetails.Authors;
+            book.BookInteractions = bookExtraDetails.BookInteractions;
+        }
+
+        return book;
+    }//GetBookDto
     public async Task<IEnumerable<Book>> GetBooksByFilter(BookFilteringOptions options)
     {
         var top = new SqlParameter("@Top", (object?)options.Top ?? DBNull.Value);
