@@ -1,10 +1,7 @@
-﻿using LibrarySystem.Data;
-using LibrarySystem.Infrastructure.Interfaces;
-using LibrarySystem.Models;
+﻿using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace LibrarySystem.Controllers;
@@ -13,13 +10,11 @@ public class BooksController : Controller
 {
     private readonly ICartService _cartService;
     private readonly IBooksService _bookService;
-    private readonly AppDBContext context;
 
-    public BooksController(ICartService cartService, IBooksService booksService, AppDBContext context)
+    public BooksController(ICartService cartService, IBooksService booksService)
     {
         _cartService = cartService;
         _bookService = booksService;
-        this.context = context;
     }
     //default page size
     private const int PAGE_SIZE = 16;
@@ -124,41 +119,4 @@ public class BooksController : Controller
                                     .ToList();
         return cartItems;
     }//GetCartSummary
-    public IActionResult GoGenre()
-    {
-        //This method just servers for populating the genre table
-        // in the database, it will be removed later once the database is populated
-        var Books = context.Books.Include(b => b.Genre);
-
-        foreach (var book in Books)
-        {
-            string genre = book.Genre;
-            string[] genres = genre.Split(',');
-            foreach(var g in genres)
-            {
-                var trimmedGenre = g.Trim();
-                var existingGenre = context.Genres.Where(x=> x.Name == trimmedGenre).FirstOrDefault();
-
-                if(existingGenre == null)
-                {
-                    //Create a new genre
-                    var newGenre = new Genre()
-                    {
-                        Name = trimmedGenre, 
-                        Description = "This is a genre created by the system. Please update it with a proper description."
-                    };
-                    context.Genres.Add(newGenre);
-                    context.SaveChanges();//Save the changes to the database
-                    existingGenre = newGenre;
-                }
-
-                //add the book to the genre
-                existingGenre.Books ??= new List<Book>();
-                existingGenre.Books.Add(book);
-                //book.Genres
-            }
-        }
-
-        return RedirectToAction("BooksList", new { genre = "all" });
-    }//GoGenre
 }//class
