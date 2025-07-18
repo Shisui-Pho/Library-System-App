@@ -6,6 +6,7 @@ using LibrarySystem.Utils;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Security.Cryptography.Xml;
 namespace LibrarySystem.Infrastructure.Services;
 public class BooksService : IBooksService
 {
@@ -19,57 +20,91 @@ public class BooksService : IBooksService
         return _repo.Books.GetAllBooksWithAuthors();
     }//GetBooks
 
-    public IEnumerable<Book> GetBooks(FilteringOptions filterOptions)
+    public async Task<IEnumerable<Book>> GetBooks(BookFilteringOptions filterOptions)
     {
-        var options = new QueryOptions<Book>();
-
-        //-TODO : Add a database script/StoreProcedure to do all the querying and table joins
-        Expression<Func<Book, bool>> whereClause =
-            p => p.BookTitle.Contains(filterOptions.SearchTerm ?? "") ||
-                 p.Description.Contains(filterOptions.SearchTerm ?? "") ||
-                 p.Genre.Equals(filterOptions.Genre ?? "");
-        options.Where = whereClause;
-        options.PagingInfomation = new PagingInfomation { CurrentPageNumber = filterOptions.Page, NumberOfItemsPerPage = 10};
-        var books = _repo.Books.GetAllBooksWithAuthors(options);
+        PagingInfomation paging = new()
+        {
+            CurrentPageNumber = filterOptions.Page,
+            NumberOfItemsPerPage = filterOptions.PageSize 
+        };
+        filterOptions.Paging = paging;
+        var books = await _repo.Books.GetBooksByFilter(filterOptions);
         return books;
     }//GetBooks
 
-    public IEnumerable<Book> GetBooks(AdvanceSearchViewModel searchParameters)
+    public IEnumerable<Book> GetBooks(AdvancedBookFilteringOptions searchParameters)
     {
-        //var words = searchParameters.Keywords.Split(',');
-        ////searchParameters.
-        ////searchParameters.
-        //Expression<Func<Book, bool>> whereClause =
-        //    p => ContainsKeyWord(words, p) || p.BookTitle.Contains(searchParameters.Title) 
-        //        || p.
         throw new NotImplementedException("Advance search is not implemented yet.");
     }//GetBooks
-    private static bool ContainsKeyWord(string[] keyWords, Book book)
-    {
-        foreach (string word in keyWords)
-            if (book.BookTitle.Contains(word) || book.Description.Contains(word))
-                return true;
-        return false;
-    }//ContainsKeyWord
     public IEnumerable<string> GetGenres()
     {
-        throw new NotImplementedException();
-    }
-    private static Expression<Func<T, object>> GetSortByClause<T>(string sortBy, out string orderByDirection)
-        where T : class
-    {
-        orderByDirection = "asc"; //default ordering
-        if (sortBy.EndsWith("_dsc") || sortBy.EndsWith("_asc") || sortBy.EndsWith("_desc"))
+        AdvancedQueryOptions<Book, string> options = new()
         {
-            orderByDirection = sortBy[^3..];
-            sortBy = sortBy.Replace("_dsc", "").Replace("_asc", "").Replace("_desc", "");
-        }
+            Select = p => p.Genre, 
+            SelectDistinct = true
+        };
 
-        //Split and join properties in camel case
-        sortBy = sortBy.Split('_').Apply(CultureInfo.CurrentCulture.TextInfo.ToTitleCase).Join("");
+        //Select the genres
+        var genres = _repo.Books.GetWithOptions(options);
+        return genres;
+    }
+    public Book GetBook(int bookId)
+    {
+        return _repo.Books.GetBookWithAuthors(bookId);
+    }
+    public (Author author, IEnumerable<Book> books) GetAuthorWithBooks(int authorID)
+    {
+        var author = _repo.Authors.GetById(authorID);
+        if (author == null)
+            return (author, []);
 
-        //Get order by expression
-        Expression<Func<T, object>> orderby = p => EF.Property<T>(p, sortBy);
-        return orderby;
-    }//GetSortByClause
+        var options = new QueryOptions<Book>()
+        {
+            Where = b => b.Authors.Any(a => a.Id == authorID),
+            OrderBy = b => b.BookTitle,
+            OrderByDirection = "asc"
+        };
+
+        var authorBooks = _repo.Books.GetWithOptions(options);
+        return (author, authorBooks);
+    }//GetAuthorWithBooks
+    public IEnumerable<Author> GetAuthors(AuthorFilteringOptions filteringOptions)
+    {
+        var paging = new PagingInfomation()
+        {
+            CurrentPageNumber = filteringOptions.Page,
+            NumberOfItemsPerPage = filteringOptions.PageSize
+        };
+
+        var options = new QueryOptions<Author>
+        {
+            OrderBy = p => EF.Property<Author>(p, filteringOptions.PropertyName),
+            OrderByDirection = filteringOptions.SortDirection,
+            PagingInfomation = paging,
+            Where = a => string.IsNullOrEmpty(filteringOptions.SearchTerm) || 
+                         a.FullName.ToLower().Contains(filteringOptions.SearchTerm.ToLower())
+        };
+
+        var authors = _repo.Authors.GetWithOptions(options);
+
+        filteringOptions.Paging = options.PagingInfomation;
+        return authors;
+    }//GetAuthors
+    //private static Expression<Func<T, object>> GetSortByClause<T>(string sortBy, out string orderByDirection)
+    //    where T : class
+    //{
+    //    orderByDirection = "asc"; //default ordering
+    //    if (sortBy.EndsWith("_dsc") || sortBy.EndsWith("_asc") || sortBy.EndsWith("_desc"))
+    //    {
+    //        orderByDirection = sortBy[^3..];
+    //        sortBy = sortBy.Replace("_dsc", "").Replace("_asc", "").Replace("_desc", "");
+    //    }
+
+    //    //Split and join properties in camel case
+    //    sortBy = sortBy.Split('_').Apply(CultureInfo.CurrentCulture.TextInfo.ToTitleCase).Join("");
+
+    //    //Get order by expression
+    //    Expression<Func<T, object>> orderby = p => EF.Property<T>(p, sortBy);
+    //    return orderby;
+    //}//GetSortByClause
 }//class

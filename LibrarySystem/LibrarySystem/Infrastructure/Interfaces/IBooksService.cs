@@ -4,8 +4,11 @@ using LibrarySystem.Models.ViewModels;
 namespace LibrarySystem.Infrastructure.Interfaces;
 public interface IBooksService
 {
+    IEnumerable<Author> GetAuthors(AuthorFilteringOptions filteringOptions);
+    (Author author, IEnumerable<Book> books) GetAuthorWithBooks(int authorID);
+    Book GetBook(int bookId);
     IEnumerable<Book> GetBooks();//With no options
-    IEnumerable<Book> GetBooks(FilteringOptions filterOptions);
-    IEnumerable<Book> GetBooks(AdvanceSearchViewModel searchParameters);
+    IEnumerable<Book> GetBooks(AdvancedBookFilteringOptions searchParameters);
+    Task<IEnumerable<Book>> GetBooks(BookFilteringOptions filterOptions);
     IEnumerable<string> GetGenres();
 }
