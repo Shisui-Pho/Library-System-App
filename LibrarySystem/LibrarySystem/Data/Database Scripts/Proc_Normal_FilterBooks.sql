@@ -27,6 +27,12 @@ BEGIN
         RowNum INT
     );
 
+    -- Normalize 'all' to NULL
+    IF @Genre = 'all' SET @Genre = NULL;
+    IF @SearchTerm = 'all' SET @SearchTerm = NULL;
+    IF @PriceRange = 'all' SET @PriceRange = NULL;
+    IF @Top = 'all' SET @Top = NULL;
+
     INSERT INTO #BookWithRowNum
     SELECT 
         b.Id, b.ISBN, b.BookTitle, b.Description, b.Publisher,
@@ -66,26 +72,26 @@ BEGIN
                 (@PriceRange = '100-plus' AND b.Price > 100)
             )
         )
-        AND (
-            @Top IS NULL OR
-            (
-                @Top = 'popular' AND EXISTS (
-                    SELECT 1 FROM BookInteraction bi WHERE bi.BookId = b.Id AND bi.Viewed = 1
-                )
-                OR @Top = 'top-rated' AND EXISTS (
-                    SELECT 1 FROM BookInteraction bi WHERE bi.BookId = b.Id AND bi.Rating IS NOT NULL
-                )
-                OR @Top = 'new-release'
-                OR @Top = 'hidden-germs' AND (
-                    (SELECT COUNT(*) FROM BookInteraction bi WHERE bi.BookId = b.Id AND bi.Viewed = 1) < 5 AND
-                    (SELECT AVG(CAST(bi.Rating AS FLOAT)) FROM BookInteraction bi WHERE bi.BookId = b.Id) >= 4.0
-                )
-                OR @Top = 'staff-picks' AND EXISTS (
-                    SELECT 1 FROM BookInteraction bi 
-                    WHERE bi.BookId = b.Id AND ISNULL(bi.Review_NumberOfLikes, 0) >= 5
-                )
-            )
-        );
+        --AND (
+        --    @Top IS NULL OR
+        --    (
+        --        @Top = 'popular' AND EXISTS (
+        --            SELECT 1 FROM BookInteraction bi WHERE bi.BookId = b.Id AND bi.Viewed = 1
+        --        )
+        --        OR @Top = 'top-rated' AND EXISTS (
+        --            SELECT 1 FROM BookInteraction bi WHERE bi.BookId = b.Id AND bi.Rating IS NOT NULL
+        --        )
+        --        OR @Top = 'new-release'
+        --        OR @Top = 'hidden-germs' AND (
+        --            (SELECT COUNT(*) FROM BookInteraction bi WHERE bi.BookId = b.Id AND bi.Viewed = 1) < 5 AND
+        --            (SELECT AVG(CAST(bi.Rating AS FLOAT)) FROM BookInteraction bi WHERE bi.BookId = b.Id) >= 4.0
+        --        )
+        --        OR @Top = 'staff-picks' AND EXISTS (
+        --            SELECT 1 FROM BookInteraction bi 
+        --            WHERE bi.BookId = b.Id AND ISNULL(bi.Review_NumberOfLikes, 0) >= 5
+        --        )
+        --    )
+        --);
 
     -- Get total count
     SELECT @TotalCount = COUNT(*) FROM #BookWithRowNum;
