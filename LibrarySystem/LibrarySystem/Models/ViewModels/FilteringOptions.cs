@@ -7,4 +7,5 @@ public class FilteringOptions
     public string? SearchTerm { get; set; }
     public int Page { get; set; } = 1;
     public string? PriceRange { get; set; }
+    public PagingInfomation Paging { get; set; }
 }
