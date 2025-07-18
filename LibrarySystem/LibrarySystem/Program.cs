@@ -24,7 +24,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICheckoutService, CheckoutService>();
 builder.Services.AddScoped<IOrderService, OrderService>(); 
-
+builder.Services.AddScoped<IBooksService, BooksService>();
 //-Session
 builder.Services.AddSession();
 
