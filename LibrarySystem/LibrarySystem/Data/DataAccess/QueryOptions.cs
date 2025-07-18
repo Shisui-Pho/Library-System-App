@@ -17,5 +17,6 @@ public class QueryOptions<T> where T : class
 public class AdvancedQueryOptions<T, TOutput> : QueryOptions<T> where T : class
 {
     public Expression<Func<T, TOutput>> Select { get; set; }
+    public bool SelectDistinct { get; set; } = false;
     public bool HasSelect => Select != null;
 }

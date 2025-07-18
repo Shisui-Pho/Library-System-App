@@ -60,6 +60,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         if (options.HasSelect)
         {
             selectItems = qValues.Select(options.Select);
+
+            if (options.SelectDistinct)
+            {
+                selectItems = selectItems.Distinct();
+            }
         }
         return selectItems;
     }//GetWithOptions
