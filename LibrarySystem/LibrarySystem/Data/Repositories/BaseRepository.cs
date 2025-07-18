@@ -52,6 +52,17 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         return ApplyOptions(options);
     }//GetWithOptions
+    public IEnumerable<TOutput> GetWithOptions<TOutput>(AdvancedQueryOptions<T, TOutput> options)
+    {
+        //I need to apply the options
+        var qValues = ApplyOptions(options);
+        IEnumerable<TOutput> selectItems = Enumerable.Empty<TOutput>();
+        if (options.HasSelect)
+        {
+            selectItems = qValues.Select(options.Select);
+        }
+        return selectItems;
+    }//GetWithOptions
     protected IQueryable<T> ApplyOptions(QueryOptions<T> options)
     {
         IQueryable<T> q = _dbContext.Set<T>();
@@ -82,7 +93,6 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         }
         return q;
     }
-
     public int Count()
     { 
         return _dbContext.Set<T>().Count();
