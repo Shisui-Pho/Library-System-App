@@ -12,22 +12,25 @@ namespace LibrarySystem.Data.Repositories;
 public class BookRepository(AppDBContext dbContex)
              : BaseRepository<Book>(dbContex), IBookRepository
 {
-    public IEnumerable<Book> GetAllBooksWithAuthors(QueryOptions<Book>? options = null)
+    public IEnumerable<Book> GetAllBooksWithDetails(QueryOptions<Book>? options = null)
     {
+        IQueryable<Book> books;
         if (options == null)
-            return _dbContext.Books.Include(b => b.Authors);
+            books = _dbContext.Books;
+        else
+            books = ApplyOptions(options);
 
-        //Apply options
-        return base.ApplyOptions(options).Include(b => b.Authors);
-    }
+        return books.Include(b => b.Authors).Include(b => b.BookInteractions);
+    }//GetAllBooksWithDetails
 
-    public Book? GetBookWithAuthors(int id)
+    public Book? GetBookWithDetails(int id)
     {
         //Get the first book
-        return _dbContext.Books.Where(b => b.Id == id).
-                Include(b => b.Authors).
-                FirstOrDefault();
-    }//GetBookWithAuthors 
+        return _dbContext.Books.Where(b => b.Id == id)
+                .Include(b => b.Authors)
+                .Include(b => b.BookInteractions)
+                .FirstOrDefault();
+    }//GetBookWithDetails 
     public BookDto? GetBookDto(int id)
     {
         var idParam = new SqlParameter("@BookId", id);
