@@ -56,7 +56,7 @@ BEGIN
         )
     FROM Book b
     WHERE 
-        (@Genre IS NULL OR b.Genre = @Genre)
+        (@Genre IS NULL OR b.Genre LIKE '%' +  @Genre + '%')
         AND (
             @SearchTerm IS NULL OR 
             b.BookTitle LIKE '%' + @SearchTerm + '%' OR 
