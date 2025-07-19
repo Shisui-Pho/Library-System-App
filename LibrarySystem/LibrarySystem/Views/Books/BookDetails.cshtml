@@ -1,6 +1,9 @@
 ﻿@model BookDto
 @{
     ViewData["Title"] = Model.BookTitle;
+    var request = Context.Request;
+    var currentPageUrl = $"{request.Path}{request.QueryString}";
+    Console.WriteLine("\n\n\n\n\n{0}\n\n\n\n", currentPageUrl);
 }
 
 <div class="container py-4">
@@ -169,9 +172,18 @@
                             <div class="fw-bold fs-5" id="selected-rating">0.0</div>
                         </div>
                         <textarea style="color:white;" class="form-control text-bg-dark mb-3" placeholder="Share your thoughts about this book..." rows="3" id="review-text"></textarea>
-                        <button class="btn btn-primary" id="submit-review-btn">
-                            <i class="fas fa-paper-plane me-2"></i>Submit Review
-                        </button>
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                            <button class="btn btn-primary" id="submit-review-btn">
+                                <i class="fas fa-paper-plane me-2"></i>Submit Review
+                            </button>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary" asp-controller="Account" asp-action="LogIn" asp-route-returnUrl="@currentPageUrl">
+                                <i class="fas fa-sign-in me-2"></i> Log in to review
+                            </a>
+                        }
                     </div>
                 </div>
 
