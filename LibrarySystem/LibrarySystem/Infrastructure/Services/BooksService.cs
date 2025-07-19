@@ -3,6 +3,7 @@ using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models;
 using LibrarySystem.Models.DTO;
 using LibrarySystem.Models.ViewModels;
+using LibrarySystem.Utils;
 using Microsoft.EntityFrameworkCore;
 namespace LibrarySystem.Infrastructure.Services;
 public class BooksService : IBooksService
@@ -35,16 +36,30 @@ public class BooksService : IBooksService
     }//GetBooks
     public IEnumerable<string> GetGenres()
     {
-        AdvancedQueryOptions<Book, string> options = new()
+        AdvancedQueryOptions<Book, IEnumerable<string>> options = new()
         {
-            Select = p => p.Genre, 
+            Select = p => p.Genres.Select(g => g.Name),
             SelectDistinct = true
         };
 
         //Select the genres
         var genres = _repo.Books.GetWithOptions(options);
-        return genres;
+        var lstGenre = ToSingleGenreList(genres);
+        
+        return lstGenre;
     }
+    public IEnumerable<string> ToSingleGenreList(IEnumerable<IEnumerable<string>> genres)
+    {
+        HashSet<string> result = [];
+        foreach (var lsGenreSet in genres)
+        {
+            foreach(var genre in lsGenreSet)
+            {
+                result.Add(genre);
+            }
+        }
+        return result;
+    }//ToSingleGenreList
     public Book GetBook(int bookId)
     {
         return _repo.Books.GetBookWithAuthors(bookId);
