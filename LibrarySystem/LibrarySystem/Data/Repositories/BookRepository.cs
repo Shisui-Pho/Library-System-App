@@ -42,6 +42,7 @@ public class BookRepository(AppDBContext dbContex)
         var bookExtraDetails = _dbContext.Set<Book>().Where(b => b.Id == id)
             .Include(b => b.Authors)
             .Include(b => b.BookInteractions)
+            .Include(b => b.Genres)
             .AsNoTracking()
             .FirstOrDefault();
 
@@ -50,6 +51,7 @@ public class BookRepository(AppDBContext dbContex)
         {
             book.Authors = bookExtraDetails.Authors;
             book.BookInteractions = bookExtraDetails.BookInteractions;
+            book.Genres = bookExtraDetails.Genres;
         }
 
         return book;

@@ -35,4 +35,28 @@ public class BaseBook
     // Navigational property
     public List<Author> Authors { get; set; }
     public ICollection<BookInteraction> BookInteractions { get; set; }
+    private ICollection<Genre> genres;
+    public ICollection<Genre> Genres
+    {
+        get => genres ??= [];                                              
+        set
+        {
+            //Add the genre
+            if (value != null)
+            {
+                genres = value;
+                Genre  = string.Join(", ", genres.Select(g => g.Name));
+            }
+        }
+    }
+    public void AddGenre(Genre genre)
+    {
+        if(genre != null)
+        {
+            genres ??= [];
+            genres.Add(genre);
+            //This can never be expensive
+            Genre = string.Join(", ", genres.Select(g => g.Name));
+        }
+    }//AddGenre
 }

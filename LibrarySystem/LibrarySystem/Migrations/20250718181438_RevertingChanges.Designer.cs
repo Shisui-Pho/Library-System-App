@@ -4,6 +4,7 @@ using LibrarySystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibrarySystem.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250718181438_RevertingChanges")]
+    partial class RevertingChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,21 +38,6 @@ namespace LibrarySystem.Migrations
                     b.HasIndex("BooksId");
 
                     b.ToTable("AuthorBook");
-                });
-
-            modelBuilder.Entity("BookGenre", b =>
-                {
-                    b.Property<int>("BooksId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GenresId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BooksId", "GenresId");
-
-                    b.HasIndex("GenresId");
-
-                    b.ToTable("BookGenre");
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.Author", b =>
@@ -115,6 +103,9 @@ namespace LibrarySystem.Migrations
                     b.Property<string>("Genre")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("GenreId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ISBN")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -137,6 +128,8 @@ namespace LibrarySystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GenreId");
 
                     b.ToTable("Book", (string)null);
                 });
@@ -523,19 +516,11 @@ namespace LibrarySystem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BookGenre", b =>
+            modelBuilder.Entity("LibrarySystem.Models.Book", b =>
                 {
-                    b.HasOne("LibrarySystem.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("LibrarySystem.Models.Genre", null)
-                        .WithMany()
-                        .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Books")
+                        .HasForeignKey("GenreId");
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.BookInteraction", b =>
@@ -632,6 +617,11 @@ namespace LibrarySystem.Migrations
             modelBuilder.Entity("LibrarySystem.Models.Book", b =>
                 {
                     b.Navigation("BookInteractions");
+                });
+
+            modelBuilder.Entity("LibrarySystem.Models.Genre", b =>
+                {
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.Order", b =>

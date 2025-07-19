@@ -15,6 +15,7 @@ public class RepositoryWrapper : IRepositoryWrapper
     private IBaseRepository<PickupPoint> pickupPointRepository;
     private IBaseRepository<PaymentMethod> paymentMethodsRepository;
     private IBaseRepository<DeliveryAddress> deliveryAddressRepository;
+    private IBaseRepository<Genre> genreRepository;
 
     public IBookRepository Books
     {
@@ -85,6 +86,15 @@ public class RepositoryWrapper : IRepositoryWrapper
         {
             deliveryAddressRepository ??= new BaseRepository<DeliveryAddress>(_dbContext);
             return deliveryAddressRepository;
+        }
+    }
+
+    public IBaseRepository<Genre> Genres
+    {
+        get
+        {
+            genreRepository ??= new BaseRepository<Genre>(_dbContext);
+            return genreRepository;
         }
     }
 
