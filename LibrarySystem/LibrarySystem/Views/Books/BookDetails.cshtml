@@ -8,8 +8,8 @@
         <ol class="breadcrumb bg-dark text-light px-3 py-2 rounded">
             <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
             <li class="breadcrumb-item"><a asp-action="BooksList" asp-controller="Books">Books</a></li>
-            <li class="breadcrumb-item"><a asp-action="BooksList" asp-controller="Books" asp-route-genre="@Model.Genre">@Model.Genre</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Model.BookTitle</li>
+@*             <li class="breadcrumb-item"><a asp-action="BooksList" asp-controller="Books" asp-route-genre="@Model.Genre">@Model.Genre</a></li> *@
+            <li class="breadcrumb-item active muted-text" aria-current="page">@Model.BookTitle</li>
         </ol>
     </nav>
 
@@ -78,7 +78,19 @@
                             </li>
                             <li class="list-group-item bg-transparent text-light border-secondary d-flex justify-content-between">
                                 <span class="fw-bold">Genre:</span>
-                                <span>@Model.Genre</span>
+                                @if(Model.Genres == null || !Model.Genres.Any())
+                                {
+                                    <span>@Model.Genre</span>
+                                }
+                                else
+                                {
+                                    var lstGen = Model.Genres.ToList();
+                                    for(int i = 0; i < lstGen.Count;i++)
+                                    {
+                                        <a asp-action="BooksList" asp-controller="Books" asp-route-genre="@(lstGen[i].Name)"> @lstGen[i].Name </a>
+                                        @((i + 1) == lstGen.Count ? "" : ", ")
+                                    }
+                                }
                             </li>
                             <li class="list-group-item bg-transparent text-light border-secondary d-flex justify-content-between">
                                 <span class="fw-bold">Added:</span>
