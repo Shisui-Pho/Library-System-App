@@ -114,11 +114,28 @@
 
         const btn = this;
         const originalText = btn.innerHTML;
+        const bookId = $(btn).data('bookid');
+
+        if (bookId == NaN || bookId == undefined) {
+            bookId = parseInt(querySelector.getElementById('#bookId').value)
+        }
+        console.log(bookId);
 
         btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
         btn.disabled = true;
 
-        // Simulate API call
+        //Call post method
+        //int bookId, int stars, string reviewText
+        $.post('/Books/SubmitReview',
+            { bookId: bookId, stars: rating, reviewText: reviewText },
+            function (responseHtml) {
+                //Replace the review section
+                $('#reviewSection').html(responseHtml);            
+
+        }).fail(function () {
+            alert("Something went wrong. Try again.");
+        });
+
         setTimeout(() => {
             btn.innerHTML = '<i class="fas fa-check me-2"></i>Review Submitted!';
             btn.classList.remove('btn-primary');
