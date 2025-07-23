@@ -126,7 +126,7 @@
 
         //Call post method
         //int bookId, int stars, string reviewText
-        $.post('/Books/SubmitReview',
+        $.post('/BookReview/SubmitReview',
             { bookId: bookId, stars: rating, reviewText: reviewText },
             function (responseHtml) {
                 //Replace the review section
