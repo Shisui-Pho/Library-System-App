@@ -1,11 +1,11 @@
 ﻿using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
 
 namespace LibrarySystem.Controllers;
-
 public class BooksController : Controller
 {
     private readonly ICartService _cartService;
@@ -111,7 +111,6 @@ public class BooksController : Controller
 
         return sortBy;
     }//GetSortByClause
-
     private List<(int bookId, int quantity)> GetCartSummary()
     {
         var cartItems = _cartService.GetCart(HttpContext)
