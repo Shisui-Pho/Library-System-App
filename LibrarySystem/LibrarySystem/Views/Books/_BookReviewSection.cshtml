@@ -26,11 +26,11 @@
                     </div>
                     <p class="mb-3">@interaction.Review.ReviewText</p>
                     <div class="d-flex align-items-center">
-                        <button class="btn btn-sm btn-outline-light me-2">
-                            <i class="fas fa-thumbs-up me-1"></i> @interaction.Review.NumberOfLikes
+                        <button class="btn btn-sm btn-outline-light me-2 review-feedback" data-liked="@true" data-id="@interaction.Id">
+                            <i class="fas fa-thumbs-up me-1"></i> (@interaction.Review.NumberOfLikes)
                         </button>
-                        <button class="btn btn-sm btn-outline-light me-2">
-                            <i class="fas fa-thumbs-down me-1"></i> @interaction.Review.NumberOfDislikes
+                        <button class="btn btn-sm btn-outline-light me-2 review-feedback" data-liked="@false" data-id="@interaction.Id">
+                            <i class="fas fa-thumbs-down me-1"></i> (@interaction.Review.NumberOfDislikes)
                         </button>
                         @if(User.Identity.IsAuthenticated)
                         {

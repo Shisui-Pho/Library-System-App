@@ -159,4 +159,41 @@
             }, 3000);
         }, 1500);
     });
+
+
+    //Like or dislike review
+    $(document).on('click', '.review-feedback', function () {
+        var message = 'Message was sent successfully';
+        const btn = $(this);
+        const reviewId = btn.data('id');
+        const interactionValue = btn.data('liked')
+        const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+        //trigger ajax post
+        $.post('/BookReview/InteracWithComment', { commentId: reviewId, isLiked: interactionValue }, function (response) {
+            // Update the UI elements
+            if (response.success) {
+                // Determine if it's a like or dislike
+                const isLike = interactionValue === true || interactionValue === "true";
+
+                // Update the clicked button
+                btn.html(`<i class="fas fa-thumbs-${isLike ? 'up' : 'down'} me-1"></i> (${isLike ? response.likes : response.dislikes})`);
+
+                // Update the sibling button (opposite action)
+                const sibling = btn.siblings(`.review-feedback[data-liked="${!isLike}"][data-id="${reviewId}"]`);
+                if (sibling.length > 0) {
+                    sibling.html(`<i class="fas fa-thumbs-${!isLike ? 'up' : 'down'} me-1"></i> (${!isLike ? response.likes : response.dislikes})`);
+                }
+            }
+        }).fail(function (xhr) {
+
+            //console.log(returnUrl);
+            alert('redirecting to login page');
+            if (xhr.status === 401) {
+                // Unauthorized: redirect to login page
+                window.location.href = `/Account/Login?ReturnUrl=${returnUrl}`;
+            } else {
+                alert("Something went wrong. Try again.");
+            }
+        });
+    });
 });
