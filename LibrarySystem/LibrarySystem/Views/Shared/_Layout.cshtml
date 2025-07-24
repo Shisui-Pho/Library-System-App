@@ -1,5 +1,6 @@
-﻿@{
-    int cartCount = Context.Session.GetInt32("cartCount") ?? 0;
+﻿@inject ICartService cartService;
+@{
+    int cartCount = cartService.CountCartItems(ViewContext.HttpContext);
 
     string currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
     string currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
@@ -238,7 +239,8 @@
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/scripts/cart.js"></script>
     <script src="~/scripts/quantityinput.js"></script>
-
+    <script src="~/scripts/filtering.js"></script>
+    <script src="~/scripts/site.js"></script>
     <!--Rendering scripts-->
     @RenderSection("Scripts", required: false)
 </body>

@@ -20,16 +20,16 @@ public class PickupPointController : Controller
     public JsonResult GetCitiesForProvince(string province)
     {
         //Get distinct cities for the selected province
-        var options = new QueryOptions<PickupPoint>()
+        var options = new AdvancedQueryOptions<PickupPoint, string>()
         {
             Where = p => p.ProvinceCode == province || p.Province == province,
             OrderBy = p => p.City,
-            OrderByDirection = "asc"
+            OrderByDirection = "asc",
+            Select = p => p.City,
+            SelectDistinct = true
         };
 
-        var cities = _repo.PickupPoints.GetWithOptions(options)
-                                       .Select(x => x.City)
-                                       .Distinct();
+        var cities = _repo.PickupPoints.GetWithOptions(options);
                                        
         return Json(cities);
     }

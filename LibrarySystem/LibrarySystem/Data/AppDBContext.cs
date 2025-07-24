@@ -1,4 +1,5 @@
 ﻿using LibrarySystem.Models;
+using LibrarySystem.Models.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.Data;
@@ -15,6 +16,9 @@ public class AppDBContext(DbContextOptions<AppDBContext> options):
     public DbSet<PaymentMethod> PaymentMethods { get; set; }
     public DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
     public DbSet<OrderItem> BookOrderItems { get; set; }
+    public DbSet<BookInteraction> SocialInteractions { get; set; }
+    public DbSet<Genre> Genres { get; set; }
+    public DbSet<ReviewInteraction> ReviewInteractions { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //Create the tables explicity to avoid pluralization
@@ -27,6 +31,16 @@ public class AppDBContext(DbContextOptions<AppDBContext> options):
         modelBuilder.Entity<PaymentMethod>().ToTable(nameof(PaymentMethod));
         modelBuilder.Entity<DeliveryAddress>().ToTable(nameof(DeliveryAddress));
         modelBuilder.Entity<OrderItem>().ToTable(nameof(OrderItem));
+        modelBuilder.Entity<Genre>().ToTable(nameof(Genre));
+        modelBuilder.Entity<ReviewInteraction>().ToTable(nameof(ReviewInteraction));
+
+        modelBuilder.Entity<BookDto>().HasNoKey().ToView(null);
+        //Configure the BookInteraction entity
+        modelBuilder.Entity<BookInteraction>(bi =>
+        {
+            bi.ToTable(nameof(BookInteraction));
+            bi.OwnsOne(b => b.Review);
+        });
 
         base.OnModelCreating(modelBuilder);
     }//OnModelCreating

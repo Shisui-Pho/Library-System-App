@@ -1,0 +1,80 @@
+﻿@inject IUserService userService;
+@model IEnumerable<BookInteraction>;
+<!-- Reviews Section -->
+<div class="card text-bg-dark border-secondary" id="reviewSection">
+    <div class="card-header">
+        <h5 class="mb-0 d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-comments me-2"></i>Customer Reviews</span>
+            <span class="badge bg-info">@(Model.Count(r => r.Review!= null)) reviews</span>
+        </h5>
+    </div>
+    <div class="card-body">
+        @if (Model?.Any(i => i.Review != null) == true)
+        {
+            foreach (var interaction in Model.Where(i => i.Review != null))
+            {
+                <div class="review-item mb-4 pb-3 border-bottom border-secondary">
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="fw-bold">@interaction.FullUsername</div>
+                        <div class="muted-text small">@interaction.Review.LastUpdated.ToString("dd MMM yyyy")</div>
+                    </div>
+                    <div class="rating mb-2">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fas fa-star @(i <= interaction.Rating ? "text-warning" : "text-secondary")"></i>
+                        }
+                    </div>
+                    <p class="mb-3">@interaction.Review.ReviewText</p>
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-sm btn-outline-light me-2 review-feedback" data-liked="@true" data-id="@interaction.Id">
+                            <i class="fas fa-thumbs-up me-1"></i> (@interaction.Review.NumberOfLikes)
+                        </button>
+                        <button class="btn btn-sm btn-outline-light me-2 review-feedback" data-liked="@false" data-id="@interaction.Id">
+                            <i class="fas fa-thumbs-down me-1"></i> (@interaction.Review.NumberOfDislikes)
+                        </button>
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                            var userId = userService.GetUserId(User);
+                            if(userId != null && interaction.UserId == userId)
+                            {
+                                <button class="btn btn-sm btn-outline-danger me-2">
+                                    <i class="fas fa-trash me-1"></i> Remove review
+                                </button>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Pagination -->
+            @*
+            <div page-model="Model.PagingInfomation" action="BooksList"></div>
+            <nav aria-label="Reviews pagination">
+                <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            *@
+        }
+        else
+        {
+            <div class="text-center py-4">
+                <i class="fas fa-comment-slash fa-3x muted-text mb-3"></i>
+                <h5>No reviews yet</h5>
+                <p>Be the first to review this book</p>
+            </div>
+        }
+    </div>
+</div>

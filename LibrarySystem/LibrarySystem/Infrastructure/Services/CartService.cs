@@ -209,7 +209,7 @@ public class CartService : ICartService
     }
     private IEnumerable<CartItem> AddBookAndDetails(IEnumerable<CartItem> cartItems)
     {
-        return cartItems.ApplyBookDetails(b => _repo.Books.GetBookWithAuthors(b.BookID));
+        return cartItems.ApplyBookDetails(b => _repo.Books.GetBookWithDetails(b.BookID));
     }//AddBookAndDetails
     [Authorize]
     private int AddToCartViaDatabase(CartItemViewModel cartInfo, HttpContext context)

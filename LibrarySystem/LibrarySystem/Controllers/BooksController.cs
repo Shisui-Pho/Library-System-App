@@ -1,62 +1,51 @@
-﻿using LibrarySystem.Data.DataAccess;
-using LibrarySystem.Infrastructure.Interfaces;
-using LibrarySystem.Models;
+﻿using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace LibrarySystem.Controllers;
-
 public class BooksController : Controller
 {
-    private readonly IRepositoryWrapper _repository;
     private readonly ICartService _cartService;
+    private readonly IBooksService _bookService;
 
-    public BooksController(IRepositoryWrapper repositoryWrapper, ICartService cartService)
+    public BooksController(ICartService cartService, IBooksService booksService)
     {
-        _repository = repositoryWrapper;
         _cartService = cartService;
+        _bookService = booksService;
     }
     //default page size
     private const int PAGE_SIZE = 16;
-    public IActionResult BooksList(int page = 1)
-    {
-        PagingInfomation paging = new()
+    public async Task<IActionResult> BooksList(int page = 1, string genre = null, string top = null, string pricerange=null, string searchterm=null)
+    { 
+        var filter = new BookFilteringOptions()
         {
-            CurrentPageNumber = page,
-            NumberOfItemsPerPage = PAGE_SIZE,
-            TotalNumberOfItems = _repository.Books.Count() //For now count here
+            Genre = genre,
+            PriceRange = pricerange,
+            SearchTerm = searchterm,
+            Top = top, 
+            PageSize = PAGE_SIZE,
+            Page = page
         };
 
-        QueryOptions<Book> queryOptions = new()
-        {
-            OrderBy = b => b.BookTitle,
-            OrderByDirection = "asc", 
-            PagingInfomation = paging
-        };
+        var books = await _bookService.GetBooks(filter);
 
-        IEnumerable<Book> books = _repository.Books.GetAllBooksWithAuthors(queryOptions);
-        
         //Create the view model
         BooksDisplayViewModel model = new(GetCartSummary())
         {
             Books = books,
-            PagingInfomation = paging
+            FilteringOptions = filter, 
+            Genres = _bookService.GetGenres()
         };
 
         return View(model);
     }
-    private List<(int bookId, int quantity)> GetCartSummary()
-    {
-        var cartItems = _cartService.GetCart(HttpContext)
-                                    .CartItems.Select(x => (x.BookID, x.Quantity))
-                                    .ToList();
-        return cartItems;
-    }//GetCartSummary
     public IActionResult BookDetails(int id)
     {
         //this is the id passed
-        var book = _repository.Books.GetBookWithAuthors(id);
+        var book = _bookService.GetBookDto(id);
 
         if(book == null)
         {
@@ -66,56 +55,40 @@ public class BooksController : Controller
 
         return View("BookDetails", book);
     }//BookDetails
-    [HttpPost]
-    public IActionResult AddToCart(CartItemViewModel model)
+    public IActionResult AuthorsList(int page = 1, string search = "", string sort = "full_name_asc")
     {
-        //Use session based interactions
-        List<CartItem> cart = HttpContext.Session.GetObjectFromJson<List<CartItem>>("Cart") ?? [];
-        var item = model.CartItem;
-        var existingItem = cart.FirstOrDefault(c => c.BookID == item.BookID);
-        
-        if (existingItem != null)
+        var filter = new AuthorFilteringOptions()
         {
-            existingItem.Quantity += item.Quantity;//increament the quantity of the item
-        }
-        else
+            Page = page,
+            PageSize = PAGE_SIZE - 1,
+            SearchTerm = search,
+            PropertyName = GetSortProperty(sort, out string direction), 
+            SortDirection = direction
+        };
+
+        var authors = _bookService.GetAuthors(filter);
+
+        var model = new AuthorsDisplayViewModel
         {
-            //Add the item
-            cart.Add(item);
-        }
-
-        //Add to the current user session objects
-        HttpContext.Session.SetObjectAsJson("Cart", cart);
-
-        //Pass the current number of items
-        TempData["NumberOfItemsInCart"] = cart.Count;
-
-        //Redirect to the calling page
-        return Redirect($"{model.PageWhereItemWasAdded}#book-{item.BookID}");
-    }//AddToCart
-    public IActionResult AuthorsList()
-    {
-        var authors = _repository.Authors.FindAll();
-        if (authors == null || !authors.Any())
-        {
-            //Return page not found
-            return RedirectToAction("PageNotFound", "Home", new { message = "No authors were found in the database." });
-        }
-        return View(authors);
+            Authors = authors,
+            PagingInformation = filter.Paging
+        };
+        return View(model);
     }//AuthorsList
+    public IActionResult AdvanceSearch(AdvancedBookFilteringOptions model)
+    {
+        return View(model);
+    }
     public IActionResult AuthorBooks(int id)
     {
         //Get the author
-        var author = _repository.Authors.GetById(id);
+        var (author, books) = _bookService.GetAuthorWithBooks(id);
         if (author == null)
         {
             //Return page not found
             return RedirectToAction("PageNotFound", "Home", new { message = "Author was not found. It may have been removed from the database." });
         }
-        //Get the books by the author
-        var books = _repository.Books.FindByCondition(b => b.Authors.Any(a => a.Id == id))
-                                      .OrderBy(b => b.BookTitle)
-                                      .ToList();
+
         //Create the view model
         var model = new BookAuthorViewModel(GetCartSummary())
         {
@@ -124,4 +97,25 @@ public class BooksController : Controller
         };
         return View(model);
     } //class
+    private static string GetSortProperty(string sortBy, out string orderByDirection)
+    {
+        orderByDirection = "asc"; //default ordering
+        if (sortBy.EndsWith("_dsc") || sortBy.EndsWith("_asc") || sortBy.EndsWith("_desc"))
+        {
+            orderByDirection = sortBy[^3..];
+            sortBy = sortBy.Replace("_dsc", "").Replace("_asc", "").Replace("_desc", "");
+        }
+
+        //Split and join properties in camel case
+        sortBy = sortBy.Split('_').Apply(CultureInfo.CurrentCulture.TextInfo.ToTitleCase).Join("");
+
+        return sortBy;
+    }//GetSortByClause
+    private List<(int bookId, int quantity)> GetCartSummary()
+    {
+        var cartItems = _cartService.GetCart(HttpContext)
+                                    .CartItems.Select(x => (x.BookID, x.Quantity))
+                                    .ToList();
+        return cartItems;
+    }//GetCartSummary
 }//class

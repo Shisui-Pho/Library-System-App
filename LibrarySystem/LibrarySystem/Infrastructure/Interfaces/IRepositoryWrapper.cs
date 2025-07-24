@@ -11,6 +11,9 @@ public interface IRepositoryWrapper
     ICartRepository Carts { get; }
     IBaseRepository<PickupPoint> PickupPoints { get; }
     IBaseRepository<PaymentMethod> PaymentMethods { get; }  
-    public IBaseRepository<DeliveryAddress> DeliveryAddresses { get; }
+    IBaseRepository<Genre> Genres { get; }
+    IBaseRepository<DeliveryAddress> DeliveryAddresses { get; }
+    IBaseRepository<ReviewInteraction> ReviewInteractions { get; }
+    IBaseRepository<BookInteraction> BookInteractions {  get; }
     void SaveChanges();
 }

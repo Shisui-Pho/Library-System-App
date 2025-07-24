@@ -37,6 +37,21 @@ namespace LibrarySystem.Migrations
                     b.ToTable("AuthorBook");
                 });
 
+            modelBuilder.Entity("BookGenre", b =>
+                {
+                    b.Property<int>("BooksId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenresId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BooksId", "GenresId");
+
+                    b.HasIndex("GenresId");
+
+                    b.ToTable("BookGenre");
+                });
+
             modelBuilder.Entity("LibrarySystem.Models.Author", b =>
                 {
                     b.Property<int>("Id")
@@ -56,6 +71,9 @@ namespace LibrarySystem.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsCorporateAuthor")
@@ -123,6 +141,41 @@ namespace LibrarySystem.Migrations
                     b.ToTable("Book", (string)null);
                 });
 
+            modelBuilder.Entity("LibrarySystem.Models.BookInteraction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("AddedToWishlist")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FullUsername")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Viewed")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("BookInteraction", (string)null);
+                });
+
             modelBuilder.Entity("LibrarySystem.Models.CartItem", b =>
                 {
                     b.Property<int>("CartItemID")
@@ -155,6 +208,61 @@ namespace LibrarySystem.Migrations
                     b.HasIndex("BookID");
 
                     b.ToTable("CartItem", (string)null);
+                });
+
+            modelBuilder.Entity("LibrarySystem.Models.DTO.BookDto", b =>
+                {
+                    b.Property<DateOnly>("AddedDate")
+                        .HasColumnType("date");
+
+                    b.Property<double?>("AverageRating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("BookTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Genre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ISBN")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Language")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PageCount")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("PublicationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Publisher")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TotalLikes")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalRatings")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalReviews")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TotalViews")
+                        .HasColumnType("int");
+
+                    b.ToTable((string)null);
+
+                    b.ToView(null, (string)null);
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.DeliveryAddress", b =>
@@ -191,6 +299,25 @@ namespace LibrarySystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DeliveryAddress", (string)null);
+                });
+
+            modelBuilder.Entity("LibrarySystem.Models.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genre", (string)null);
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.MessageRequest", b =>
@@ -385,6 +512,34 @@ namespace LibrarySystem.Migrations
                     b.ToTable("PickupPoint", (string)null);
                 });
 
+            modelBuilder.Entity("LibrarySystem.Models.ReviewInteraction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("InteractionType")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InterectedReviewId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReviewId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InterectedReviewId");
+
+                    b.ToTable("ReviewInteraction", (string)null);
+                });
+
             modelBuilder.Entity("AuthorBook", b =>
                 {
                     b.HasOne("LibrarySystem.Models.Author", null)
@@ -398,6 +553,59 @@ namespace LibrarySystem.Migrations
                         .HasForeignKey("BooksId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BookGenre", b =>
+                {
+                    b.HasOne("LibrarySystem.Models.Book", null)
+                        .WithMany()
+                        .HasForeignKey("BooksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LibrarySystem.Models.Genre", null)
+                        .WithMany()
+                        .HasForeignKey("GenresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LibrarySystem.Models.BookInteraction", b =>
+                {
+                    b.HasOne("LibrarySystem.Models.Book", "Book")
+                        .WithMany("BookInteractions")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("LibrarySystem.Models.Review", "Review", b1 =>
+                        {
+                            b1.Property<int>("BookInteractionId")
+                                .HasColumnType("int");
+
+                            b1.Property<DateTime>("LastUpdated")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<int>("NumberOfDislikes")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("NumberOfLikes")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("ReviewText")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("BookInteractionId");
+
+                            b1.ToTable("BookInteraction");
+
+                            b1.WithOwner()
+                                .HasForeignKey("BookInteractionId");
+                        });
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Review");
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.CartItem", b =>
@@ -451,6 +659,20 @@ namespace LibrarySystem.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("BookOrder");
+                });
+
+            modelBuilder.Entity("LibrarySystem.Models.ReviewInteraction", b =>
+                {
+                    b.HasOne("LibrarySystem.Models.BookInteraction", "InterectedReview")
+                        .WithMany()
+                        .HasForeignKey("InterectedReviewId");
+
+                    b.Navigation("InterectedReview");
+                });
+
+            modelBuilder.Entity("LibrarySystem.Models.Book", b =>
+                {
+                    b.Navigation("BookInteractions");
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.Order", b =>
