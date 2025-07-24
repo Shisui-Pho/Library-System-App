@@ -51,7 +51,7 @@
     });
 
     // Add to cart button
-    document.getElementById('add-to-cart-btn').addEventListener('click', function () {
+    $(document).on('click', '#add-to-cart-btn', function () {
         const btn = this;
         const originalText = btn.innerHTML;
 
@@ -73,9 +73,10 @@
             }, 2000);
         }, 1000);
     });
+        
 
     // Wishlist button
-    document.getElementById('wishlist-btn').addEventListener('click', function () {
+    $(document).on('click', '#wishlist-btn', function () {
         const btn = this;
         const icon = btn.querySelector('i');
         const isInWishlist = icon.classList.contains('fa-heart') &&
@@ -98,7 +99,7 @@
     });
 
     // Submit review
-    document.getElementById('submit-review-btn').addEventListener('click', function () {
+    $(document).on('click', '#submit-review-btn', function () {
         const rating = parseFloat(selectedRating.textContent);
         const reviewText = document.getElementById('review-text').value;
 
@@ -114,11 +115,28 @@
 
         const btn = this;
         const originalText = btn.innerHTML;
+        const bookId = $(btn).data('bookid');
+
+        if (bookId == NaN || bookId == undefined) {
+            bookId = parseInt(querySelector.getElementById('#bookId').value)
+        }
+        console.log(bookId);
 
         btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
         btn.disabled = true;
 
-        // Simulate API call
+        //Call post method
+        //int bookId, int stars, string reviewText
+        $.post('/BookReview/SubmitReview',
+            { bookId: bookId, stars: rating, reviewText: reviewText },
+            function (responseHtml) {
+                //Replace the review section
+                $('#reviewSection').html(responseHtml);
+
+            }).fail(function () {
+                alert("Something went wrong. Try again.");
+            });
+
         setTimeout(() => {
             btn.innerHTML = '<i class="fas fa-check me-2"></i>Review Submitted!';
             btn.classList.remove('btn-primary');
@@ -140,5 +158,42 @@
                 document.getElementById('review-text').value = '';
             }, 3000);
         }, 1500);
+    });
+
+
+    //Like or dislike review
+    $(document).on('click', '.review-feedback', function () {
+        var message = 'Message was sent successfully';
+        const btn = $(this);
+        const reviewId = btn.data('id');
+        const interactionValue = btn.data('liked')
+        const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+        //trigger ajax post
+        $.post('/BookReview/InteracWithComment', { commentId: reviewId, isLiked: interactionValue }, function (response) {
+            // Update the UI elements
+            if (response.success) {
+                // Determine if it's a like or dislike
+                const isLike = interactionValue === true || interactionValue === "true";
+
+                // Update the clicked button
+                btn.html(`<i class="fas fa-thumbs-${isLike ? 'up' : 'down'} me-1"></i> (${isLike ? response.likes : response.dislikes})`);
+
+                // Update the sibling button (opposite action)
+                const sibling = btn.siblings(`.review-feedback[data-liked="${!isLike}"][data-id="${reviewId}"]`);
+                if (sibling.length > 0) {
+                    sibling.html(`<i class="fas fa-thumbs-${!isLike ? 'up' : 'down'} me-1"></i> (${!isLike ? response.likes : response.dislikes})`);
+                }
+            }
+        }).fail(function (xhr) {
+
+            //console.log(returnUrl);
+            alert('redirecting to login page');
+            if (xhr.status === 401) {
+                // Unauthorized: redirect to login page
+                window.location.href = `/Account/Login?ReturnUrl=${returnUrl}`;
+            } else {
+                alert("Something went wrong. Try again.");
+            }
+        });
     });
 });

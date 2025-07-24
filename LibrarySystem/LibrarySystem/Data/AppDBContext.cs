@@ -18,6 +18,7 @@ public class AppDBContext(DbContextOptions<AppDBContext> options):
     public DbSet<OrderItem> BookOrderItems { get; set; }
     public DbSet<BookInteraction> SocialInteractions { get; set; }
     public DbSet<Genre> Genres { get; set; }
+    public DbSet<ReviewInteraction> ReviewInteractions { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //Create the tables explicity to avoid pluralization
@@ -31,6 +32,7 @@ public class AppDBContext(DbContextOptions<AppDBContext> options):
         modelBuilder.Entity<DeliveryAddress>().ToTable(nameof(DeliveryAddress));
         modelBuilder.Entity<OrderItem>().ToTable(nameof(OrderItem));
         modelBuilder.Entity<Genre>().ToTable(nameof(Genre));
+        modelBuilder.Entity<ReviewInteraction>().ToTable(nameof(ReviewInteraction));
 
         modelBuilder.Entity<BookDto>().HasNoKey().ToView(null);
         //Configure the BookInteraction entity

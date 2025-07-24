@@ -5,8 +5,8 @@ using LibrarySystem.Models.ViewModels;
 namespace LibrarySystem.Infrastructure.Interfaces;
 public interface IBookRepository : IBaseRepository<Book>
 {
-    IEnumerable<Book> GetAllBooksWithAuthors(QueryOptions<Book> qeryOptions = null);
-    Book GetBookWithAuthors(int id);
+    IEnumerable<Book> GetAllBooksWithDetails(QueryOptions<Book> qeryOptions = null);
+    Book GetBookWithDetails(int id);
     Task<IEnumerable<Book>> GetBooksByFilter(BookFilteringOptions options);
     BookDto GetBookDto(int id);
 }

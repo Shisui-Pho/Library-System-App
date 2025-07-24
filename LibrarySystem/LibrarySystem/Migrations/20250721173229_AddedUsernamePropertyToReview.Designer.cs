@@ -4,6 +4,7 @@ using LibrarySystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibrarySystem.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250721173229_AddedUsernamePropertyToReview")]
+    partial class AddedUsernamePropertyToReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -512,34 +515,6 @@ namespace LibrarySystem.Migrations
                     b.ToTable("PickupPoint", (string)null);
                 });
 
-            modelBuilder.Entity("LibrarySystem.Models.ReviewInteraction", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("InteractionType")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("InterectedReviewId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReviewId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InterectedReviewId");
-
-                    b.ToTable("ReviewInteraction", (string)null);
-                });
-
             modelBuilder.Entity("AuthorBook", b =>
                 {
                     b.HasOne("LibrarySystem.Models.Author", null)
@@ -659,15 +634,6 @@ namespace LibrarySystem.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("BookOrder");
-                });
-
-            modelBuilder.Entity("LibrarySystem.Models.ReviewInteraction", b =>
-                {
-                    b.HasOne("LibrarySystem.Models.BookInteraction", "InterectedReview")
-                        .WithMany()
-                        .HasForeignKey("InterectedReviewId");
-
-                    b.Navigation("InterectedReview");
                 });
 
             modelBuilder.Entity("LibrarySystem.Models.Book", b =>

@@ -1,21 +1,27 @@
 ﻿using LibrarySystem.Data.DataAccess;
+using LibrarySystem.Infrastructure.Enums;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models;
 using LibrarySystem.Models.DTO;
 using LibrarySystem.Models.ViewModels;
-using LibrarySystem.Utils;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 namespace LibrarySystem.Infrastructure.Services;
 public class BooksService : IBooksService
 {
     private readonly IRepositoryWrapper _repo;
-    public BooksService(IRepositoryWrapper repository)
+    private readonly IUserService _userService;
+    private readonly UserManager<ApplicationUser> _userManager;
+    public BooksService(IRepositoryWrapper repository, IUserService userService, UserManager<ApplicationUser> userManager)
     {
         this._repo = repository;
+        this._userService = userService;
+        this._userManager = userManager;
     }
     public IEnumerable<Book> GetBooks()
     {
-        return _repo.Books.GetAllBooksWithAuthors();
+        return _repo.Books.GetAllBooksWithDetails();
     }//GetBooks
 
     public async Task<IEnumerable<Book>> GetBooks(BookFilteringOptions filterOptions)
@@ -29,7 +35,6 @@ public class BooksService : IBooksService
         var books = await _repo.Books.GetBooksByFilter(filterOptions);
         return books;
     }//GetBooks
-
     public IEnumerable<Book> GetBooks(AdvancedBookFilteringOptions searchParameters)
     {
         throw new NotImplementedException("Advance search is not implemented yet.");
@@ -48,7 +53,7 @@ public class BooksService : IBooksService
         
         return lstGenre;
     }
-    public IEnumerable<string> ToSingleGenreList(IEnumerable<IEnumerable<string>> genres)
+    private IEnumerable<string> ToSingleGenreList(IEnumerable<IEnumerable<string>> genres)
     {
         HashSet<string> result = [];
         foreach (var lsGenreSet in genres)
@@ -62,11 +67,16 @@ public class BooksService : IBooksService
     }//ToSingleGenreList
     public Book GetBook(int bookId)
     {
-        return _repo.Books.GetBookWithAuthors(bookId);
+        return _repo.Books.GetBookWithDetails(bookId);
     }
     public BookDto GetBookDto(int bookId)
     {
-        return _repo.Books.GetBookDto(bookId);
+        var book = _repo.Books.GetBookDto(bookId);
+        if(book != null)
+        {
+            book.BookInteractions = book.BookInteractions;
+        }
+        return book;
     }//GetBookDto
     public (Author author, IEnumerable<Book> books) GetAuthorWithBooks(int authorID)
     {
@@ -106,21 +116,125 @@ public class BooksService : IBooksService
         filteringOptions.Paging = options.PagingInfomation;
         return authors;
     }//GetAuthors
-    //private static Expression<Func<T, object>> GetSortByClause<T>(string sortBy, out string orderByDirection)
-    //    where T : class
-    //{
-    //    orderByDirection = "asc"; //default ordering
-    //    if (sortBy.EndsWith("_dsc") || sortBy.EndsWith("_asc") || sortBy.EndsWith("_desc"))
-    //    {
-    //        orderByDirection = sortBy[^3..];
-    //        sortBy = sortBy.Replace("_dsc", "").Replace("_asc", "").Replace("_desc", "");
-    //    }
 
-    //    //Split and join properties in camel case
-    //    sortBy = sortBy.Split('_').Apply(CultureInfo.CurrentCulture.TextInfo.ToTitleCase).Join("");
+    public IEnumerable<BookInteraction> ReviewBook(ClaimsPrincipal claims, int bookId, int rating, string reviewText)
+    {
+        //TODO : Make this method asynchronous 
+        var user = _userService.GetCurrentLoggedInUserAsync(claims).Result;
+        if (user == null)
+            return [];
 
-    //    //Get order by expression
-    //    Expression<Func<T, object>> orderby = p => EF.Property<T>(p, sortBy);
-    //    return orderby;
-    //}//GetSortByClause
+        var review = new BookInteraction()
+        {
+            AddedToWishlist = false,
+            BookId = bookId,
+            Rating = rating,
+            Review = new Review()
+            {
+                LastUpdated = DateTime.Now,
+                NumberOfDislikes = 0,
+                NumberOfLikes = 0,
+                ReviewText = reviewText
+            },
+            UserId = user.Id,
+            FullUsername = user.FirstName + " " + user.LastName,
+            Viewed = true
+        };
+
+        //Find the book
+        var book = _repo.Books.GetBookWithDetails(bookId);
+        if(book == null)
+            return [];
+
+        //Add the interactions
+        book.BookInteractions.Add(review);
+        try
+        {
+            _repo.Books.Update(book);
+            _repo.SaveChanges();
+
+            // TODO : Make method syncronous 
+            return book.BookInteractions;
+        }
+        catch(DbUpdateException ex) 
+        {
+            //This will be logged somewhere else later on
+            _ = ex;
+            return [];
+        }
+    }//ReviewBook
+
+    public (bool success, int likes, int dislikes) CommentInteraction(ClaimsPrincipal user, int commentId, bool isLiked)
+    {
+        //First get the user id
+        var userId = _userService.GetUserId(user);
+        
+        //Assume the user was found
+        var reviewInteraction = _repo.ReviewInteractions
+                                     .FindByCondition(i => i.ReviewId == commentId && i.UserId == userId)
+                                     .FirstOrDefault();
+
+        //I need to make sure that the review also exists
+        var review = _repo.BookInteractions.GetById(commentId);
+
+        if(review == null || review.Review == null)
+        {
+            //Review was not found
+            return (false, 0, 0);
+        }
+
+        if(reviewInteraction == null)
+        {
+            //I need to create a new one
+            reviewInteraction = new ReviewInteraction()
+            {
+                ReviewId = commentId,
+                InteractionType = isLiked ? ReviewInteractionType.Like : ReviewInteractionType.Dislike,
+                InterectedReview = review,
+                UserId = userId
+            };
+
+            //Add the interaction to the interaction table
+            _repo.ReviewInteractions.Create(reviewInteraction);
+
+            //Increament the number of likes or dislikes
+            review.Review.NumberOfLikes = isLiked ? review.Review.NumberOfLikes++ : review.Review.NumberOfDislikes;
+            review.Review.NumberOfDislikes = !isLiked ? review.Review.NumberOfDislikes++: review.Review.NumberOfLikes++;
+        }
+        else
+        {
+            //Update the interaction
+            var statusBefore = reviewInteraction.InteractionType;
+            reviewInteraction.InteractionType = isLiked ? ReviewInteractionType.Like : ReviewInteractionType.Dislike;
+            _repo.ReviewInteractions.Update(reviewInteraction);
+
+            //need to adjust the likes accordingly
+            if(statusBefore  == ReviewInteractionType.Dislike && isLiked)
+            {
+                review.Review.NumberOfLikes++;
+                review.Review.NumberOfDislikes--;
+            }
+            if(statusBefore == ReviewInteractionType.Like && !isLiked)
+            {
+                review.Review.NumberOfLikes--;
+                review.Review.NumberOfDislikes++;
+            }
+
+            //Otherwise we do nothing
+        }
+        //Update the review state
+        _repo.BookInteractions.Update(review);
+        //Save the changes
+        try
+        {
+            _repo.SaveChanges();
+        }
+        catch (DbUpdateException ex)
+        {
+            _ = ex;
+            //TODO: Log error somewhere
+        }
+        return (true, review.Review.NumberOfLikes, review.Review.NumberOfDislikes);
+    }
+    //public IEnumerable<>
 }//class
