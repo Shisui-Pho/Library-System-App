@@ -13,5 +13,7 @@ public interface IRepositoryWrapper
     IBaseRepository<PaymentMethod> PaymentMethods { get; }  
     IBaseRepository<Genre> Genres { get; }
     IBaseRepository<DeliveryAddress> DeliveryAddresses { get; }
+    IBaseRepository<ReviewInteraction> ReviewInteractions { get; }
+    IBaseRepository<BookInteraction> BookInteractions {  get; }
     void SaveChanges();
 }

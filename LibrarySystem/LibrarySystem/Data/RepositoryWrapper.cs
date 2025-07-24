@@ -16,6 +16,8 @@ public class RepositoryWrapper : IRepositoryWrapper
     private IBaseRepository<PaymentMethod> paymentMethodsRepository;
     private IBaseRepository<DeliveryAddress> deliveryAddressRepository;
     private IBaseRepository<Genre> genreRepository;
+    private IBaseRepository<ReviewInteraction> reviewInteractionRepository;
+    private IBaseRepository<BookInteraction> bookInteractionRepository;
 
     public IBookRepository Books
     {
@@ -97,6 +99,25 @@ public class RepositoryWrapper : IRepositoryWrapper
             return genreRepository;
         }
     }
+
+    public IBaseRepository<ReviewInteraction> ReviewInteractions
+    {
+        get
+        {
+            reviewInteractionRepository ??= new BaseRepository<ReviewInteraction>(_dbContext);
+            return reviewInteractionRepository;
+        }
+    }
+
+    public IBaseRepository<BookInteraction> BookInteractions
+    {
+        get
+        {
+            bookInteractionRepository ??= new BaseRepository<BookInteraction>(_dbContext);
+            return bookInteractionRepository;
+        }
+    }
+
 
     public RepositoryWrapper(AppDBContext dBContext)
     {
