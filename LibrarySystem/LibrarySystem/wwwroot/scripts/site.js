@@ -51,7 +51,7 @@
     });
 
     // Add to cart button
-    document.getElementById('add-to-cart-btn').addEventListener('click', function () {
+    $(document).on('click', '#add-to-cart-btn', function () {
         const btn = this;
         const originalText = btn.innerHTML;
 
@@ -73,9 +73,10 @@
             }, 2000);
         }, 1000);
     });
+        
 
     // Wishlist button
-    document.getElementById('wishlist-btn').addEventListener('click', function () {
+    $(document).on('click', '#wishlist-btn', function () {
         const btn = this;
         const icon = btn.querySelector('i');
         const isInWishlist = icon.classList.contains('fa-heart') &&
@@ -98,7 +99,7 @@
     });
 
     // Submit review
-    document.getElementById('submit-review-btn').addEventListener('click', function () {
+    $(document).on('click', '#submit-review-btn', function () {
         const rating = parseFloat(selectedRating.textContent);
         const reviewText = document.getElementById('review-text').value;
 
@@ -130,11 +131,11 @@
             { bookId: bookId, stars: rating, reviewText: reviewText },
             function (responseHtml) {
                 //Replace the review section
-                $('#reviewSection').html(responseHtml);            
+                $('#reviewSection').html(responseHtml);
 
-        }).fail(function () {
-            alert("Something went wrong. Try again.");
-        });
+            }).fail(function () {
+                alert("Something went wrong. Try again.");
+            });
 
         setTimeout(() => {
             btn.innerHTML = '<i class="fas fa-check me-2"></i>Review Submitted!';
