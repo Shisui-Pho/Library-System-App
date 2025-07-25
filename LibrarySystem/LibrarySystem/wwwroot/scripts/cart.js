@@ -1,41 +1,60 @@
 ﻿//Handle 'Add to cart' click button
 $(function () {
-    // Handle add-to-cart button
     $(document).on('click', '.ajax-cart-btn', function () {
         const button = $(this);
         const form = button.closest('form');
         const formData = form.serialize();
+        const bookId = form.find('[name="CartItem.BookID"]').val();
 
-        //For hiding and unhiding
+        button.html('<i class="fas fa-spinner fa-spin me-2"></i>Adding...');
+        button.prop('disabled', true);
+
         const div_tohide = '#' + button.data("origin");
         const div_to_show = '#' + button.data("complementary");
+
         $.post(form.attr('action'), formData, function (response) {
+
+            setTimeout(() => {
+
+                button.html('<i class="fas fa-check me-2"></i>Added to Cart!');
+                button.removeClass('btn-primary').addClass('btn-success');
+
+                //Execute after 2.1 seconds
+                setTimeout(() => {
+                    if (div_tohide && div_to_show) {
+                        $(div_tohide).addClass('add-cart-hidden');
+                        $(div_to_show).removeClass('qty-hidden');
+                    }
+
+                    $.get('/Cart/GetSideCartHtml', function (html) {
+
+                        updateCorrespondingCartDetails(html, bookId);
+                    });
+                    openSideCart();
+                }, 2100);
+
+                setTimeout(() => {
+                    //Reverting back
+                    //button.html(originalText);
+                    button.removeClass('btn-success').addClass('btn-primary');
+                    button.prop('disabled', false);
+                }, 2000);
+            }, 1000);
             $('.cart-count').text(response.cartCount);
-            if (div_tohide != null & div_to_show != null) {
-                $(div_tohide).addClass('add-cart-hidden')
-                $(div_to_show).removeClass('qty-hidden')
-            }
 
-            $.get('/Cart/GetSideCartHtml', function (html) {
-                $('#bookSideCart').html(html);
-            });
-
-            openSideCart();
-
-        }).fail(function () {
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX failed:", textStatus, errorThrown, jqXHR.responseText);
             alert("Something went wrong. Try again.");
         });
     });
-
+  
     //Handle remove item from side cart
     $(document).on('click', '.remove-from-cart', function () {
         const bookId = $(this).data('id');
         const div_tohide = '#' + $(this).data("origin");
         const div_to_show = '#' + $(this).data("complementary");
-
         $.post('/Cart/RemoveFromSideCart', { bookId: bookId }, function (response) {
             $('.cart-count').text(response.cartCount);
-
             //Unhide controlls
             if (div_tohide != null & div_to_show != null) {
                 $(div_to_show).removeClass('add-cart-hidden')
@@ -168,4 +187,19 @@ function openSideCart() {
 //Closes the side cart panel
 function closeSideCart() {
     document.getElementById("bookSideCart").classList.add("side-cart-hidden");
+}
+
+function updateCorrespondingCartDetails(html, bookId) {
+
+    //Parse html to jquery html
+    const parsedHtml = $(html);
+
+    //Replace side cart
+    $('#bookSideCart').html(parsedHtml);
+
+    //Update other ui elements present in the form related to cart
+    $('#book-cart-subtotal').html(parsedHtml.find('#sideCartTotal').html());
+
+    //Update the other part of the pages
+    $(`#cartItemPrice${bookId}`).html(parsedHtml.find(`#bookPrice${bookId}`).html());
 }

@@ -29,8 +29,8 @@
                                     <i class="fa fa-times"></i>
                                 </button>
                             </div>
-                            <small class="text-secondary">Qty: @item.Quantity</small><br />
-                            <span class="fw-bold price">@item.GetTotalPrice().ToString("C2")</span>
+                            <small class="text-secondary" id="bookQty@(item.BookID)">Qty: @item.Quantity</small><br />
+                            <span class="fw-bold price" id="bookPrice@(item.BookID)">@item.GetTotalPrice().ToString("C2")</span>
                         </div>
                     </li>
                 }

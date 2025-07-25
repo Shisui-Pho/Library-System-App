@@ -64,6 +64,7 @@ var QtyInput = (function() {
 
         //trigger the ajex function
         $.post('/Cart/UpdateQuantity', { bookId: bookId, quantity: qty }, function (response) {
+            //alert('updating quantity');
             $('.cart-count').text(response.cartCount);
             //If the items have have been removed
             if (qty == 0) {
@@ -76,9 +77,16 @@ var QtyInput = (function() {
 
             //We need to show the updated side chart
             $.get('/Cart/GetSideCartHtml', function (html) {
-                $('#bookSideCart').html(html);
+
+                updateCorrespondingCartDetails(html, bookId);
             });
-            openSideCart();
+            //Open side cart when neccessary(ie, when not in the cart page)
+            const curretPage = window.location.pathname.toLowerCase();
+            if (!curretPage.endsWith('/cart/')) {
+                console.log('executed here');
+                openSideCart();
+            }
+
         }).fail(function () {
             alert('Something went wrong. Try again later.');
         })
