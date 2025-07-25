@@ -47,12 +47,11 @@ public class CartController : Controller
             ViewComponentName = "SideCart"
         };
     }//GetSideCartHtml
-    [HttpPost]
+    
     public IActionResult RemvoveFromCart(int bookid)
     {
         _ = _cartService.RemoveFromCart(HttpContext, bookid);
-        var cart = _cartService.GetCart(HttpContext);
-        return View(cart);
+        return RedirectToAction("Index");
     }//RemvoveFromCart
     [HttpPost]
     public IActionResult RemoveFromSideCart(int bookId)
@@ -66,6 +65,16 @@ public class CartController : Controller
     }//RemoveFromSideCart
     public IActionResult UpdateQuantity(int bookId, int quantity)
     {
+        var (success, totalItems) = ExecuteUpdate(bookId, quantity);
+        
+        return Json(new
+        {
+            success = success,
+            totalItems = totalItems
+        });
+    }//UpdateQuantity
+    private (bool success, int totalItems) ExecuteUpdate(int bookId, int quantity)
+    {
         //Max quantity is 10
         var (success, totalItems) = (false, _cartService.CountCartItems(HttpContext));
 
@@ -78,12 +87,8 @@ public class CartController : Controller
             //-This function call will handle remove and update function
             (success, totalItems) = _cartService.UpdateQuantity(HttpContext, bookId, quantity);
         }
-        return Json(new
-        {
-            success = success,
-            totalItems = totalItems
-        });
-    }//UpdateQuantity
+        return (success, totalItems);
+    }
     //This page will need authorisation
     [HttpGet]
     [Authorize]
@@ -123,4 +128,10 @@ public class CartController : Controller
     {
         return View(default);
     }
+    [HttpPost]
+    public IActionResult ClearCart()
+    {
+        _cartService.ClearCart(HttpContext);
+        return RedirectToAction("Index");
+    }//This clears the cart
 }//CartController
