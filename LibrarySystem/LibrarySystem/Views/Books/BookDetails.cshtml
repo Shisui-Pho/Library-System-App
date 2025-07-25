@@ -42,9 +42,17 @@
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button class="btn btn-primary btn-lg" id="add-to-cart-btn">
-                                <i class="fas fa-shopping-cart me-2"></i>Add to Cart - @Model.Price.ToString("C2")
-                            </button>
+                            <form method="post" class="form" asp-controller="Cart" asp-action="AddToCart">
+                                <div class="hidden-fields">
+                                    <input type="hidden" name="CartItem.BookID" value="@Model.Id" />
+                                    <input type="hidden" name="CartItem.Price" value="@Model.Price" />
+                                    <input type="hidden" name="CartItem.Quantity" value="1" />
+                                    <input type="hidden" name="PageWhereItemWasAdded" value="" />
+                                </div>
+                                <button type="button" class="btn btn-primary btn-lg ajax-cart-btn" id="add-to-cart-btn">
+                                    <i class="fas fa-shopping-cart me-2"></i>Add to Cart - @Model.Price.ToString("C2")
+                                </button>
+                            </form>
                             <button class="btn btn-outline-light" id="wishlist-btn">
                                 <i class="fas @(Model.BookInteractions?.Any(i => i.AddedToWishlist) == true ? "fa-heart text-danger" : "fa-heart") me-2"></i>
                                 @(Model.BookInteractions?.Any(i => i.AddedToWishlist) == true ? "Remove from Wishlist" : "Add to Wishlist")

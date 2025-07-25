@@ -127,6 +127,7 @@ public class CartService : ICartService
                         throw new ArgumentException("Cart cannot contain more than one instance of a book");
                     var cart = items.FirstOrDefault();
                     _repo.Carts.Delete(cart);
+                    _repo.SaveChanges();
                 }
             }
             catch (DbException)

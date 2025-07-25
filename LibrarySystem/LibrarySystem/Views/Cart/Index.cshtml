@@ -45,19 +45,19 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <div class="input-group input-group-sm qty-input-group" style="max-width: 110px;">
-                                        <button class="btn btn-outline-secondary qty-count qty-count--minus" data-action="minus" data-id="@item.BookID" type="button" tabindex="-1">-</button>
-                                        <input class="form-control text-center product-qty" type="number" name="product-qty" data-id="@item.BookID" min="1" max="10" value="@item.Quantity" style="max-width:50px;">
-                                        <button class="btn btn-outline-secondary qty-count qty-count--add" data-action="add" data-id="@item.BookID" type="button" tabindex="-1">+</button>
+                                <td class="w-25">
+                                    <div class="input-group qty-input w-100 justify-content-center">
+                                        <button class="btn btn-outline-secondary qty-count qty-count--minus w-25" data-action="minus" data-id="@item.BookID" type="button">-</button>
+                                        <input class="form-control text-center product-qty w-50" type="number" name="product-qty" data-id="@item.BookID" min="0" max="10" value="@item.Quantity" style="max-width:60px;">
+                                        <button class="btn btn-outline-secondary qty-count qty-count--add w-25" data-action="add" data-id="@item.BookID" type="button">+</button>
                                     </div>
                                 </td>
                                 <td>@item.Price.ToString("C2")</td>
-                                <td class="item-total">@item.GetTotalPrice().ToString("C2")</td>
+                                <td class="item-total" id="cartItemPrice@(item.BookID)">@item.GetTotalPrice().ToString("C2")</td>
                                 <td>
-                                    <button class="remove-btn btn btn-danger btn-sm" data-id="@item.BookID" type="button">
+                                    <a class="btn btn-danger btn-sm" asp-action="RemvoveFromCart" asp-controller="Cart" asp-route-bookid="@item.BookID">
                                         <i class="fa fa-trash"></i> Remove
-                                    </button>
+                                    </a>
                                 </td>
                             </tr>
                         }
