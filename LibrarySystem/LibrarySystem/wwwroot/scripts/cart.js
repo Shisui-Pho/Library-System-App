@@ -27,21 +27,24 @@ $(function () {
                     }
 
                     $.get('/Cart/GetSideCartHtml', function (html) {
-
                         updateCorrespondingCartDetails(html, bookId);
+                        if (window.location.pathname.toLowerCase().includes('books/bookdetails/')) {
+                            button.html('<i class="fas fa-check me-2"></i>Added to Cart!');
+                            button.removeClass('btn-primary').addClass('btn-success');
+                        }
                     });
                     openSideCart();
                 }, 2100);
 
                 setTimeout(() => {
-                    //Reverting back
-                    //button.html(originalText);
-                    button.removeClass('btn-success').addClass('btn-primary');
-                    button.prop('disabled', false);
+                    if (!window.location.pathname.toLowerCase().includes('books/bookdetails/')) {
+                        console.log('potential ending')
+                        button.removeClass('btn-success').addClass('btn-primary');
+                        button.prop('disabled', false);
+                    }
                 }, 2000);
             }, 1000);
             $('.cart-count').text(response.cartCount);
-
         }).fail(function (jqXHR, textStatus, errorThrown) {
             console.error("AJAX failed:", textStatus, errorThrown, jqXHR.responseText);
             alert("Something went wrong. Try again.");
