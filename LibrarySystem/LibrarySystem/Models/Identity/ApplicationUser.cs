@@ -9,4 +9,5 @@ public class ApplicationUser : IdentityUser
     public string FirstName { get; set; }
     [Required]
     public string LastName { get; set; }
+    public DateTime RegisteredDate { get; set; } = DateTime.Now;
 }
