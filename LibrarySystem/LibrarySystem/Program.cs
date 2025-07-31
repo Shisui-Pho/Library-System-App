@@ -1,5 +1,7 @@
 using LibrarySystem.Data;
+using LibrarySystem.Infrastructure.Background_services;
 using LibrarySystem.Infrastructure.Interfaces;
+using LibrarySystem.Infrastructure.Middleware;
 using LibrarySystem.Infrastructure.Services;
 using LibrarySystem.Models.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -55,13 +57,25 @@ builder.Services.Configure<IdentityOptions>(options =>
                                             // their emails
 });
 
+//Configure timeout for a session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+//For stale-sessions cleanup
+builder.Services.AddHostedService<SessionCleanupService>();
+
 var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseSession();
 
+
+app.UseSession();
+app.UseMiddleware<ActivityTrackingMiddleware>();
 //-Route mapping
 app.MapControllerRoute(
     name: "ListPage",
