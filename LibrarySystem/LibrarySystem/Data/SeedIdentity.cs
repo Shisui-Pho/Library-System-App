@@ -1,7 +1,7 @@
 ﻿using LibrarySystem.Models.ViewModels;
-using LibrarySystem.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using LibrarySystem.Models.Identity;
 
 namespace LibrarySystem.Data;
 

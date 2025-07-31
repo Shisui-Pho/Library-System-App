@@ -1,7 +1,7 @@
 using LibrarySystem.Data;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Infrastructure.Services;
-using LibrarySystem.Models;
+using LibrarySystem.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
