@@ -1,9 +1,9 @@
-﻿using LibrarySystem.Infrastructure.Interfaces;
-using LibrarySystem.Models;
+﻿using LibrarySystem.Data;
+using LibrarySystem.Infrastructure.Interfaces;
+using LibrarySystem.Models.Identity;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Identity;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
 
 namespace LibrarySystem.Infrastructure.Services;
@@ -14,14 +14,20 @@ public class UserService : IUserService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IHttpContextAccessor _httpContext;
+    private readonly AppIdentityDBContext _identityDb;
 
     public UserService(UserManager<ApplicationUser> userManager,
                        RoleManager<IdentityRole> roleManager,
-                       SignInManager<ApplicationUser> signInManager)
+                       SignInManager<ApplicationUser> signInManager, 
+                       IHttpContextAccessor context, 
+                       AppIdentityDBContext identityDb)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _signInManager = signInManager;
+        _httpContext = context;
+        _identityDb = identityDb;
     }//
     public bool IsLoggedIn(ClaimsPrincipal user)
     {
@@ -53,6 +59,11 @@ public class UserService : IUserService
             await _signInManager.SignOutAsync();
 
             var results = await _signInManager.PasswordSignInAsync(user, model.Password, false, false);
+            if (results.Succeeded)
+            {
+                //Add user to the "currently logged in users" table
+                AddUserToLogInTable(user);
+            }
             return results.Succeeded;
         }
 
@@ -120,6 +131,9 @@ public class UserService : IUserService
             //sign in the user
             await _signInManager.SignInAsync(user, isPersistent: false);
 
+            //Add user to the "currently logged in users" table
+            AddUserToLogInTable(user);
+
             return IdentityResult.Success;
         }
         //return (success, errors);
@@ -128,6 +142,61 @@ public class UserService : IUserService
     }//RegisterUser
     public async Task LogOutUser()
     {
+        var user = await GetCurrentLoggedInUserAsync(_httpContext.HttpContext.User);
         await _signInManager.SignOutAsync();
+        RemoveUserFromLogInTable(user);
     }
+    private void AddUserToLogInTable(ApplicationUser user)
+    {
+        if (user == null)
+            throw new ArgumentException("Phiwo, the claims principal hasn't been updated yet. FIX THIS!!!!!");
+
+        var sessionId = _httpContext.HttpContext.Session.Id;
+        var newLogIn = new LoggedInUser()
+        {
+            LastActivity = DateTime.UtcNow,
+            LoginTime = DateTime.UtcNow,
+            SessionId = sessionId,
+            UserId = user.Id,
+            IPAddress = _httpContext.HttpContext.Connection.RemoteIpAddress.ToString()
+        };
+
+        _identityDb.loggedInUsers.Add(newLogIn);
+        try
+        {
+            _identityDb.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            _ = ex;
+            //TODO: Log into somewhere
+            //_identityDb.Remove(newLogIn);
+        }
+
+    }//AddUserToLogInTable
+    private void RemoveUserFromLogInTable(ApplicationUser user)
+    {
+
+        if (user == null)
+            throw new ArgumentException("Phiwo, the claims principal hasn't been updated yet. FIX THIS!!!!!");
+
+        var sessionId = _httpContext.HttpContext.Session.Id;
+
+        var logIn = _identityDb.loggedInUsers.FirstOrDefault(x => x.UserId == user.Id && x.SessionId == sessionId);
+        if(logIn == null)
+        {
+            //TODO: Handle cases where a session for the currently logged in user is not found
+            return;
+        }
+        _identityDb.loggedInUsers.Remove(logIn);
+        try
+        {
+            _identityDb.SaveChanges();
+        }
+        catch (Exception ex)
+        {            
+            //TODO: Log into somewhere
+            _ = ex;
+        }
+        }//RemoveUserFromLogInTable
 }//class

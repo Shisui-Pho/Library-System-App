@@ -1,4 +1,4 @@
-﻿using LibrarySystem.Models;
+﻿using LibrarySystem.Models.Identity;
 using LibrarySystem.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;

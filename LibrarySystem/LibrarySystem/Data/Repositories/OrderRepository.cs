@@ -1,6 +1,7 @@
 ﻿using LibrarySystem.Data.DataAccess;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models;
+using LibrarySystem.Models.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibrarySystem.Data.Repositories;

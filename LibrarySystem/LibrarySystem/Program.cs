@@ -1,7 +1,9 @@
 using LibrarySystem.Data;
+using LibrarySystem.Infrastructure.Background_services;
 using LibrarySystem.Infrastructure.Interfaces;
+using LibrarySystem.Infrastructure.Middleware;
 using LibrarySystem.Infrastructure.Services;
-using LibrarySystem.Models;
+using LibrarySystem.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,8 +27,12 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<ICheckoutService, CheckoutService>();
 builder.Services.AddScoped<IOrderService, OrderService>(); 
 builder.Services.AddScoped<IBooksService, BooksService>();
+
 //-Session
 builder.Services.AddSession();
+
+//To get the httpcontext
+builder.Services.AddHttpContextAccessor();
 
 //-Configure route url
 builder.Services.AddRouting(options =>
@@ -55,13 +61,25 @@ builder.Services.Configure<IdentityOptions>(options =>
                                             // their emails
 });
 
+//Configure timeout for a session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+//For stale-sessions cleanup
+builder.Services.AddHostedService<SessionCleanupService>();
+
 var app = builder.Build();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseSession();
 
+
+app.UseSession();
+app.UseMiddleware<ActivityTrackingMiddleware>();
 //-Route mapping
 app.MapControllerRoute(
     name: "ListPage",

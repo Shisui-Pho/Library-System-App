@@ -3,6 +3,7 @@ using LibrarySystem.Infrastructure.Enums;
 using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models;
 using LibrarySystem.Models.DTO;
+using LibrarySystem.Models.Identity;
 using LibrarySystem.Models.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
