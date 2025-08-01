@@ -4,6 +4,7 @@ using LibrarySystem.Models.Identity;
 using LibrarySystem.Models.ViewModels;
 using LibrarySystem.Utils;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace LibrarySystem.Infrastructure.Services;
@@ -199,4 +200,22 @@ public class UserService : IUserService
             _ = ex;
         }
         }//RemoveUserFromLogInTable
+
+    public async Task UpdateUserActivityStatus(HttpContext context)
+    {
+        if (IsLoggedIn(context.User))
+        {
+            var userId = GetUserId(context.User);
+            var sessionId = context.Session.Id;
+
+            var record = await _identityDb.loggedInUsers
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.SessionId == sessionId);
+
+            if (record != null)
+            {
+                record.LastActivity = DateTime.UtcNow;
+                await _identityDb.SaveChangesAsync();
+            }
+        }
+    }//UpdateUserActivityStatus
 }//class

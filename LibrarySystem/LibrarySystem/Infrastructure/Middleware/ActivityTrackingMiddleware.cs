@@ -1,4 +1,5 @@
 ﻿using LibrarySystem.Data;
+using LibrarySystem.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 namespace LibrarySystem.Infrastructure.Middleware;
@@ -11,23 +12,12 @@ public class ActivityTrackingMiddleware
         _next = next;
     }
 
-    public async Task Invoke(HttpContext context, AppIdentityDBContext db)
+    public async Task Invoke(HttpContext context, IUserService userService)
     {
-        if (context.User.Identity.IsAuthenticated)
+        if (userService.IsLoggedIn(context.User))
         {
-            var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var sessionId = context.Session.GetString("SessionId");
-
-            var record = await db.loggedInUsers
-                .FirstOrDefaultAsync(x => x.UserId == userId && x.SessionId == sessionId);
-
-            if (record != null)
-            {
-                record.LastActivity = DateTime.UtcNow;
-                await db.SaveChangesAsync();
-            }
+            await userService.UpdateUserActivityStatus(context);
         }
-
         await _next(context);
-    }
+    }//Invoke
 }//class

@@ -12,4 +12,5 @@ public interface IUserService
     Task<bool> LogInUser(LogInViewModel logInViewModel);
     Task<IdentityResult> RegisterUser(RegisterViewModel registerViewModel);
     Task LogOutUser();
+    Task UpdateUserActivityStatus(HttpContext context);
 }
