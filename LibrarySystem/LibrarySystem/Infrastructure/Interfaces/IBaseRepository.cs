@@ -7,6 +7,7 @@ namespace LibrarySystem.Infrastructure.Interfaces;
 public interface IBaseRepository<T> where T : class
 {
     int Count();
+    int Count(Expression<Func<T, bool>> expression);
     T GetById(int id);
     IEnumerable<T> FindAll();
     IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression);
