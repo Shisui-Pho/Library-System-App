@@ -72,7 +72,7 @@ public class CheckoutService : ICheckoutService
             UnitPrice = ci.Price
         });
 
-        var successful = TryGetDeliveryAddressId(model, context, out int? addressId);
+        var successful = TryGetDeliveryAddressId(model, out int? addressId);
         if(!successful && addressId == 0) // 0 indicates failure to get the delivery addressId
         {
             return null; // If we couldn't get the delivery addressId return null
@@ -82,7 +82,7 @@ public class CheckoutService : ICheckoutService
         var order = new Order
         {
             BookOrderItems = [.. orderItems],
-            UserID = _userService.GetUserId(context.User),
+            UserID = _userService.GetUserId(),
             Description = "-",
             TotalPrice = model.Cart.CalculateTotalPrice(),
             Status = BookOrderStatus.Pending,
@@ -95,14 +95,14 @@ public class CheckoutService : ICheckoutService
         };
         return order;
     }
-    private bool TryGetDeliveryAddressId(CheckoutViewModel model, HttpContext context, out int? deliveryAddressId)
+    private bool TryGetDeliveryAddressId(CheckoutViewModel model, out int? deliveryAddressId)
     {
         deliveryAddressId = null;
         // This method should return the delivery addressId ID based on the model
         if (model.DeliveryOption != "Delivery")
             return false; // No delivery addressId needed for pickup
 
-        var userId = _userService.GetUserId(context.User);
+        var userId = _userService.GetUserId();
 
         //First check if the delivery addressId already exists
         var address = _repo.DeliveryAddresses.FindByCondition(da => da.UserId == userId).FirstOrDefault();
@@ -146,7 +146,7 @@ public class CheckoutService : ICheckoutService
     }//TryGetDeliveryAddressId
     public async Task PopulateCheckoutViewModel(CheckoutViewModel model, HttpContext context)
     {
-        var user = await _userService.GetCurrentLoggedInUserAsync(context.User);
+        var user = await _userService.GetCurrentLoggedInUserAsync();
         model.Email = user.Email;
         model.FirstName = user.FirstName;
         model.LastName = user.LastName;
