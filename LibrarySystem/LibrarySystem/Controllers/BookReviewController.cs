@@ -15,7 +15,7 @@ public class BookReviewController : Controller
     [HttpPost]
     public IActionResult SubmitReview(int bookId, int stars, string reviewText)
     {
-        var interactions = _bookService.ReviewBook(HttpContext.User, bookId, stars, reviewText);
+        var interactions = _bookService.ReviewBook(bookId, stars, reviewText);
 
         //Return a partial view for the review section
         return PartialView("_BookReviewSection", interactions);
@@ -24,7 +24,7 @@ public class BookReviewController : Controller
     public IActionResult InteracWithComment(int commentId, bool isLiked)
     {
         //Here I need to interact with the book
-        var(success, likes, dislikes) = _bookService.CommentInteraction(HttpContext.User,  commentId, isLiked);
+        var(success, likes, dislikes) = _bookService.CommentInteraction(commentId, isLiked);
 
         return Json(new { success, likes, dislikes });
     }//InteracWithComment

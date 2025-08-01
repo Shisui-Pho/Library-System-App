@@ -30,17 +30,19 @@ public class UserService : IUserService
         _httpContext = context;
         _identityDb = identityDb;
     }//
-    public bool IsLoggedIn(ClaimsPrincipal user)
+    public bool IsLoggedIn()
     {
+        var user = _httpContext.HttpContext?.User;
         return user?.Identity != null && user.Identity.IsAuthenticated;
     }
-    public string GetUserId(ClaimsPrincipal user)
+    public string GetUserId()
     {
+        var user = _httpContext.HttpContext?.User;
         return user?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
-    public async Task<ApplicationUser> GetCurrentLoggedInUserAsync(ClaimsPrincipal user)
+    public async Task<ApplicationUser> GetCurrentLoggedInUserAsync()
     {
-        var id = GetUserId(user);
+        var id = GetUserId();
 
         if (id == null)
             return null;
@@ -143,7 +145,7 @@ public class UserService : IUserService
     }//RegisterUser
     public async Task LogOutUser()
     {
-        var user = await GetCurrentLoggedInUserAsync(_httpContext.HttpContext.User);
+        var user = await GetCurrentLoggedInUserAsync();
         await _signInManager.SignOutAsync();
         RemoveUserFromLogInTable(user);
     }
