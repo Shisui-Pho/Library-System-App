@@ -13,12 +13,10 @@ public class BooksService : IBooksService
 {
     private readonly IRepositoryWrapper _repo;
     private readonly IUserService _userService;
-    private readonly UserManager<ApplicationUser> _userManager;
-    public BooksService(IRepositoryWrapper repository, IUserService userService, UserManager<ApplicationUser> userManager)
+    public BooksService(IRepositoryWrapper repository, IUserService userService)
     {
         this._repo = repository;
         this._userService = userService;
-        this._userManager = userManager;
     }
     public IEnumerable<Book> GetBooks()
     {
@@ -118,10 +116,10 @@ public class BooksService : IBooksService
         return authors;
     }//GetAuthors
 
-    public IEnumerable<BookInteraction> ReviewBook(ClaimsPrincipal claims, int bookId, int rating, string reviewText)
+    public IEnumerable<BookInteraction> ReviewBook(int bookId, int rating, string reviewText)
     {
         //TODO : Make this method asynchronous 
-        var user = _userService.GetCurrentLoggedInUserAsync(claims).Result;
+        var user = _userService.GetCurrentLoggedInUserAsync().Result;
         if (user == null)
             return [];
 
@@ -165,10 +163,10 @@ public class BooksService : IBooksService
         }
     }//ReviewBook
 
-    public (bool success, int likes, int dislikes) CommentInteraction(ClaimsPrincipal user, int commentId, bool isLiked)
+    public (bool success, int likes, int dislikes) CommentInteraction(int commentId, bool isLiked)
     {
         //First get the user id
-        var userId = _userService.GetUserId(user);
+        var userId = _userService.GetUserId();
         
         //Assume the user was found
         var reviewInteraction = _repo.ReviewInteractions

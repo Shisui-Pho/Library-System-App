@@ -1,6 +1,5 @@
 ﻿using LibrarySystem.Infrastructure.Interfaces;
 using LibrarySystem.Models.ViewModels;
-using System.Security.Claims;
 
 namespace LibrarySystem.Infrastructure.Services;
 public class DashboardService : IDashboardService
@@ -14,9 +13,9 @@ public class DashboardService : IDashboardService
         this._repo  = repo;
     }
     #nullable enable
-    public AdminStaffDashboardViewModel? GetDashboardDetailsModel(ClaimsPrincipal user)
+    public AdminStaffDashboardViewModel? GetDashboardDetailsModel()
     {
-        if (_userService.IsLoggedIn(user))
+        if (_userService.IsLoggedIn())
             return null;
 
         return default;

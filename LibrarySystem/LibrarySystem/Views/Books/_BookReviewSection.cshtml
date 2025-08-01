@@ -34,7 +34,7 @@
                         </button>
                         @if(User.Identity.IsAuthenticated)
                         {
-                            var userId = userService.GetUserId(User);
+                            var userId = userService.GetUserId();
                             if(userId != null && interaction.UserId == userId)
                             {
                                 <button class="btn btn-sm btn-outline-danger me-2">
