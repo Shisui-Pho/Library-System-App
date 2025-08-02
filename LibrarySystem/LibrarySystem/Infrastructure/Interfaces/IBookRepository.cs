@@ -9,4 +9,5 @@ public interface IBookRepository : IBaseRepository<Book>
     Book GetBookWithDetails(int id);
     Task<IEnumerable<Book>> GetBooksByFilter(BookFilteringOptions options);
     BookDto GetBookDto(int id);
+    Task<IEnumerable<string>> GetTopNGenres(int topN);
 }

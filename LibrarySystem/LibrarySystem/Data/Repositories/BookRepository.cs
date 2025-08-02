@@ -82,4 +82,18 @@ public class BookRepository(AppDBContext dbContex)
         options.Paging.TotalNumberOfItems = (int)totalCount.Value;
         return books;
     }//GetBooksByFilter
+
+    public async Task<IEnumerable<string>> GetTopNGenres(int topN)
+    {
+        if (topN <= 0)
+            topN = 5;//Default to 5 if not specified
+
+        var topNParam = new SqlParameter("@TopN", topN);
+
+        var topGenres = await _dbContext.Set<string>()
+            .FromSqlRaw("EXEC Proc_GetTopNGenres @TopN", topNParam)
+            .ToListAsync();
+
+        return topGenres;
+    }//GetTopNGenres
 }//class
