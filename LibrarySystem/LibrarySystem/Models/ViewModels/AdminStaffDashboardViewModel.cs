@@ -18,9 +18,6 @@ public class AdminStaffDashboardViewModel
     public int NumberOfCancelledOrders { get; set; }
     public int NumberOfShippedOrders { get; set; }
     public int NumberOfOrdersBeingProcessed { get; set; }
-    
-    public int NumberOfCurrentActiveUsers { get; set; }
-    public int NumberOfNewUserRegistrations { get; set; }
 
     //Enumeration props
     public IEnumerable<Order> RecentOrders { get; set; }

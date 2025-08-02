@@ -4,5 +4,5 @@ using System.Security.Claims;
 namespace LibrarySystem.Infrastructure.Interfaces;
 public interface IDashboardService
 {
-    AdminStaffDashboardViewModel GetDashboardDetailsModel();
+    Task<AdminStaffDashboardViewModel?> GetDashboardDetailsModel();
 }
