@@ -1,7 +1,6 @@
-﻿@{
+﻿@model AdminStaffDashboardViewModel
+@{
     ViewData["Title"] = "Dashboard";
-    bool isAdmin = User.IsInRole("Administrator");
-    bool isStaff = User.IsInRole("Staff");
 }
 
 <div class="container py-4">
@@ -9,10 +8,10 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="mb-0">
-                <i class="fas @(isAdmin ? "fa-user-shield" : "fa-user-tie") me-2"></i>
-                @(isAdmin ? "Admin Dashboard" : "Staff Dashboard")
+                <i class="fas @(Model.IsAdmin ? "fa-user-shield" : "fa-user-tie") me-2"></i>
+                @(Model.IsAdmin ? "Admin Dashboard" : "Staff Dashboard")
             </h2>
-            <p class="muted-text mb-0">Welcome back, @User.Identity.Name! Here's your system overview.</p>
+            <p class="muted-text mb-0">Welcome back, @Model.Name! Here's your system overview.</p>
         </div>
         <div class="d-flex gap-2">
             <button class="btn btn-outline-light">
@@ -33,7 +32,7 @@
     </div>
 
     <!-- Admin Controls at the Top -->
-    @if (isAdmin)
+    @if (Model.IsAdmin)
     {
         <div class="card text-bg-dark border-primary mb-5">
             <div class="card-header bg-primary bg-opacity-25">
@@ -96,7 +95,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="text-uppercase muted-text small mb-1">Total Books</h6>
-                            <h3 class="mb-0">1,248</h3>
+                            <h3 class="mb-0">@Model.TotalBooks</h3>
                         </div>
                         <div class="icon-circle bg-primary">
                             <i class="fas fa-book"></i>
@@ -104,7 +103,7 @@
                     </div>
                     <div class="mt-3">
                         <span class="text-success small">
-                            <i class="fas fa-arrow-up me-1"></i> 12 new this week
+                            <i class="fas fa-arrow-up me-1"></i> @Model.NewBooksThisWeek new this week
                         </span>
                     </div>
                 </div>
@@ -122,7 +121,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="text-uppercase muted-text small mb-1">Pending Orders</h6>
-                            <h3 class="mb-0">24</h3>
+                            <h3 class="mb-0">@Model.NumberOfPendingOrders</h3>
                         </div>
                         <div class="icon-circle bg-warning">
                             <i class="fas fa-shopping-cart"></i>
@@ -130,7 +129,7 @@
                     </div>
                     <div class="mt-3">
                         <span class="text-danger small">
-                            <i class="fas fa-exclamation-circle me-1"></i> 5 need attention
+                            <i class="fas fa-exclamation-circle me-1"></i> @Model.NumberOfOrdersThatNeedAttention need attention
                         </span>
                     </div>
                 </div>
@@ -148,7 +147,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="text-uppercase muted-text small mb-1">Total Revenue</h6>
-                            <h3 class="mb-0">R42,580</h3>
+                            <h3 class="mb-0">@Model.TotalRevenue.ToString("C2")</h3>
                         </div>
                         <div class="icon-circle bg-success">
                             <i class="fas fa-money-bills"></i>
@@ -156,7 +155,7 @@
                     </div>
                     <div class="mt-3">
                         <span class="text-success small">
-                            <i class="fas fa-arrow-up me-1"></i> 15.3% growth
+                            <i class="fas fa-arrow-up me-1"></i> @Model.PercentageGrowth% growth
                         </span>
                     </div>
                 </div>
@@ -174,7 +173,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="text-uppercase muted-text small mb-1">Active Users</h6>
-                            <h3 class="mb-0">1,458</h3>
+                            <h3 class="mb-0">@Model.NumberOfActiveUsers</h3>
                         </div>
                         <div class="icon-circle bg-info">
                             <i class="fas fa-users"></i>
@@ -182,7 +181,7 @@
                     </div>
                     <div class="mt-3">
                         <span class="text-success small">
-                            <i class="fas fa-user-plus me-1"></i> 32 new users
+                            <i class="fas fa-user-plus me-1"></i> @Model.NumberOfNewUsers new users
                         </span>
                     </div>
                 </div>
@@ -235,73 +234,87 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>ORD-00125</td>
-                                            <td>John Doe</td>
-                                            <td>15 Jul 2023</td>
-                                            <td>R 450.99</td>
-                                            <td><span class="badge bg-warning text-dark">Processing</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Actions
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="actionDropdown">
-                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i> View</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> Edit</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-truck me-2"></i> Ship</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>ORD-00124</td>
-                                            <td>Jane Smith</td>
-                                            <td>14 Jul 2023</td>
-                                            <td>R 320.50</td>
-                                            <td><span class="badge bg-success">Delivered</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Actions
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="actionDropdown">
-                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i> View</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-file-invoice me-2"></i> Invoice</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>ORD-00123</td>
-                                            <td>Robert Johnson</td>
-                                            <td>13 Jul 2023</td>
-                                            <td>R 560.75</td>
-                                            <td><span class="badge bg-primary">Shipped</span></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        Actions
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="actionDropdown">
-                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i> View</a></li>
-                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-map-marker-alt me-2"></i> Track</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>ORD-00122</td>
-                                            <td>Emily Davis</td>
-                                            <td>12 Jul 2023</td>
-                                            <td>R 275.00</td>
-                                            <td><span class="badge bg-danger">Cancelled</span></td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-outline-light">
-                                                    <i class="fas fa-eye me-1"></i> View
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @foreach(var order in Model.RecentOrders)
+                                        {
+                                            <tr>
+                                                <td>Order number goes here</td>
+                                                <td>@(order.User.FirstName + " " + @order.User.LastName)</td>
+                                                <td>@order.CreatedAt.ToString("dd MMM yyyy")</td>
+                                                <td>@order.TotalPrice.ToString("C2")</td>
+                                                @switch(order.Status)
+                                                {
+                                                    case BookOrderStatus.Pending:
+                                                        <td><span class="badge bg-primary">Pending</span></td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Actions
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="actionDropdown">
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i> View</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> Edit</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-gear me-2"></i> Process</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                        break;
+                                                    case BookOrderStatus.Processing:
+                                                        <td><span class="badge bg-warning text-dark">Processing</span></td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Actions
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="actionDropdown">
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i> View</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> Edit</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-truck me-2"></i> Ship</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+
+                                                        break;
+                                                    case BookOrderStatus.Delivered:
+                                                        <td><span class="badge bg-success">Delivered</span></td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Actions
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="actionDropdown">
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i> View</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-invoice me-2"></i> Invoice</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                        break;
+                                                    case BookOrderStatus.Cancelled:
+                                                        <td><span class="badge bg-danger">Cancelled</span></td>
+                                                        <td>
+                                                            <a href="#" class="btn btn-sm btn-outline-light">
+                                                                <i class="fas fa-eye me-1"></i> View
+                                                            </a>
+                                                        </td>
+                                                        break;
+                                                    case BookOrderStatus.Shipped:
+                                                        <td><span class="badge bg-info">Shipped</span></td>
+                                                        <td>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-sm btn-outline-light dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Actions
+                                                                </button>
+                                                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="actionDropdown">
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-eye me-2"></i> View</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-file-invoice me-2"></i> Invoice</a></li>
+                                                                    <li><a class="dropdown-item" href="#"><i class="fas fa-location me-2"></i> Track</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                        break;
+                                                }
+    
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -322,30 +335,19 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="alert alert-warning d-flex align-items-center mb-3">
-                                <i class="fas fa-exclamation-triangle fa-lg me-3"></i>
-                                <div>
-                                    <h6 class="mb-1">Low Inventory</h6>
-                                    <p class="mb-0">5 books below threshold</p>
+
+                            @foreach (var alert in Model.SystemAlerts)
+                            {
+                                var (alertClass, alertShape) = GetAlertClass(alert.SeverityLevel);
+                                <div class="alert @alertClass d-flex align-items-center mb-3">
+                                    <i class="fas @alertShape fa-lg me-3"></i>
+                                    <div>
+                                        <h6 class="mb-1">@alert.Title</h6>
+                                        <p class="mb-0">@alert.Description</p>
+                                    </div>
+                                    <button class="btn btn-sm btn-outline-dark ms-auto">Resolve</button>
                                 </div>
-                                <button class="btn btn-sm btn-outline-dark ms-auto">View</button>
-                            </div>
-                            <div class="alert alert-info d-flex align-items-center mb-3">
-                                <i class="fas fa-info-circle fa-lg me-3"></i>
-                                <div>
-                                    <h6 class="mb-1">System Update</h6>
-                                    <p class="mb-0">Version 2.3.1 available</p>
-                                </div>
-                                <button class="btn btn-sm btn-outline-dark ms-auto">Update</button>
-                            </div>
-                            <div class="alert alert-danger d-flex align-items-center">
-                                <i class="fas fa-server fa-lg me-3"></i>
-                                <div>
-                                    <h6 class="mb-1">Backup Required</h6>
-                                    <p class="mb-0">Overdue by 7 days</p>
-                                </div>
-                                <button class="btn btn-sm btn-outline-dark ms-auto">Backup</button>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -430,10 +432,10 @@
                     <div class="mb-4">
                         <h6 class="small text-uppercase muted-text mb-2">Orders by Status</h6>
                         <div class="d-flex flex-wrap gap-2 mb-3">
-                            <span class="badge bg-primary">Pending: 12</span>
-                            <span class="badge bg-info">Processing: 8</span>
-                            <span class="badge bg-success">Completed: 42</span>
-                            <span class="badge bg-danger">Cancelled: 3</span>
+                            <span class="badge bg-primary">Pending: @Model.NumberOfPendingOrders</span>
+                            <span class="badge bg-info">Processing: @Model.NumberOfOrdersBeingProcessed</span>
+                            <span class="badge bg-success">Completed: @Model.NumberOfShippedOrders</span>
+                            <span class="badge bg-danger">Cancelled: @Model.NumberOfCancelledOrders</span>
                         </div>
                     </div>
 
@@ -474,11 +476,11 @@
                         <h6 class="small text-uppercase muted-text mb-2">User Activity</h6>
                         <div class="d-flex justify-content-between small mb-1">
                             <span>Active Sessions</span>
-                            <span>24</span>
+                            <span>@Model.NumberOfActiveUsers</span>
                         </div>
                         <div class="d-flex justify-content-between small mb-1">
                             <span>New Registrations</span>
-                            <span>8</span>
+                            <span>@Model.NumberOfNewUsers</span>
                         </div>
                         <div class="d-flex justify-content-between small">
                             <span>Returning Users</span>
@@ -516,6 +518,22 @@
         </div>
     </div>
 </div>
+@functions {
+    (string alertClass, string alertShape) GetAlertClass(SystemAlertSeverityLevel level)
+    {
+        switch(level)
+        {
+            case SystemAlertSeverityLevel.None:
+                return ("alert-info", "fa-info-circle");
+            case SystemAlertSeverityLevel.Mild:
+                return ("alert-warning", "fa-exclamation-triangle");
+            case SystemAlertSeverityLevel.Severe:
+                return ("alert-danger", "fa-server");
+            default:
+                return ("alert-secondary","");
+        }
+    }//end function
+}
 @* The below css rules have already been defined in some other css files, and changing there will
      result in the website change of style. Redefining them here minimizes the scope.
 *@

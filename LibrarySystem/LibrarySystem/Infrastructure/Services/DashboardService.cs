@@ -30,10 +30,18 @@ public class DashboardService : IDashboardService
 
         //Build model
         await SetBookStats(model);
-        SetOrderStats(model);
+        await SetOrderStats(model);
         await SetUserStats(model);
         SetSystemAlerts(model);
         SetRevenueStats(model);
+
+
+        //Set the current user
+        var currentUser = await _userService.GetCurrentLoggedInUserAsync();
+        if (currentUser != null)
+        {
+            model.Name = currentUser.FirstName + " " + currentUser.LastName;
+        }
 
         return model;
     }//GetDashboardDetailsModel
@@ -51,7 +59,7 @@ public class DashboardService : IDashboardService
         model.NewBooksThisWeek = newBooksThisWeek;
         model.TopGenres = topGenres;
     }
-    private void SetOrderStats(AdminStaffDashboardViewModel model)
+    private async Task SetOrderStats(AdminStaffDashboardViewModel model)
     {
         //Orders that will need special attention will be orders with either have a priority or
         // - orders that are pending for more than 3 days
@@ -76,17 +84,21 @@ public class DashboardService : IDashboardService
         model.NumberOfCancelledOrders = numberOfCancelledOrders;
         model.NumberOfShippedOrders = numberOfShippedOrders;
         model.NumberOfOrdersBeingProcessed = numberOfOrdersBeingProcessed;
+
+        await SetUsersInOrders(recentOrders);
+
         model.RecentOrders = recentOrders;
     }
     private async Task SetUserStats(AdminStaffDashboardViewModel model)
     {
         //This will get the number of active users
-        var numberOfActiveUsers = await _identity.loggedInUsers
-                                        .DistinctBy(user => user.UserId)
-                                        .CountAsync();
+        var active = await _identity.loggedInUsers.Select(x => x.UserId)
+                                        .Distinct().ToListAsync();
+
+        var numberOfActiveUsers = active.Count;
+
         var numberOfNewUsers = await _identity.Users
                                         .Where(user => user.RegisteredDate >= DateTime.Now.AddDays(-30))
-                                        .DistinctBy(user => user.Id)
                                         .CountAsync();
 
         //var user = _userService.GetCurrentLoggedInUserAsync()
@@ -141,4 +153,21 @@ public class DashboardService : IDashboardService
         };
         model.SystemAlerts = systemAlerts;
     }//SetSystemAlerts
+    private async Task SetUsersInOrders(IEnumerable<Order> orders)
+    {
+        foreach(var order in orders)
+        {
+            var user = await _identity.Users.Where(u => u.Id == order.UserID).FirstOrDefaultAsync();
+
+            if(user != null)
+            {
+                order.User = user;
+            }
+            else
+            {
+                //If the user is not found, set it to null
+                order.User = null;
+            }
+        }//end foreach
+    }//SetUsersInOrders
 }//class

@@ -205,9 +205,9 @@ public class UserService : IUserService
 
     public async Task UpdateUserActivityStatus(HttpContext context)
     {
-        if (IsLoggedIn(context.User))
+        if (IsLoggedIn())
         {
-            var userId = GetUserId(context.User);
+            var userId = GetUserId();
             var sessionId = context.Session.Id;
 
             var record = await _identityDb.loggedInUsers

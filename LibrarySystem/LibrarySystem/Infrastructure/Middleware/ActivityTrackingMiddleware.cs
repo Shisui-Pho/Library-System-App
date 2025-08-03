@@ -14,7 +14,7 @@ public class ActivityTrackingMiddleware
 
     public async Task Invoke(HttpContext context, IUserService userService)
     {
-        if (userService.IsLoggedIn(context.User))
+        if (userService.IsLoggedIn())
         {
             await userService.UpdateUserActivityStatus(context);
         }

@@ -1,19 +1,32 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LibrarySystem.Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibrarySystem.Controllers;
 [Authorize]
 public class DashboardController : Controller
 {
-    [Authorize(Roles ="Administrator")]
-    public IActionResult AdminDashboard()
+    private readonly IDashboardService _dashService;
+    private const string STAFF_ADMIN_DASH = "Index";
+    private const string CUSTOMER_DASH = "User";
+    public DashboardController(IDashboardService dashService)
     {
-        return View();
+        this._dashService = dashService;
+    }
+
+    [Authorize(Roles ="Administrator")]
+    public async Task<IActionResult> AdminDashboard()
+    {
+        var model = await _dashService.GetDashboardDetailsModel();
+        model.IsAdmin = true;
+        return View(STAFF_ADMIN_DASH, model);
     }
     [Authorize(Roles ="Staff")]
-    public IActionResult StaffDashboard()
+    public async Task<IActionResult> StaffDashboard()
     {
-        return View();
+        var model = await _dashService.GetDashboardDetailsModel();
+        model.IsAdmin = false;
+        return View(STAFF_ADMIN_DASH, model);
     }//StaffDashboard
     public IActionResult CustomerDashboard()
     {
