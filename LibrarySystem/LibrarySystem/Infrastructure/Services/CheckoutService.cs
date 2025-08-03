@@ -121,7 +121,7 @@ public class CheckoutService : ICheckoutService
             else
             {
                 //We need to create a new delivery addressId
-                var newAddress = new DeliveryAddress
+                address = new DeliveryAddress
                 {
                     AddressLine1 = model.AddressLine1,
                     AddressLine2 = model.AddressLine2,
@@ -130,7 +130,7 @@ public class CheckoutService : ICheckoutService
                     Province = model.Province,
                     UserId = userId
                 };
-                _repo.DeliveryAddresses.Create(newAddress);
+                _repo.DeliveryAddresses.Create(address);
             }
             _repo.SaveChanges();
             //The ID field will be automatically set by the database after saving the changes
