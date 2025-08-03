@@ -127,7 +127,7 @@
                     @if (User.IsInRole("Staff") && User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center @(currentController == "Home" && currentAction == "Dashboard" ? "active" : "")" asp-controller="Home" asp-action="Dashboard">
+                            <a class="nav-link d-flex align-items-center @(currentController == "Dashboard" ? "active" : "")" asp-controller="Dashboard" asp-action="StaffDashboard">
                                 <i class="fas fa-user-tie me-1"></i> Staff Dashboard
                             </a>
                         </li>
@@ -146,7 +146,7 @@
                     @if (User.IsInRole("Administrator") && User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center @(currentController == "Home" && currentAction == "Dashboard" ? "active" : "")" asp-controller="Home" asp-action="Dashboard">
+                            <a class="nav-link d-flex align-items-center @(currentController == "Dashboard" ? "active" : "")" asp-controller="Dashboard" asp-action="AdminDashboard">
                                 <i class="fas fa-user-shield me-1"></i> Admin Dashboard
                             </a>
                         </li>
