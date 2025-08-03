@@ -90,10 +90,35 @@ public class BookRepository(AppDBContext dbContex)
 
         var topNParam = new SqlParameter("@TopN", topN);
 
-        var topGenres = await _dbContext.Set<string>()
-            .FromSqlRaw("EXEC Proc_GetTopNGenres @TopN", topNParam)
-            .ToListAsync();
+        //var topGenres = await _dbContext.Set<Book>()
+        //    .FromSqlRaw("EXEC Proc_GetTopNGenres @TopN", topNParam)
+        //    .ToListAsync();
 
+        //Use ado to get the top genres
+        var connection = _dbContext.Database.GetDbConnection();
+
+        if (connection.State != ConnectionState.Open)
+            await connection.OpenAsync();
+
+        using var command = connection.CreateCommand();
+
+        command.CommandText = "Proc_GetTopGenres";
+        command.CommandType = CommandType.StoredProcedure;
+        command.Parameters.Add(topNParam);
+
+        //Execute the command
+        using var reader = await command.ExecuteReaderAsync();
+
+        var topGenres = new List<string>();
+        while (await reader.ReadAsync())
+        {
+            var genre = reader.GetString(0);
+            topGenres.Add(genre);
+        }
+
+        //await connection.CloseAsync();
+        
         return topGenres;
+        //return [];
     }//GetTopNGenres
 }//class
