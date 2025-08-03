@@ -30,7 +30,7 @@ public class OrderController : Controller
             }
         };
 
-        var orders = _orderService.GetOrders(HttpContext.User, options);
+        var orders = _orderService.GetOrders(options);
 
         var model = new OrdersDisplayViewModel()
         {
@@ -41,13 +41,13 @@ public class OrderController : Controller
     }//Orders
     public IActionResult OrderDetails(int id)
     {
-        var order = _orderService.GetOrderDetails(HttpContext.User, id);
+        var order = _orderService.GetOrderDetails(id);
         return View(order);
     }//OrderDetails
     [HttpPost]
     public IActionResult CancelOrder(int id)
     {
-        var result = _orderService.CancelOrder(HttpContext.User, id);
+        var result = _orderService.CancelOrder(id);
         if (result)
         {
             TempData["SuccessMessage"] = "Order cancelled successfully.";

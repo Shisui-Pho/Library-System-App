@@ -6,8 +6,8 @@ using System.Security.Claims;
 namespace LibrarySystem.Infrastructure.Interfaces;
 public interface IOrderService
 {
-    int CountOrders(ClaimsPrincipal user, QueryOptions<Order> options = null);
-    IEnumerable<OrderViewModel> GetOrders(ClaimsPrincipal user,QueryOptions<Order> options = null);
-    OrderDetailsViewModel GetOrderDetails(ClaimsPrincipal user, int orderDetails);
-    bool CancelOrder(ClaimsPrincipal user, int orderID);
+    int CountOrders(QueryOptions<Order> options = null);
+    IEnumerable<OrderViewModel> GetOrders(QueryOptions<Order> options = null);
+    OrderDetailsViewModel GetOrderDetails(int orderDetails);
+    bool CancelOrder(int orderID);
 }//class

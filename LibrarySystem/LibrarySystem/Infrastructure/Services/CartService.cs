@@ -19,9 +19,9 @@ public class CartService : ICartService
     public int CountCartItems(HttpContext context)
     {
         int count = 0;
-        if (_userService.IsLoggedIn(context.User))
+        if (_userService.IsLoggedIn())
         {
-            var userid = _userService.GetUserId(context.User);
+            var userid = _userService.GetUserId();
             count = _repo.Carts.FindByCondition(x => x.UserID == userid).Count();
         }
         else
@@ -39,11 +39,11 @@ public class CartService : ICartService
         }
         bool sucess = false;
         //Update the quantity
-        if (_userService.IsLoggedIn(context.User))
+        if (_userService.IsLoggedIn())
         {
             try
             {
-                var userid = _userService.GetUserId(context.User);
+                var userid = _userService.GetUserId();
 
                 var item = _repo.Carts.GetCartOfUser(userid).FirstOrDefault();
 
@@ -80,8 +80,8 @@ public class CartService : ICartService
         //-Here if the user is authenticated, we will save the cart info to the database,
         //  otherwise we use session session based interaction
 
-        int totalCartItems = _userService.IsLoggedIn(context.User) ?
-            AddToCartViaDatabase(item, context) : AddToCartViaSession(item, context);
+        int totalCartItems = _userService.IsLoggedIn() ?
+            AddToCartViaDatabase(item) : AddToCartViaSession(item, context);
         
         //Update the session variable for the total
         if(totalCartItems >= 0 )
@@ -96,10 +96,10 @@ public class CartService : ICartService
     {
         //Retrieve all cart items
         var cart = new CartViewModel();
-        if (_userService.IsLoggedIn(context.User))
+        if (_userService.IsLoggedIn())
         {
             //Get it from database
-            var cartList = _repo.Carts.GetCartOfUser(_userService.GetUserId(context.User));
+            var cartList = _repo.Carts.GetCartOfUser(_userService.GetUserId());
             cart.CartItems = cartList ?? [];
         }
         else
@@ -113,9 +113,9 @@ public class CartService : ICartService
     public (bool success, int total) RemoveFromCart(HttpContext context, int bookID)
     {
         int totalItems = -1;
-        if (_userService.IsLoggedIn(context.User))
+        if (_userService.IsLoggedIn())
         {
-            var userid = _userService.GetUserId(context.User);
+            var userid = _userService.GetUserId();
             try
             {
                 var items = _repo.Carts.FindByCondition(cart => cart.UserID == userid && cart.BookID == bookID);
@@ -159,10 +159,10 @@ public class CartService : ICartService
     }
     public void ClearCart(HttpContext context)
     {
-        if(_userService.IsLoggedIn(context.User))
+        if(_userService.IsLoggedIn())
         {
             //Clear the cart from the database
-            var userid = _userService.GetUserId(context.User);
+            var userid = _userService.GetUserId();
             var items = _repo.Carts.FindByCondition(cart => cart.UserID == userid);
             if (items.Any())
             {
@@ -213,10 +213,10 @@ public class CartService : ICartService
         return cartItems.ApplyBookDetails(b => _repo.Books.GetBookWithDetails(b.BookID));
     }//AddBookAndDetails
     [Authorize]
-    private int AddToCartViaDatabase(CartItemViewModel cartInfo, HttpContext context)
+    private int AddToCartViaDatabase(CartItemViewModel cartInfo)
     {
         int count = -1;
-        var userid = _userService.GetUserId(context.User);
+        var userid = _userService.GetUserId();
         if (userid == null)
         {
             return -1;// sign that it was not added or cannot be addded

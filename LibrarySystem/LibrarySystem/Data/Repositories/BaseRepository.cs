@@ -102,4 +102,9 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     { 
         return _dbContext.Set<T>().Count();
     }
+
+    public int Count(Expression<Func<T, bool>> expression)
+    {
+        return _dbContext.Set<T>().Count(expression);
+    }
 }//class

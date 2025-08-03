@@ -15,9 +15,10 @@ public class OrderService : IOrderService
         _userService = userService;
         _repo = repo;
     }
-    public int CountOrders(ClaimsPrincipal user, QueryOptions<Order> options = null)
+    public int CountOrders(QueryOptions<Order> options = null)
     {
-        var orderUser = _userService.GetCurrentLoggedInUserAsync(user).Result;
+        //TODO: Make method async
+        var orderUser = _userService.GetCurrentLoggedInUserAsync().Result;
         if(orderUser != null)
         {
             //The "Find by conditions" will not do any aggregations
@@ -28,10 +29,10 @@ public class OrderService : IOrderService
         }
         return 0;
     }//
-    public bool CancelOrder(ClaimsPrincipal user, int orderID)
+    public bool CancelOrder(int orderID)
     {
         //Find the by ID
-        var userId = _userService.GetUserId(user);
+        var userId = _userService.GetUserId();
         if (userId == null)
         {
             return false; // User not found
@@ -59,14 +60,14 @@ public class OrderService : IOrderService
             return false; //Failed to cancel order
         }
     }//CancelOrder
-    public OrderDetailsViewModel GetOrderDetails(ClaimsPrincipal user, int orderDetails)
+    public OrderDetailsViewModel GetOrderDetails(int orderDetails)
     {
-        return MakeOrderDetails(user, orderDetails).Result;
+        return MakeOrderDetails(orderDetails).Result;
     }
 
-    public IEnumerable<OrderViewModel> GetOrders(ClaimsPrincipal user, QueryOptions<Order> options = null)
+    public IEnumerable<OrderViewModel> GetOrders(QueryOptions<Order> options = null)
     {
-        var orderUser = _userService.GetCurrentLoggedInUserAsync(user).Result;
+        var orderUser = _userService.GetCurrentLoggedInUserAsync().Result;
 
         var orders = _repo.Orders.GetUserOrders(orderUser, options);
 
@@ -75,9 +76,9 @@ public class OrderService : IOrderService
 
         return orderViewModels;
     }
-    private async Task<OrderDetailsViewModel> MakeOrderDetails(ClaimsPrincipal user, int id)
+    private async Task<OrderDetailsViewModel> MakeOrderDetails(int id)
     {
-        var orderUser = await _userService.GetCurrentLoggedInUserAsync(user);
+        var orderUser = await _userService.GetCurrentLoggedInUserAsync();
 
         if(orderUser == null)
         {

@@ -84,13 +84,13 @@ public class AccountController : Controller
         var totalCartItems = _cartService.CountCartItems(HttpContext);
 
         HttpContext.Session.SetInt32("cartCount", totalCartItems);
-        if (_userService.IsLoggedIn(HttpContext.User))
+        if (_userService.IsLoggedIn())
         {
             //Add all the items to the dbcart
             foreach (var item in items)
             {
                 //Now that the user has been logged in, the items will be added to the database
-                var userid = _userService.GetUserId(User);
+                var userid = _userService.GetUserId();
                 item.UserID = userid;
                 _cartService.AddToCart(HttpContext, new CartItemViewModel() { CartItem = item });
             }

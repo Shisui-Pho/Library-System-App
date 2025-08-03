@@ -34,10 +34,7 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <span class="user-name-heading me-2">Hello user</span>
-                    @if (User.IsInRole("Customer"))
-                    {
-                        <a id="LogIn" class="btn btn-outline-primary btn-sm" asp-action="Logout" asp-controller="Account">Log out</a>
-                    }
+                    <a id="LogIn" class="btn btn-outline-primary btn-sm" asp-action="Logout" asp-controller="Account">Log out</a>
                 }
                 else
                 {
@@ -130,7 +127,7 @@
                     @if (User.IsInRole("Staff") && User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center @(currentController == "Home" && currentAction == "About" ? "active" : "")" asp-controller="Home" asp-action="About">
+                            <a class="nav-link d-flex align-items-center @(currentController == "Dashboard" ? "active" : "")" asp-controller="Dashboard" asp-action="StaffDashboard">
                                 <i class="fas fa-user-tie me-1"></i> Staff Dashboard
                             </a>
                         </li>
@@ -146,10 +143,10 @@
                         </li>
                     }
                     <!-- Admin Tabs -->
-                    @if (User.IsInRole("Admin") && User.Identity.IsAuthenticated)
+                    @if (User.IsInRole("Administrator") && User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
-                            <a class="nav-link d-flex align-items-center @(currentController == "Home" && currentAction == "About" ? "active" : "")" asp-controller="Home" asp-action="About">
+                            <a class="nav-link d-flex align-items-center @(currentController == "Dashboard" ? "active" : "")" asp-controller="Dashboard" asp-action="AdminDashboard">
                                 <i class="fas fa-user-shield me-1"></i> Admin Dashboard
                             </a>
                         </li>
@@ -228,7 +225,6 @@
             </div>
         </div>
     </footer>
-
     <!-- Sidebar cart -->
     <div id="bookSideCart" class="side-cart-hidden">
         @await Component.InvokeAsync("SideCart")
@@ -243,5 +239,6 @@
     <script src="~/scripts/site.js"></script>
     <!--Rendering scripts-->
     @RenderSection("Scripts", required: false)
+    @RenderSection("Styles", required:false);
 </body>
 </html>

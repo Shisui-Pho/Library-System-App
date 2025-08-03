@@ -1,5 +1,6 @@
 ﻿using LibrarySystem.Data.DataAccess;
 using LibrarySystem.Models;
+using LibrarySystem.Models.Identity;
 
 namespace LibrarySystem.Infrastructure.Interfaces;
 
